@@ -20,15 +20,15 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
 - Kopplad till en databas
 - Finnas på en server
 - En användare ska kunna: 
- - registrera sig / logga in / logga ut
- - uppdatera sin information (inloggningsuppgifter & profil)
- - ha en profil med (ålder, stad, profilbild, beskrivning, intressen)
- - spara användare / ta bort sparad användare
- - chatta med sparade användare
- - dela publika inlägg / ta bort inlägg man delat
- - gilla publika inlägg / avgilla inlägg man gillat
- - kommentera publika inlägg / ta bort kommentar man skapat
- - filtrera listvyn över användare (ex på ålder, intressen)
+  - registrera sig / logga in / logga ut
+  - uppdatera sin information (inloggningsuppgifter & profil)
+  - ha en profil med (ålder, stad, profilbild, beskrivning, intressen)
+  - spara användare / ta bort sparad användare
+  - chatta med sparade användare
+  - dela publika inlägg / ta bort inlägg man delat
+  - gilla publika inlägg / avgilla inlägg man gillat
+  - kommentera publika inlägg / ta bort kommentar man skapat
+  - filtrera listvyn över användare (ex på ålder, intressen)
 
 
 ## Utmaningar utöver kravspecifikationen
