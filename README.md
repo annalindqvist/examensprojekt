@@ -9,10 +9,10 @@
 Jag ska skapa en social-media applikation för att uttöka sin bekantskap men enbart för kvinnor. Via denna applikation kan man registrera sig för att därmed få tillgång till innehållet. Väl inloggad har man en egen profil där man kan presentera sig själv. Det finns ett publikt flöde där man kan dela publika inlägg samt kommentera eller gilla andras delade inlägg. Detta flöde av syftet för att lättare kunna interagera med andra medlemmar. Du har även möjlighet att lista alla registrerade användare för att kunna läsa mer om de samt kunna spara och chatta med varandra. 
 
 ## Tekniker och programspråk
-- React/eller React Native (återkommer inom kort med val)
+- React
 - Node.js
 - Express
-- MySQL
+- MongoDB
 - Socket.io
 - (Kanske något för mejlhantering, återkommer inom kort om val)
 
