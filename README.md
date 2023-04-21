@@ -17,10 +17,10 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
 - (Kanske något för mejlhantering, återkommer inom kort om val)
 
 ## Kravspecifikation
-- Kopplad till en databas
+- [x] Kopplad till en databas
 - Finnas på en server
 - En användare ska kunna: 
-  - registrera sig / logga in / logga ut
+  - [x] registrera sig / logga in / logga ut
   - uppdatera sin information (inloggningsuppgifter & profil)
   - ha en profil med (ålder, stad, profilbild, beskrivning, intressen)
   - spara användare / ta bort sparad användare

@@ -6,25 +6,28 @@ import './Signup.css';
 
 const Signup = () => {
 
+    const [email, setEmail] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log("firstname: ", {firstname});
-        console.log("lastname: ", {lastname});
-        console.log("password: ", {password});
+        // console.log("firstname: ", {firstname});
+        // console.log("lastname: ", {lastname});
+        // console.log("password: ", {password});
         
-        const user = {firstname, lastname, password};
+        const user = {email, firstname, lastname, password};
         signup(user);
                 
     }
 
     return ( 
         <div>
+            <h1>SignUp</h1>
             <form onSubmit={handleSubmit}>
+                <label>Email</label>
+                <input type="email" name="email" onChange={(e) => setEmail(e.target.value)} />
                 <label>Firstname</label>
                 <input type="text" name="firstname" onChange={(e) => setFirstname(e.target.value)} />
                 <label>Lastname</label>

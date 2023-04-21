@@ -1,21 +1,17 @@
 import { Router } from "express";
 import UserController from "../controllers/user.js";
+import verifyJWT from "../middlewares/auth.js";
 
 const UserRouter = Router();
 
-// // render startpage/sign-in page
-// UserRouter.get("/", UserController.getSignIn);
-// // sign in user
-// UserRouter.post("/sign-in", UserController.signInUser);
-// // sign out user
-// UserRouter.get("/sign-out", UserController.signOutUser);
+// SIGN IN ROUTE
+UserRouter.post("/sign-in", UserController.signIn);
 
-// // get sign-up page
-// UserRouter.get("/sign-up", UserController.getSignUp);
+// SIGN UP ROUTE
+UserRouter.post("/sign-up", UserController.signUpUser);
 
-
-// add user (to db)
-UserRouter.post("/sign-up", UserController.addUser);
+// user profile, verifyJWT should look for a jwt token?
+UserRouter.get("/profile", verifyJWT, UserController.getProfile);
 
 
 export default UserRouter;

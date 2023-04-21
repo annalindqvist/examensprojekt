@@ -3,6 +3,8 @@ form {
     flex-direction: column;
     width: 200px;
     margin: 20px;
+    padding: 16px;
+    border: 2px solid blue;
 }
 form input {
     margin: 10px;

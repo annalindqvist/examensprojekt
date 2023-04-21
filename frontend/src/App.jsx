@@ -1,45 +1,54 @@
 import './App.css';
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import {useState, useEffect} from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+// import {useState, useEffect} from "react";
+import { useAuthContext } from './hooks/useAuthContext'
 
 // PAGES
-import Layout from "./pages/Layout";
+//import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import NoPage from "./pages/NoPage";
+//import AuthContext from "./context/AuthContext";
+import Navbar from "./components/Navbar/Navbar";
 
 
-// functions
-import {getTest} from "./functions/test";
 
 export default function App() {
   
-  const [data, setData] = useState("Hello World");
-
-  useEffect(() => {
-    getTest()
-      .then((res)=> {
-        setData(res.message);
-      })
-      .catch((error) => console.log(error))
-  }, []);
-
+  
+  const { user } = useAuthContext()
 
   return (
+    <div className="App">
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="feed" element={<Feed />} />
-          <Route path="*" element={<NoPage />} />
-        </Route>
-      </Routes>
+      <Navbar />
+      <div className="pages">
+        <Routes>
+          <Route 
+            path="/" 
+            element={user ? <Feed /> : <Navigate to="/home" />} 
+          />
+          <Route 
+            path="/profile" 
+            element={user ? <Profile /> : <Navigate to="/home" />} 
+          />
+          <Route 
+            path="/home" 
+            element={!user ? <Home /> : <Navigate to="/" />} 
+          />
+          <Route 
+            path="*" 
+            element={<NoPage />} 
+          />
+
+        </Routes>
+      </div>
     </BrowserRouter>
+  </div>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(<App />);

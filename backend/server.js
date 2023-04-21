@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 import UserRouter from './routes/user.js';
+import PostRouter from './routes/post.js';
 
 const app = express();
 
@@ -20,12 +21,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // route
-app.get("/", (req, res) => {
-  res.json({ message: "Hello there." });
-});
+// app.get("/", (req, res) => {
+//   res.json({ message: "Hello there." });
+// });
 
 // ---- ROUTES
 app.use(UserRouter);
+app.use(PostRouter);
 
 
 // set port, listen for requests
