@@ -29,15 +29,16 @@ const PostToFeed = () => {
         body: JSON.stringify({ post })
         })
         const json = await res.json();
-
+       //json = [{post: postDoc, postedByUser: true}]
+       console.log("PostToFeed json", json);
+       
         if (!res.ok) {
             setError(json.error)
-            //setEmptyFields(json.emptyFields)
         };
         if (res.ok) {
             setPost('')
             setError(null)
-            //setEmptyFields([])
+            
             dispatch({type: 'CREATE_POST', payload: json})
         };
     };

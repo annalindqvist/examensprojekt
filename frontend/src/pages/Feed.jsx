@@ -8,25 +8,26 @@ import PostToFeed from "../components/PostFeed/PostToFeed";
 
 const Feed = () => {
 
-  const {posts, dispatch} = usePostContext()
-  const {user} = useAuthContext()
+  const {posts, dispatch} = usePostContext();
+  const {user} = useAuthContext();
 
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await fetch("http://localhost:8080/feed", {
         headers: {'Authorization': `Bearer ${user.token}`},
       })
-      const json = await res.json()
+      const json = await res.json();
+      console.log("FEED JSON", json);
 
       if (res.ok) {
-        dispatch({type: 'SET_POST', payload: json})
+        dispatch({type: 'SET_POST', payload: json});
       }
     }
 
     if (user) {
-      fetchPosts()
+      fetchPosts();
     }
-  }, [dispatch, user])
+  }, [user]);
 
     return (
       <div>
