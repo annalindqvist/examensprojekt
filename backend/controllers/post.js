@@ -65,7 +65,7 @@ const createPost = async (req, res) => {
         await postDoc.save();
         console.log(postDoc)
 
-        
+        // send back only the created post with populated firstname or getallPosts?
         const allPosts = await getAllPosts();
         res.status(200).json(allPosts);
         

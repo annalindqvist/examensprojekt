@@ -5,15 +5,15 @@ export const PostContext = createContext();
 export const postReducer = (state, action) => {
   switch (action.type) {
     case 'SET_POST': 
-    console.log("SET_POST, action.payload", action.payload)
+    //console.log("SET_POST, action.payload", action.payload)
       return {
         posts: action.payload
       };
     case 'CREATE_POST':
-        console.log("CREATE_POST, action.payload", action.payload, "state.props", state.props)
+        //console.log("CREATE_POST, action.payload", action.payload, "state.props", state.props)
       return {
         
-        posts: [action.payload, ...state.posts]
+        posts: action.payload
       };
     case 'DELETE_POST':
       return {

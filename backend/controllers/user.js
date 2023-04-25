@@ -99,10 +99,14 @@ async function signIn(req, res) {
 
         // create a token
         const token = createToken(user._id);
+        const userInformation = await getUserInfo(user._id);
+        if (!userInformation) {
+            res.status(400).json({token, message: "Something went wrong"});
+        }
 
         res.status(200).json({
-            firstname: user.firstname,
-            token
+            token,
+            user: userInformation
         });
 
     } catch (err) {
@@ -113,21 +117,20 @@ async function signIn(req, res) {
 
 
 // get the logged in users profile
-async function getProfile(req, res) {
+async function getUserInfo(id) {
     try {
         //.select('-password') - get all info of the user but not password
-        const user = await UserModel.findById(req.user.id).select('-password');
-        res.status(200).json({
-            user
-        });
+        const user = await UserModel.findById(id).select('-password');
+        console.log("USER,", user)
+        return user;
     } catch (err) {
-        res.status(500).json(err);
+        return {message: "something went wrong"};
     }
 }
 
 export default {
     getSignIn,
     signUpUser,
-    getProfile,
+    getUserInfo,
     signIn
 };

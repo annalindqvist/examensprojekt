@@ -6,15 +6,12 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 
 const PostOnFeed = ({ post }) => {
 
-  console.log("POST ON FEED post: ", post)
-
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
   const postContent = post.post ? post.post : "";
-  //const firstname = post.postedBy.firstname ? post.postedBy.firstname : "";
+  const firstname = post.postedBy.firstname ? post.postedBy.firstname : "";
   const postId = post._id ? post._id : "";
   
-
   const handleClick = async () => {
     if (!user) {
       return
@@ -29,15 +26,14 @@ const PostOnFeed = ({ post }) => {
     const json = await res.json()
 
     if (res.ok) {
-      dispatch({type: 'DELETE_WORKOUT', payload: json.id})
+      dispatch({type: 'DELETE_POST', payload: json.id})
     }
   }
   
-
   return (
     <div className="postOnFeed">
      
-       {/* <h4>{firstname}</h4>  */}
+      <h4>{firstname}</h4>
       <p>{postContent}</p> 
       {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
       {post.postedByUser && <span onClick={handleClick}>delete</span> } 

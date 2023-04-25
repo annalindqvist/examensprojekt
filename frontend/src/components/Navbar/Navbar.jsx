@@ -22,6 +22,7 @@ const Navbar = () => {
                 </div>
                 <div>
                     <Link to="/profile">Profile</Link>
+                    <Link to="/">Feed</Link>
                 </div>
             </div>
           )}

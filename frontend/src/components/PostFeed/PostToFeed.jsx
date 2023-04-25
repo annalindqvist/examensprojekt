@@ -30,7 +30,7 @@ const PostToFeed = () => {
         })
         const json = await res.json();
        //json = [{post: postDoc, postedByUser: true}]
-       console.log("PostToFeed json", json);
+       //console.log("PostToFeed json", json);
        
         if (!res.ok) {
             setError(json.error)
