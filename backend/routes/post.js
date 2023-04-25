@@ -13,4 +13,7 @@ PostRouter.get("/feed", PostController.getPosts);
 // create new post
 PostRouter.post("/post-to-feed", PostController.createPost);
 
+// delete post
+PostRouter.delete("/feed/delete/:id", PostController.deletePost);
+
 export default PostRouter;

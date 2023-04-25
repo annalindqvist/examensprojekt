@@ -11,7 +11,7 @@ UserRouter.post("/sign-in", UserController.signIn);
 UserRouter.post("/sign-up", UserController.signUpUser);
 
 // user profile, verifyJWT should look for a jwt token?
-UserRouter.get("/profile", verifyJWT, UserController.getProfile);
+UserRouter.get("/user/info", verifyJWT, UserController.getUserInfo);
 
 
 export default UserRouter;

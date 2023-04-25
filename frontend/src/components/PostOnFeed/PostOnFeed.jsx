@@ -8,35 +8,35 @@ const PostOnFeed = ({ post }) => {
 
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
-  const postContent = post.post.post;
-  const firstname = post.post.postedBy.firstname;
-
+  const postContent = post.post ? post.post : "";
+  const firstname = post.postedBy.firstname ? post.postedBy.firstname : "";
+  const postId = post._id ? post._id : "";
+  
   const handleClick = async () => {
     if (!user) {
       return
     }
 
-    const response = await fetch(`http://localhost:8080/feed/${post._id}`,  {
+    const res = await fetch('http://localhost:8080/feed/delete/' + postId,  {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${user.token}`
       }
     })
-    const json = await response.json()
+    const json = await res.json()
 
-    if (response.ok) {
-      dispatch({type: 'DELETE_WORKOUT', payload: json})
+    if (res.ok) {
+      dispatch({type: 'DELETE_POST', payload: json.id})
     }
   }
   
-
   return (
     <div className="postOnFeed">
      
       <h4>{firstname}</h4>
       <p>{postContent}</p> 
       {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
-      {post.postedByUser && <span onClick={handleClick}>delete</span> }
+      {post.postedByUser && <span onClick={handleClick}>delete</span> } 
     </div>
   )
 }

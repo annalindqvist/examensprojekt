@@ -3,10 +3,8 @@ import {
     ObjectId
 } from "mongodb";
 
-// get all posts
-const getPosts = async (req, res) => {
-    const user_id = req.user._id
-    //console.log(user_id);
+// reusable function to get all posts 
+const getAllPosts = async () => {
 
     const posts = await PostModel.find({})
     .populate([{
@@ -17,21 +15,28 @@ const getPosts = async (req, res) => {
         createdAt: -1
     })
     .exec();
+    return posts;
+}
 
-    const allPosts = [];
+// get all posts
+const getPosts = async (req, res) => {
+    
+    const allPosts = await getAllPosts();
 
-    posts.forEach(post => {
-        if (user_id.valueOf() == post.postedBy._id.valueOf()){
-            allPosts.push({post, postedByUser: true});
-        } else {
-            allPosts.push({post, postedByUser: false});
-    }
-    });
-    //console.log(allPosts);
+    // if the online user is the one posted the post - postedByUser: true 
+    // this to show a deleteBtn on the frontend (component/PostOnFeed/PostOnFeed.jxs)
+    // const allPosts = [];
+    // posts.forEach(post => {
+    //     if (user_id.valueOf() == post.postedBy._id.valueOf()){
+    //         allPosts.push({post, postedByUser: true});
+    //     } else {
+    //         allPosts.push({post, postedByUser: false});
+    // }
+    // });
 
     res.status(200).json(allPosts);
 
-    if (!posts) {
+    if (!allPosts) {
         return res.status(400).json({
             error: 'No posts found'
         });
@@ -43,7 +48,6 @@ const createPost = async (req, res) => {
     const {
         post
     } = req.body;
-    //console.log(req.body, req);
 
     if (!post) {
         res.status(400).json({
@@ -59,7 +63,12 @@ const createPost = async (req, res) => {
             postedBy
         });
         await postDoc.save();
-        res.status(200).json(post);
+        console.log(postDoc)
+
+        // send back only the created post with populated firstname or getallPosts?
+        const allPosts = await getAllPosts();
+        res.status(200).json(allPosts);
+        
     } catch (error) {
         res.status(400).json({
             error: error.message
@@ -67,7 +76,24 @@ const createPost = async (req, res) => {
     }
 }
 
+// delete post
+const deletePost = async (req, res) => {
+    console.log("test");
+    const { id } = req.params;
+    console.log("req.params", req.params);
+
+    const deletedPost = await PostModel.findOneAndDelete({
+        _id: id
+    })
+    if (!deletedPost) {
+        return res.status(404).json({error: 'No post deleted'});
+    }
+  
+    res.status(200).json({message: "Post deleted", id});
+  }
+
 export default {
     getPosts,
-    createPost
+    createPost,
+    deletePost
 };

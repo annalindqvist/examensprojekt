@@ -1,30 +1,30 @@
-import { createContext, useReducer } from 'react'
+import { createContext, useReducer } from 'react';
 
-export const UserContext = createContext()
+export const UserContext = createContext();
 
 export const UserReducer = (state, action) => {
   switch (action.type) {
-    case 'SET_WORKOUTS': 
+    case 'SET_USER': 
       return {
-        workouts: action.payload
+        onlineUser: action.payload
       }
-    case 'CREATE_WORKOUT':
+    case 'UPDATE_USER':
       return {
-        workouts: [action.payload, ...state.workouts]
+        onlineUser: [action.payload, ...state.onlineUser]
       }
-    case 'DELETE_WORKOUT':
+    case 'DELETE_USER':
       return {
-        workouts: state.workouts.filter((w) => w._id !== action.payload._id)
+        onlineUser: state.onlineUser.filter((u) => u._id !== action.payload._id)
       }
     default:
-      return state
+      return state;
   }
 }
 
 export const UserContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(UserReducer, {
-    workouts: null
-  })
+    onlineUser: null
+  });
 
   return (
     <UserContext.Provider value={{...state, dispatch}}>

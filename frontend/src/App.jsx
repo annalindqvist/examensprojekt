@@ -5,19 +5,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from './hooks/useAuthContext'
 
 // PAGES
-//import Layout from "./pages/Layout";
 import Home from "./pages/Home";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import NoPage from "./pages/NoPage";
-//import AuthContext from "./context/AuthContext";
 import Navbar from "./components/Navbar/Navbar";
 
-
-
 export default function App() {
-  
-  
+
   const { user } = useAuthContext()
 
   return (
