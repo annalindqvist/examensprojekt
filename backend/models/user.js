@@ -43,6 +43,9 @@ const userSchema = new Schema({
         required: "Password must be filled in",
         minlength: 8,
         maxlength: 24
+    },
+    img: {
+        type: String,
     }
 })
 

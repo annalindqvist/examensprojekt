@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar/Navbar";
 export default function App() {
 
   const { user } = useAuthContext()
+  console.log("USER", user)
 
   return (
     <div className="App">

@@ -1,5 +1,26 @@
 import UserModel from "../models/user.js";
 import jwt from "jsonwebtoken";
+import multer from "multer";
+import fs from "fs";
+import path from "path";
+
+// const storage = multer.diskStorage({
+//     destination: "./public/images",
+//     filename: (req, file, cb) => {
+//       cb(null, file.fieldname + '-' + Date.now())
+//     }
+// });
+
+// const fileFilter = (req, file, cb) => {
+//     const allowedFiles = ['image/jpeg', 'image/jpg', 'image/png'];
+//     if (allowedFiles.includes(file.mimetype)){
+//         cb(null, true);
+//     } else {
+//         cb(null, false);
+//     }
+// }
+  
+// const upload = multer({storage, fileFilter});
 
 const createToken = (_id) => {
     return jwt.sign({
@@ -128,9 +149,39 @@ async function getUserInfo(id) {
     }
 }
 
+async function editProfile(req, res) {
+    const { image } = req.body;
+    console.log("REQ.USER, ", req.user._id);
+    console.log("image.file", req.file.filename)
+    try {
+
+    
+    await UserModel.updateOne({
+        _id: req.user._id,
+    }, {
+        img: req.file.filename,
+    })
+
+    const userInformation = await getUserInfo(req.user._id);
+        if (!userInformation) {
+            res.status(400).json({token, message: "Something went wrong"});
+        }
+
+    res.status(200).json({
+        user: userInformation
+    });
+  
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send('Server error');
+    }
+}
+
 export default {
     getSignIn,
     signUpUser,
     getUserInfo,
-    signIn
+    signIn,
+    editProfile
 };
