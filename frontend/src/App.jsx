@@ -10,6 +10,8 @@ import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import NoPage from "./pages/NoPage";
 import Navbar from "./components/Navbar/Navbar";
+import Users from './pages/Users';
+import OneUser from './pages/OneUser';
 
 export default function App() {
 
@@ -29,6 +31,14 @@ export default function App() {
           <Route 
             path="/profile" 
             element={user ? <Profile /> : <Navigate to="/home" />} 
+          />
+          <Route 
+            path="/users" 
+            element={user ? <Users /> : <Navigate to="/home" />} 
+          />
+          <Route 
+            path="/user/:id" 
+            element={user ? <OneUser /> : <Navigate to="/home" />} 
           />
           <Route 
             path="/home" 

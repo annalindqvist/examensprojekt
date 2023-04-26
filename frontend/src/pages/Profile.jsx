@@ -56,9 +56,7 @@ const Profile = () => {
       console.log("res.ok", json);
     }
   }
-  const imageUrl = `http://localhost:8080/static/${user.img}`;
-  
-
+    const imageUrl = `http://localhost:8080/static/${user.img}`;
 
     return (
       <div>

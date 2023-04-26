@@ -37,6 +37,8 @@ const Feed = () => {
     }
   }, [dispatch, user]);
 
+  console.log(posts)
+
     return (
       <div>
         <h1>Feed</h1>
