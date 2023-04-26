@@ -27,5 +27,9 @@ UserRouter.get("/user/info", verifyJWT, UserController.getUserInfo);
 // user profile, verifyJWT should look for a jwt token?
 UserRouter.put("/user/edit", verifyJWT, upload.single('image'), UserController.editProfile);
 
+UserRouter.get("/all-users", verifyJWT, UserController.getAllUsers);
+
+UserRouter.get("/user/:id", verifyJWT, UserController.getOneUser);
+
 
 export default UserRouter;

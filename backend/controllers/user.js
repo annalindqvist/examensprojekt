@@ -178,10 +178,42 @@ async function editProfile(req, res) {
     }
 }
 
+const getAllUsers = async (req, res) => {
+try {
+
+    const allUsers = await UserModel.find({})
+    res.status(200).json(allUsers);
+  
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send('Server error');
+    }
+}
+
+const getOneUser = async (req, res) => {
+    try {
+    console.log(req.params.id)
+    const id = req.params.id;
+    const user =  await UserModel.findOne({
+        _id: id
+    });
+    console.log(user)
+    res.status(200).json(user);
+  
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send('Server error');
+    }
+}
+
 export default {
     getSignIn,
     signUpUser,
     getUserInfo,
     signIn,
-    editProfile
+    editProfile,
+    getAllUsers,
+    getOneUser
 };

@@ -23,17 +23,6 @@ const getPosts = async (req, res) => {
     
     const allPosts = await getAllPosts();
 
-    // if the online user is the one posted the post - postedByUser: true 
-    // this to show a deleteBtn on the frontend (component/PostOnFeed/PostOnFeed.jxs)
-    // const allPosts = [];
-    // posts.forEach(post => {
-    //     if (user_id.valueOf() == post.postedBy._id.valueOf()){
-    //         allPosts.push({post, postedByUser: true});
-    //     } else {
-    //         allPosts.push({post, postedByUser: false});
-    // }
-    // });
-
     res.status(200).json(allPosts);
 
     if (!allPosts) {

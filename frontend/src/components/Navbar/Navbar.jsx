@@ -21,8 +21,9 @@ const Navbar = () => {
                     <button onClick={handleClick}>Sign out</button>
                 </div>
                 <div>
-                    <Link to="/profile">Profile</Link>
                     <Link to="/">Feed</Link>
+                    <Link to="/profile">Profile</Link>
+                    <Link to="/users">All users</Link>
                 </div>
             </div>
           )}
