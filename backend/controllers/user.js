@@ -149,17 +149,39 @@ async function getUserInfo(id) {
     }
 }
 
-async function editProfile(req, res) {
-    const { image } = req.body;
-    console.log("REQ.USER, ", req.user._id);
-    console.log("image.file", req.file.filename)
-    try {
 
+async function editProfile(req, res) {
+    let image;
+    let age;
+    let city;
+    let description;
+    
+    if(req.file){
+        image = req.file.filename;
+    }
+  
+    if (req.body.age) {
+        age = req.body.age
+    }
+    
+    if(req.body.city) {
+        city = req.body.city;
+    }
+    
+    if (req.body.description) {
+        description = req.body.description;
+    }
+    
+    try {
     
     await UserModel.updateOne({
         _id: req.user._id,
     }, {
-        img: req.file.filename,
+        img: image,
+        age,
+        city,
+        description
+
     })
 
     const userInformation = await getUserInfo(req.user._id);

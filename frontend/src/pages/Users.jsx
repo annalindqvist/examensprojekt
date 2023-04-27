@@ -5,23 +5,22 @@ import ListOfUsers from '../components/ListOfUsers/ListOfUsers';
 
 const Users = () => {
 
-  console.log("FEED");
   const {listUser, dispatch} = useUserContext();
   const {user} = useAuthContext();
+  console.log("Users.jsx", listUser)
   
   useEffect(() => {
     const token = localStorage.getItem('token');
-    //console.log(token)
 
     const fetchUsers = async () => {
       const res = await fetch("http://localhost:8080/all-users", {
         headers: {'Authorization': `Bearer ${token}`},
       })
       const json = await res.json();
-      //console.log("FEED JSON", json);
 
       if (res.ok) {
         dispatch({type: 'SET_USER', payload: json});
+        console.log("clog ", json)
       }
       if(!res.ok) {
         console.log("res, ", res, "json, ", json)

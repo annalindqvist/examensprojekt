@@ -46,7 +46,18 @@ const userSchema = new Schema({
     },
     img: {
         type: String,
-    }
+    },
+    age: {
+        type: Number,
+    },
+    description: {
+        type: String,
+        maxlength: 500,
+    },
+    city: {
+        type: String,
+        maxlength: 50,
+    },
 })
 
 userSchema.pre('save', function (next) {

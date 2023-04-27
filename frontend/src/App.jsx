@@ -12,6 +12,8 @@ import NoPage from "./pages/NoPage";
 import Navbar from "./components/Navbar/Navbar";
 import Users from './pages/Users';
 import OneUser from './pages/OneUser';
+import EditProfile from './pages/EditProfile';
+
 
 export default function App() {
 
@@ -39,6 +41,10 @@ export default function App() {
           <Route 
             path="/user/:id" 
             element={user ? <OneUser /> : <Navigate to="/home" />} 
+          />
+           <Route 
+            path="/user/edit" 
+            element={user ? <EditProfile /> : <Navigate to="/home" />} 
           />
           <Route 
             path="/home" 
