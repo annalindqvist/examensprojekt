@@ -24,7 +24,7 @@ export const useSignin = () => {
     if (res.ok) {
       // save the user to local storage
       localStorage.setItem('token', json.token);
-      console.log("user", json.user)
+      //console.log("user", json.user)
       localStorage.setItem('user', JSON.stringify(json.user));
 
       // // update the auth context

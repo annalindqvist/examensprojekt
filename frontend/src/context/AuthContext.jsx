@@ -6,7 +6,7 @@ export const authReducer = (state, action) => {
   switch (action.type) {
     
     case 'SIGNIN':
-      console.log("SIGNIN AUTHCONTEXT", action.payload)
+      //onsole.log("SIGNIN AUTHCONTEXT", action.payload)
       return { user: action.payload }
     case 'SIGNOUT':
       
@@ -20,7 +20,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const user = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null;
 
-  console.log("USER IN AUTHCONTEXT, ", user);
+  //console.log("USER IN AUTHCONTEXT, ", user);
   const [state, dispatch] = useReducer(authReducer, { 
     user
   })
