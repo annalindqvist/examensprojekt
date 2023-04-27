@@ -13,34 +13,39 @@ const PostToFeed = () => {
     const [error, setError] = useState(null)
     const [post, setPost] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!user) {
-            setError("You must be signed in to post.");
-            return;
-        }
 
-        const res = await fetch('http://localhost:8080/post-to-feed', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user.token}`
-        },
-        body: JSON.stringify({ post })
-        })
-        const json = await res.json();
-       //json = [{post: postDoc, postedByUser: true}]
-       //console.log("PostToFeed json", json);
-       
-        if (!res.ok) {
-            setError(json.error)
-        };
-        if (res.ok) {
-            setPost('')
-            setError(null)
-            
-            dispatch({type: 'CREATE_POST', payload: json})
-        };
+    const handleSubmit = async (e) => {
+
+        const token = localStorage.getItem('token');
+        if (token) {
+            e.preventDefault();
+            if (!user) {
+                setError("You must be signed in to post.");
+                return;
+            }
+
+            const res = await fetch('http://localhost:8080/post-to-feed', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ post })
+            })
+            const json = await res.json();
+            //json = [{post: postDoc, postedByUser: true}]
+            //console.log("PostToFeed json", json);
+        
+            if (!res.ok) {
+                setError(json.error)
+            };
+            if (res.ok) {
+                setPost('')
+                setError(null)
+                
+                dispatch({type: 'CREATE_POST', payload: json})
+            };
+        }
     };
 
     return ( 

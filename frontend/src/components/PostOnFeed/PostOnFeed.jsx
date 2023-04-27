@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { usePostContext } from '../../hooks/usePostContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
@@ -8,25 +9,36 @@ const PostOnFeed = ({ post }) => {
 
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
+
+  const [postedByUser, setPostedByUser] = useState(false);
+
   const postContent = post.post ? post.post : "";
   const firstname = post.postedBy.firstname ? post.postedBy.firstname : "";
   const postId = post._id ? post._id : "";
   
-  const handleClick = async () => {
-    if (!user) {
-      return
+
+  useEffect(() => {
+    if (post.postedBy._id == user._id){
+      setPostedByUser(true);
     }
+  }, [post.postedBy._id, user._id]);
 
-    const res = await fetch('http://localhost:8080/feed/delete/' + postId,  {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${user.token}`
+  const handleClick = async () => {
+
+    const token = localStorage.getItem('token');
+    if (token && postedByUser) {
+
+      const res = await fetch('http://localhost:8080/feed/delete/' + postId,  {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      const json = await res.json()
+
+      if (res.ok) {
+        dispatch({type: 'DELETE_POST', payload: json})
       }
-    })
-    const json = await res.json()
-
-    if (res.ok) {
-      dispatch({type: 'DELETE_POST', payload: json.id})
     }
   }
   
@@ -36,7 +48,7 @@ const PostOnFeed = ({ post }) => {
       <h4>{firstname}</h4>
       <p>{postContent}</p> 
       {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
-      {post.postedByUser && <span onClick={handleClick}>delete</span> } 
+      {postedByUser && <span onClick={handleClick}>delete</span> } 
     </div>
   )
 }

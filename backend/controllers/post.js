@@ -78,7 +78,7 @@ const deletePost = async (req, res) => {
         return res.status(404).json({error: 'No post deleted'});
     }
   
-    res.status(200).json({message: "Post deleted", id});
+    res.status(200).json(id);
   }
 
 export default {
