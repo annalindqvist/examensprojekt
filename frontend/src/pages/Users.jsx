@@ -11,7 +11,7 @@ const Users = () => {
   
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log(token)
+    //console.log(token)
 
     const fetchUsers = async () => {
       const res = await fetch("http://localhost:8080/all-users", {

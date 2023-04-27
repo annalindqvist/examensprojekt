@@ -7,34 +7,20 @@ const Profile = () => {
 
     const {onlineUser, dispatch} = useUserContext();
     const {user} = useAuthContext();
-    console.log(user);
 
-  //  useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   const fetchProfile = async () => {
-  //     const res = await fetch("http://localhost:8080/user/info", {
-  //       headers: {'Authorization': `Bearer ${token}`},
-  //     })
-  //     const json = await res.json();
-  //     console.log("PROFILE JSON", json);
+    
+    console.log("user in profile", user)
+    console.log("user.img in profile", user.img)
+    const imageUrl = `http://localhost:8080/static/${user.img}`;
 
-  //     if (res.ok) {
-  //       dispatch({type: 'SET_USER', payload: json});
-  //     }
-  //   }
-  //   if (token) {
-  //     fetchProfile();
-  //   }
-  // }, [dispatch, user]);
+    const [image, setImage] = useState();
 
-  const [image, setImage] = useState();
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      await uploadPhoto(image);
+    }  
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await uploadPhoto(image);
-}  
-
-  const uploadPhoto = async (image) => {
+    const uploadPhoto = async (image) => {
     const token = localStorage.getItem('token');
     console.log("image", image)
     const formData = new FormData();
@@ -55,8 +41,8 @@ const Profile = () => {
       // save the user to local storage
       console.log("res.ok", json);
     }
-  }
-    const imageUrl = `http://localhost:8080/static/${user.img}`;
+    }
+  
 
     return (
       <div>

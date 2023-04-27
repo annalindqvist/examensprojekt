@@ -17,38 +17,31 @@ export const authReducer = (state, action) => {
 }
 
 export const AuthContextProvider = ({ children }) => {
+
+  const user = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null;
+
+  console.log("USER IN AUTHCONTEXT, ", user);
   const [state, dispatch] = useReducer(authReducer, { 
-    user: null
+    user
   })
 
-  const fetchUser = async () => {
+  // const fetchUser = async () => {
 
-    const token = JSON.parse(localStorage.getItem('token'))
-    console.log("token fetchuser, ", token)
-    if (token) {
+  //   const token = JSON.parse(localStorage.getItem('token'))
+  //   console.log("token fetchuser, ", token)
+  //   if (token) {
 
-      const res = await fetch('http://localhost:8080/user/info', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token.token}`
-        }})
-        const json = await res.json();
-        //console.log("JSON FROM USE EFFECT: ", json);
-        if (res.ok) {
-          dispatch({ type: 'SIGNIN', payload: json }) 
-        }
-        if (!res.ok) {
-          console.log("res, ", res, "json, ", json)
-        }
-      }
-  }
+  //     const userInformation = JSON.parse(localStorage.getItem('user'))
+  //     dispatch({ type: 'SIGNIN', payload: userInformation }) 
+  //     }
+  // }
 
-  useEffect(() => {
-    if(!state.user) {
-      console.log("!state.user")
-      fetchUser();
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   if(!state.user) {
+  //     console.log("!state.user")
+  //     fetchUser();
+  //   }
+  // },);
 
   console.log('AuthContext state:', state);
   

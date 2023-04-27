@@ -11,9 +11,7 @@ import * as url from 'url';
 //const __filename = url.fileURLToPath(import.meta.url); 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
-
 const app = express();
-
 
 var corsOptions = {
   origin: true,
@@ -30,12 +28,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //app.use(express.static(path.join(__dirname,'/test')));
 app.use('/static', express.static('public/images'));
-
-
-// route
-// app.get("/", (req, res) => {
-//   res.json({ message: "Hello there." });
-// });
 
 // ---- ROUTES
 app.use(UserRouter);
