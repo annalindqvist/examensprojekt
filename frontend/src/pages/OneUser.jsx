@@ -3,6 +3,8 @@ import { useUserContext } from "../hooks/useUserContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useParams } from 'react-router';
 
+import OneUserComponent from "../components/OneUserComponent/OneUserComponent";
+
 const OneUser = () => {
 
     const params = useParams();
@@ -21,7 +23,7 @@ const OneUser = () => {
       const json = await res.json();
 
       if (res.ok) {
-        //dispatch({type: 'SET_USER', payload: json});
+        dispatch({type: 'SET_USER', payload: json});
         console.log("FEED JSON", json);
 
       }
@@ -35,12 +37,14 @@ const OneUser = () => {
     }
   }, [dispatch, user]);
 
+  console.log("LISTUSER", listUser)
+
     return (
       <div>
         <h1>One user</h1>
         
         <div className="list-of-users">
-            {/* {listUser && <OneUser key={listUser._id} user={listUser} />} */}
+         {listUser && <OneUserComponent key={listUser._id} user={listUser} />}  
             
         </div> 
       </div>
