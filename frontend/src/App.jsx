@@ -5,7 +5,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from './hooks/useAuthContext'
 
 // PAGES
-import Home from "./pages/Home";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import Terms from "./pages/Terms";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
 import NoPage from "./pages/NoPage";
@@ -28,27 +30,35 @@ export default function App() {
         <Routes>
           <Route 
             path="/" 
-            element={user ? <Feed /> : <Navigate to="/home" />} 
+            element={user ? <Feed /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/profile" 
-            element={user ? <Profile /> : <Navigate to="/home" />} 
+            element={user ? <Profile /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/users" 
-            element={user ? <Users /> : <Navigate to="/home" />} 
+            element={user ? <Users /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/user/:id" 
-            element={user ? <OneUser /> : <Navigate to="/home" />} 
+            element={user ? <OneUser /> : <Navigate to="/signin" />} 
           />
            <Route 
             path="/user/edit" 
-            element={user ? <EditProfile /> : <Navigate to="/home" />} 
+            element={user ? <EditProfile /> : <Navigate to="/signin" />} 
           />
           <Route 
-            path="/home" 
-            element={!user ? <Home /> : <Navigate to="/" />} 
+            path="/signin" 
+            element={!user ? <Signin /> : <Navigate to="/" />} 
+          />
+          <Route 
+            path="/signup" 
+            element={!user ? <Signup /> : <Navigate to="/" />} 
+          />
+          <Route 
+            path="/terms-and-conditions" 
+            element={<Terms />} 
           />
           <Route 
             path="*" 
