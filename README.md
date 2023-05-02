@@ -22,9 +22,9 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
 - En användare ska kunna: 
   - [x] registrera sig / logga in / logga ut
   - uppdatera sin information (inloggningsuppgifter & profil)
-  - ha en profil med (ålder, stad, [x] profilbild, beskrivning, intressen)
-  - spara användare / ta bort sparad användare
-  - chatta med sparade användare
+  - ha en profil med ([x] ålder, [x] stad, [x] profilbild, [x] beskrivning, intressen)
+  - [x] spara användare / ta bort sparad användare
+  - chatta med sparade användare (chatta med en användare)
   - [x] dela publika inlägg / ta bort inlägg man delat
   - gilla publika inlägg / avgilla inlägg man gillat
   - kommentera publika inlägg / ta bort kommentar man skapat
