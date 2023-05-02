@@ -1,16 +1,14 @@
-//import { usePostContext } from '../../hooks/usePostContext';
-//import { useAuthContext } from '../../hooks/useAuthContext';
+// REACT IMPORTS 
+import { Link } from 'react-router-dom';
+
+// CSS
+import './ListOfUsers.css';
 
 // date fns
 //import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import { Link } from 'react-router-dom';
-import './ListOfUsers.css';
 
 const ListOfUsers = ({ user }) => {
 
-  //const { dispatch } = usePostContext();
-  //const { user } = useAuthContext();
-  
   const firstname = user.firstname ? user.firstname : "";
   const imageUrl = user.img ? `http://localhost:8080/static/${user.img}` : "";
 
@@ -18,7 +16,7 @@ const ListOfUsers = ({ user }) => {
     <Link to={`/user/${user._id}`}>
       <div className="user-card">
         <p>{firstname}</p> 
-        {imageUrl && <img src={imageUrl} alt="" width="100" height="100" /> }
+        {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
       </div>
     </Link>
   )

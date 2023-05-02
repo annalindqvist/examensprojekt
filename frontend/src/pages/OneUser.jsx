@@ -37,7 +37,8 @@ const OneUser = () => {
     }
   }, [dispatch, user]);
 
-  console.log("selectedUser", selectedUser)
+
+
 
     return (
       <div>
@@ -45,6 +46,7 @@ const OneUser = () => {
         
         <div className="list-of-users">
          {selectedUser && <OneUserComponent key={selectedUser._id} user={selectedUser} />}  
+         
         </div> 
       </div>
         

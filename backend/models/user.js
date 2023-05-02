@@ -58,6 +58,10 @@ const userSchema = new Schema({
         type: String,
         maxlength: 50,
     },
+    savedGirls: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }]
 })
 
 userSchema.pre('save', function (next) {
