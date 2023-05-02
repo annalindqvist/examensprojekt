@@ -8,7 +8,7 @@ import OneUserComponent from "../components/OneUserComponent/OneUserComponent";
 const OneUser = () => {
 
     const params = useParams();
-    const {listUser, dispatch} = useUserContext();
+    const {selectedUser, dispatch} = useUserContext();
     const {user} = useAuthContext();
   
   useEffect(() => {
@@ -23,8 +23,8 @@ const OneUser = () => {
       const json = await res.json();
 
       if (res.ok) {
-        dispatch({type: 'SET_USER', payload: json});
-        console.log("FEED JSON", json);
+        dispatch({type: 'SET_SELECTED_USER', payload: json});
+        console.log("OneUser.jsx json", json);
 
       }
       if(!res.ok) {
@@ -37,15 +37,14 @@ const OneUser = () => {
     }
   }, [dispatch, user]);
 
-  console.log("LISTUSER", listUser)
+  console.log("selectedUser", selectedUser)
 
     return (
       <div>
         <h1>One user</h1>
         
         <div className="list-of-users">
-         {listUser && <OneUserComponent key={listUser._id} user={listUser} />}  
-            
+         {selectedUser && <OneUserComponent key={selectedUser._id} user={selectedUser} />}  
         </div> 
       </div>
         

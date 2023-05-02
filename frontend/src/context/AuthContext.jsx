@@ -11,7 +11,7 @@ export const authReducer = (state, action) => {
     case 'SIGNOUT':
       
       return { user: null }
-    case 'UPDATEUSER':
+    case 'UPDATE_USER':
       return { user: action.payload }
     default:
       return state;
