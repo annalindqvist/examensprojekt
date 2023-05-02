@@ -40,7 +40,8 @@ const ListOfUsers = ({ selectedUser }) => {
         console.log(json)
   
         if (res.ok) {
-          dispatch({type: 'UPDATE_USER', payload: json})
+          dispatch({type: 'UPDATE_USER', payload: json.user})
+          setSaved(true);
           console.log("Saved one user", json)
         }
       }
