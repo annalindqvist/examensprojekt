@@ -1,13 +1,27 @@
-// import './ListOfUsers.css';
+// REACT IMPORTS
+import { useEffect, useState } from 'react';
+
+// IMPORT HOOKS
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 
-const ListOfUsers = ({ user }) => {
+const ListOfUsers = ({ selectedUser }) => {
 
-    const {dispatch} = useAuthContext();
-    const firstname = user.firstname ? user.firstname : "";
-    const imageUrl = user.img ? `http://localhost:8080/static/${user.img}` : "";
-    const userId = user._id;
+    const {user, dispatch} = useAuthContext();
+    const firstname = selectedUser.firstname ? selectedUser.firstname : "";
+    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "";
+    const userId = selectedUser._id;
+    const [saved, setSaved] = useState(false);
+
+    useEffect(() => {
+      if (Array.isArray(user.savedGirls)){
+        user.savedGirls.map((girl) => {
+          if (girl._id === selectedUser._id){
+            setSaved(true);
+          }
+        })
+      } 
+    }, [dispatch, user]);
 
     const handleClick = async () => {
 
@@ -20,9 +34,10 @@ const ListOfUsers = ({ user }) => {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${token}`
               },
-              body: JSON.stringify({ userId})
+              body: JSON.stringify({ saveUserId: userId})
               })
         const json = await res.json()
+        console.log(json)
   
         if (res.ok) {
           dispatch({type: 'UPDATE_USER', payload: json})
@@ -36,7 +51,7 @@ const ListOfUsers = ({ user }) => {
     <div className="user-card">
       <p>{firstname}</p> 
       {imageUrl && <img src={imageUrl} alt="" width="100" height="100" /> }
-      <button onClick={handleClick}>Save</button>
+      {saved ? <button onClick={handleClick}>Remove</button> : <button onClick={handleClick}>Save</button>}
     </div>
     
   )

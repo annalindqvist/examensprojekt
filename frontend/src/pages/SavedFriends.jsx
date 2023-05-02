@@ -7,7 +7,7 @@ import SavedFriendsComponent from "../components/SavedFriends/SavedFriendsCompon
 const SavedFriends = () => {
 
     const {user} = useAuthContext();
-
+  console.log("user.savedGirls, ", user.savedGirls)
     return (
       <div>
         <h1>Your saved girls</h1>
