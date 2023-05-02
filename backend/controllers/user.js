@@ -237,16 +237,30 @@ const getOneUser = async (req, res) => {
 const saveOneUser = async (req, res) => {
     try {
     console.log(req.body)
-    const {userId} = req.body;
-    await UserModel.updateOne({
+    const {saveUserId} = req.body;
+    const alreadySaved = await UserModel.findOne({
         _id: req.user._id,
-    }, {$push: {savedGirls: userId}})
+        savedGirls: saveUserId
+    })
+    console.log("---- Aldready saved, ", alreadySaved);
+    if (alreadySaved) {
+        await UserModel.updateOne({
+            _id: req.user._id,
+        }, {$pull: {savedGirls: saveUserId}})
+    }
+    if (!alreadySaved) {
+        await UserModel.updateOne({
+            _id: req.user._id,
+        }, {$push: {savedGirls: saveUserId}})
+    }
+    
 
     const userInformation = await getUserInfo(req.user._id);
         if (!userInformation) {
             res.status(400).json({token, message: "Something went wrong"});
         }
 
+        console.log("---userinformation, ", userInformation);
     res.status(200).json({
         user: userInformation
     });

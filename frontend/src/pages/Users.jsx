@@ -36,9 +36,13 @@ const Users = () => {
         <h1>All users</h1>
         
         <div className="list-of-users">
-            {listOfUsers && listOfUsers.map((users) => (
-            <ListOfUsers key={users._id} user={users} />
-            ))}
+            {listOfUsers && listOfUsers.map((users) => {
+              if (users._id !== user._id) {
+                return <ListOfUsers key={users._id} user={users} />;
+              }
+              return null;
+            }
+            )}
       </div>
       </div>
         

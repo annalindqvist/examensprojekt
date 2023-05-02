@@ -13,7 +13,6 @@ const OneUser = () => {
   
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log(token)
 
     const fetchUser = async () => {
       const res = await fetch(`http://localhost:8080/user/${params.id}`, {
@@ -45,7 +44,7 @@ const OneUser = () => {
         <h1>One user</h1>
         
         <div className="list-of-users">
-         {selectedUser && <OneUserComponent key={selectedUser._id} user={selectedUser} />}  
+         {selectedUser && <OneUserComponent key={selectedUser._id} selectedUser={selectedUser} />}  
          
         </div> 
       </div>
