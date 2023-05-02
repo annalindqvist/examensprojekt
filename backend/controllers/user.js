@@ -141,7 +141,11 @@ async function signIn(req, res) {
 async function getUserInfo(id) {
     try {
         //.select('-password') - get all info of the user but not password
-        const user = await UserModel.findById(id).select('-password');
+        const user = await UserModel.findById(id).select('-password').populate({
+            path: "savedGirls",
+            select: "firstname city img"
+        })
+        .exec();
         console.log("USER,", user)
         return user;
     } catch (err) {
@@ -230,6 +234,30 @@ const getOneUser = async (req, res) => {
     }
 }
 
+const saveOneUser = async (req, res) => {
+    try {
+    console.log(req.body)
+    const {userId} = req.body;
+    await UserModel.updateOne({
+        _id: req.user._id,
+    }, {$push: {savedGirls: userId}})
+
+    const userInformation = await getUserInfo(req.user._id);
+        if (!userInformation) {
+            res.status(400).json({token, message: "Something went wrong"});
+        }
+
+    res.status(200).json({
+        user: userInformation
+    });
+  
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send('Server error');
+    }
+}
+
 export default {
     getSignIn,
     signUpUser,
@@ -237,5 +265,6 @@ export default {
     signIn,
     editProfile,
     getAllUsers,
-    getOneUser
+    getOneUser, 
+    saveOneUser,
 };

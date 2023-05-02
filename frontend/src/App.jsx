@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Terms from "./pages/Terms";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
+import SavedFriends from "./pages/SavedFriends";
 import NoPage from "./pages/NoPage";
 import Navbar from "./components/Navbar/Navbar";
 import Users from './pages/Users';
@@ -47,6 +48,10 @@ export default function App() {
            <Route 
             path="/user/edit" 
             element={user ? <EditProfile /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/user/saved" 
+            element={user ? <SavedFriends /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/signin" 

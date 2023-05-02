@@ -46,6 +46,19 @@ body {
   flex-direction: column;
 }
 
+.flex-row {
+  display: flex;
+  align-items: center;
+}
+
+.s-profile-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 /* FONT STYLES - color and font */
 
 a {

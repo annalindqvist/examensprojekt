@@ -31,5 +31,7 @@ UserRouter.get("/all-users", verifyJWT, UserController.getAllUsers);
 
 UserRouter.get("/user/:id", verifyJWT, UserController.getOneUser);
 
+UserRouter.post("/user/save", verifyJWT, UserController.saveOneUser);
+
 
 export default UserRouter;

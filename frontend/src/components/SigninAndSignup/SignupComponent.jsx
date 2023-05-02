@@ -20,7 +20,6 @@ const SignupComponent = () => {
         
         const user = {email, firstname, lastname, password};
         signup(user);
-                
     }
 
     return ( 
