@@ -5,9 +5,8 @@ import ListOfUsers from '../components/ListOfUsers/ListOfUsers';
 
 const Users = () => {
 
-  const {listUser, dispatch} = useUserContext();
+  const {listOfUsers, dispatch} = useUserContext();
   const {user} = useAuthContext();
-  console.log("Users.jsx", listUser)
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -19,8 +18,8 @@ const Users = () => {
       const json = await res.json();
 
       if (res.ok) {
-        dispatch({type: 'SET_USER', payload: json});
-        console.log("clog ", json)
+        dispatch({type: 'SET_USERS', payload: json});
+        console.log("Users.jsx json ", json)
       }
       if(!res.ok) {
         console.log("res, ", res, "json, ", json)
@@ -37,7 +36,7 @@ const Users = () => {
         <h1>All users</h1>
         
         <div className="list-of-users">
-            {listUser && listUser.map((users) => (
+            {listOfUsers && listOfUsers.map((users) => (
             <ListOfUsers key={users._id} user={users} />
             ))}
       </div>

@@ -53,7 +53,7 @@ const EditProfile = () => {
            
             // update user in context & local storage
             localStorage.setItem('user', JSON.stringify(json.user));
-            dispatch({type: 'UPDATEUSER', payload: json.user});
+            dispatch({type: 'UPDATE_USER', payload: json.user});
             }
         }
     }
