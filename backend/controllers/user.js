@@ -1,4 +1,5 @@
 import UserModel from "../models/user.js";
+import PostModel from "../models/post.js";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import fs from "fs";
@@ -337,6 +338,7 @@ const deleteAccount = async (req, res) => {
             return res.status(400).json({message: "Something went wrong"});
         }
 
+        await PostModel.deleteMany({postedBy: req.user._id})
         const deleteUser = await UserModel.findByIdAndDelete(id)
         if(!deleteUser) {
             console.log("!deleteuser")
@@ -345,6 +347,7 @@ const deleteAccount = async (req, res) => {
         res.status(200).json('Account deleted');
 
     } catch (err) {
+        console.log(err)
         res.status(500).send('Server error');
     }
 }
