@@ -77,6 +77,7 @@ async function signIn(req, res) {
             });
         };
 
+
         // create a token
         const token = createToken(user._id);
         const userInformation = await getUserInfo(user._id);
@@ -87,6 +88,7 @@ async function signIn(req, res) {
         }
 
         res.status(200).json({
+            token,
             user: userInformation
         });
 
@@ -95,7 +97,6 @@ async function signIn(req, res) {
         res.status(500).send('Server error');
     }
 }
-
 
 // get the logged in users profile
 async function getUserInfo(id) {
@@ -114,7 +115,6 @@ async function getUserInfo(id) {
         };
     }
 }
-
 
 async function editProfilePicture(req, res) {
     
@@ -182,6 +182,70 @@ async function editProfile(req, res) {
                 message: "Something went wrong"
             });
         }
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server error');
+    }
+}
+
+async function editAuthSettings(req, res) {
+    const { email, oldPassword, newPassword1, newPassword2 } = req.body;
+
+    console.log(email,"REQ BODY", req.body)
+    try {
+
+        if (newPassword1 !== newPassword2) {
+            return res.status(400).json({
+                message: "Password doesnt match"
+            });
+        }
+
+         //check if user exists in db
+         const user = await UserModel.findOne({
+            _id: req.user._id
+        });
+        console.log("user", user)
+
+        // if no user could be found
+        if (!user) {
+            return res.status(400).json({
+                message: "Could not find any user."
+            });
+        }
+
+        // match password from form with hashed password in db
+        const isMatching = await user.matchPassword(oldPassword, user.password);
+
+        // // if password doesnt match
+        if (!isMatching) {
+            console.log("Not matching password")
+            return res.status(400).json({
+                message: "Old password doesnt match."
+            });
+        };
+
+        const updateAuthInfo = new UserModel.updateOne({
+            _id: req.user._id,
+        }, {
+            email,
+            password: newPassword2
+        })
+        await user.save()
+
+        console.log(updateAuthInfo);
+
+        const userInformation = await getUserInfo(req.user._id);
+        if (!userInformation) {
+            return res.status(400).json({
+                message: "Something went wrong"
+            });
+        }
+
+        res.status(200).json({
+            user: userInformation
+        });
+
 
     } catch (err) {
         console.log(err)
@@ -262,13 +326,38 @@ const saveOneUser = async (req, res) => {
     }
 }
 
+const deleteAccount = async (req, res) => {
+    try {
+        const id = req.user._id;
+        const user = await UserModel.findOne({
+            _id: id
+        });
+        if(!user) {
+            console.log("!user")
+            return res.status(400).json({message: "Something went wrong"});
+        }
+
+        const deleteUser = await UserModel.findByIdAndDelete(id)
+        if(!deleteUser) {
+            console.log("!deleteuser")
+            return res.status(400).json({message: "Something went wrong"});
+        }
+        res.status(200).json('Account deleted');
+
+    } catch (err) {
+        res.status(500).send('Server error');
+    }
+}
+
 export default {
     signUpUser,
     getUserInfo,
     signIn,
     editProfile,
     editProfilePicture,
+    editAuthSettings,
     getAllUsers,
     getOneUser,
     saveOneUser,
+    deleteAccount
 };

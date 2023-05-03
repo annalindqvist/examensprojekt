@@ -21,10 +21,15 @@ const Profile = () => {
         <p>Lastname: {user.lastname}</p>
         <p>Age: {user.age}</p>
         <p>City: {user.city}</p>
-        <p>Your decription</p>
+        <p>Interests:</p>
+        {user.intrests && user.intrests.map((interest) => (
+            <p key={interest}>{interest}</p>
+          ))}
+           <p>Your decription</p>
         <div>{user.description}</div>
         <Link to="/user/edit">Edit profile</Link>
         <Link to="/user/edit-profile-picture">Edit profile picture</Link>
+        <Link to="/user/settings">Settings</Link>
     </div>
     );
   };

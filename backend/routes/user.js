@@ -29,11 +29,17 @@ UserRouter.put("/user/edit", verifyJWT, UserController.editProfile);
 
 UserRouter.put("/user/edit-profile-image", verifyJWT, upload.single('image'), UserController.editProfilePicture);
 
+UserRouter.put("/user/auth-settings", verifyJWT, UserController.editAuthSettings);
+
+
 UserRouter.get("/all-users", verifyJWT, UserController.getAllUsers);
 
 UserRouter.get("/user/:id", verifyJWT, UserController.getOneUser);
 
 UserRouter.post("/user/save", verifyJWT, UserController.saveOneUser);
+
+UserRouter.delete("/user/delete-account", verifyJWT, UserController.deleteAccount);
+
 
 
 export default UserRouter;
