@@ -54,6 +54,10 @@ const userSchema = new Schema({
         type: String,
         maxlength: 500,
     },
+    intrests: [{
+        type: String,
+        maxlength: 50,
+    }],
     city: {
         type: String,
         maxlength: 50,
