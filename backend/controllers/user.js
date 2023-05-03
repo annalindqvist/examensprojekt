@@ -4,24 +4,6 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 
-// const storage = multer.diskStorage({
-//     destination: "./public/images",
-//     filename: (req, file, cb) => {
-//       cb(null, file.fieldname + '-' + Date.now())
-//     }
-// });
-
-// const fileFilter = (req, file, cb) => {
-//     const allowedFiles = ['image/jpeg', 'image/jpg', 'image/png'];
-//     if (allowedFiles.includes(file.mimetype)){
-//         cb(null, true);
-//     } else {
-//         cb(null, false);
-//     }
-// }
-  
-// const upload = multer({storage, fileFilter});
-
 const createToken = (_id) => {
     return jwt.sign({
         _id
@@ -29,29 +11,6 @@ const createToken = (_id) => {
         expiresIn: '3d'
     })
 }
-
-async function getSignIn(req, res) {
-    let query = null;
-    try {
-        query = new URLSearchParams({
-            type: "success",
-            message: "Successfully logged out!"
-        });
-        req.session.destroy();
-
-    } catch (err) {
-        console.log(err)
-        query = new URLSearchParams({
-            type: "error",
-            message: "Something went wrong"
-        });
-    } finally {
-        const qStr = query.toString();
-        res.redirect(`/?${qStr}`);
-
-    }
-}
-
 
 async function signUpUser(req, res) {
 
@@ -122,11 +81,12 @@ async function signIn(req, res) {
         const token = createToken(user._id);
         const userInformation = await getUserInfo(user._id);
         if (!userInformation) {
-            res.status(400).json({token, message: "Something went wrong"});
+            res.status(400).json({
+                message: "Something went wrong"
+            });
         }
 
         res.status(200).json({
-            token,
             user: userInformation
         });
 
@@ -142,76 +102,99 @@ async function getUserInfo(id) {
     try {
         //.select('-password') - get all info of the user but not password
         const user = await UserModel.findById(id).select('-password').populate({
-            path: "savedGirls",
-            select: "firstname city img"
-        })
-        .exec();
+                path: "savedGirls",
+                select: "firstname city img"
+            })
+            .exec();
         console.log("USER,", user)
         return user;
     } catch (err) {
-        return {message: "something went wrong"};
+        return {
+            message: "something went wrong"
+        };
     }
 }
 
 
-async function editProfile(req, res) {
-    let image;
-    let age;
-    let city;
-    let description;
-    
-    if(req.file){
-        image = req.file.filename;
-    }
-  
-    if (req.body.age) {
-        age = req.body.age
-    }
-    
-    if(req.body.city) {
-        city = req.body.city;
-    }
-    
-    if (req.body.description) {
-        description = req.body.description;
-    }
+async function editProfilePicture(req, res) {
     
     try {
+        const updatePicture = await UserModel.updateOne({
+            _id: req.user._id,
+        }, {
+            img: req.file.filename,
+        })
+        if (updatePicture) {
+
+            const userInformation = await getUserInfo(req.user._id);
+            if (!userInformation) {
+                res.status(400).json({
+                    token,
+                    message: "Something went wrong"
+                });
+            }
     
-    await UserModel.updateOne({
-        _id: req.user._id,
-    }, {
-        img: image,
-        age,
-        city,
-        description
+            res.status(200).json({
+                user: userInformation
+            });
+        } else {
+            res.status(400).json({
+                message: "Something went wrong"
+            });
+        }
+        
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server error');
+    }
+}
 
-    })
+async function editProfile(req, res) {
+    const {age, city, description, intrests} = req.body;
 
-    const userInformation = await getUserInfo(req.user._id);
-        if (!userInformation) {
-            res.status(400).json({token, message: "Something went wrong"});
+    console.log(intrests,"REQ BODY", req.body)
+    try {
+
+        const updateProfileInfo = await UserModel.updateOne({
+            _id: req.user._id,
+        }, {
+            age,
+            city,
+            description,
+            intrests
+        })
+        console.log(updateProfileInfo);
+
+        if (updateProfileInfo) {
+
+            const userInformation = await getUserInfo(req.user._id);
+            if (!userInformation) {
+                res.status(400).json({
+                    message: "Something went wrong"
+                });
+            }
+
+            res.status(200).json({
+                user: userInformation
+            });
+        } else {
+            res.status(400).json({
+                message: "Something went wrong"
+            });
         }
 
-    res.status(200).json({
-        user: userInformation
-    });
-  
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err)
         res.status(500).send('Server error');
     }
 }
 
 const getAllUsers = async (req, res) => {
-try {
+    try {
+        const allUsers = await UserModel.find({})
+        res.status(200).json(allUsers);
 
-    const allUsers = await UserModel.find({})
-    res.status(200).json(allUsers);
-  
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err)
         res.status(500).send('Server error');
     }
@@ -219,66 +202,73 @@ try {
 
 const getOneUser = async (req, res) => {
     try {
-    console.log(req.params.id)
-    const id = req.params.id;
-    const user =  await UserModel.findOne({
-        _id: id
-    });
-    console.log(user)
-    res.status(200).json(user);
-  
-    }
-    catch (err) {
-        console.log(err)
+        const id = req.params.id;
+        const user = await UserModel.findOne({
+            _id: id
+        });
+        res.status(200).json(user);
+
+    } catch (err) {
         res.status(500).send('Server error');
     }
 }
 
 const saveOneUser = async (req, res) => {
     try {
-    console.log(req.body)
-    const {saveUserId} = req.body;
-    const alreadySaved = await UserModel.findOne({
-        _id: req.user._id,
-        savedGirls: saveUserId
-    })
-    console.log("---- Aldready saved, ", alreadySaved);
-    if (alreadySaved) {
-        await UserModel.updateOne({
+        console.log(req.body)
+        const {
+            saveUserId
+        } = req.body;
+        const alreadySaved = await UserModel.findOne({
             _id: req.user._id,
-        }, {$pull: {savedGirls: saveUserId}})
-    }
-    if (!alreadySaved) {
-        await UserModel.updateOne({
-            _id: req.user._id,
-        }, {$push: {savedGirls: saveUserId}})
-    }
-    
+            savedGirls: saveUserId
+        })
+        if (alreadySaved) {
+            await UserModel.updateOne({
+                _id: req.user._id,
+            }, {
+                $pull: {
+                    savedGirls: saveUserId
+                }
+            })
+        }
+        if (!alreadySaved) {
+            await UserModel.updateOne({
+                _id: req.user._id,
+            }, {
+                $push: {
+                    savedGirls: saveUserId
+                }
+            })
+        }
 
-    const userInformation = await getUserInfo(req.user._id);
+
+        const userInformation = await getUserInfo(req.user._id);
         if (!userInformation) {
-            res.status(400).json({token, message: "Something went wrong"});
+            res.status(400).json({
+                token,
+                message: "Something went wrong"
+            });
         }
 
         console.log("---userinformation, ", userInformation);
-    res.status(200).json({
-        user: userInformation
-    });
-  
-    }
-    catch (err) {
+        res.status(200).json({
+            user: userInformation
+        });
+
+    } catch (err) {
         console.log(err)
         res.status(500).send('Server error');
     }
 }
 
 export default {
-    getSignIn,
     signUpUser,
     getUserInfo,
     signIn,
     editProfile,
+    editProfilePicture,
     getAllUsers,
-    getOneUser, 
+    getOneUser,
     saveOneUser,
 };

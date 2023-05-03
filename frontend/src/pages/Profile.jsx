@@ -1,4 +1,8 @@
+// REACT IMPORTS
 import { useEffect, useState }from 'react';
+import { Link } from 'react-router-dom';
+
+// HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const Profile = () => {
@@ -16,8 +20,11 @@ const Profile = () => {
         <p>Firstname: {user.firstname}</p>
         <p>Lastname: {user.lastname}</p>
         <p>Age: {user.age}</p>
+        <p>City: {user.city}</p>
         <p>Your decription</p>
         <div>{user.description}</div>
+        <Link to="/user/edit">Edit profile</Link>
+        <Link to="/user/edit-profile-picture">Edit profile picture</Link>
     </div>
     );
   };

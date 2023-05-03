@@ -24,8 +24,10 @@ UserRouter.post("/sign-up", UserController.signUpUser);
 // user profile, verifyJWT should look for a jwt token?
 UserRouter.get("/user/info", verifyJWT, UserController.getUserInfo);
 
-// user profile, verifyJWT should look for a jwt token?
-UserRouter.put("/user/edit", verifyJWT, upload.single('image'), UserController.editProfile);
+// edit user profile information, verifyJWT
+UserRouter.put("/user/edit", verifyJWT, UserController.editProfile);
+
+UserRouter.put("/user/edit-profile-image", verifyJWT, upload.single('image'), UserController.editProfilePicture);
 
 UserRouter.get("/all-users", verifyJWT, UserController.getAllUsers);
 

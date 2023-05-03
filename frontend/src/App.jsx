@@ -16,6 +16,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Users from './pages/Users';
 import OneUser from './pages/OneUser';
 import EditProfile from './pages/EditProfile';
+import EditProfilePicture from './pages/EditProfilePicture';
 
 
 export default function App() {
@@ -48,6 +49,10 @@ export default function App() {
            <Route 
             path="/user/edit" 
             element={user ? <EditProfile /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/user/edit-profile-picture" 
+            element={user ? <EditProfilePicture /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/user/saved" 
