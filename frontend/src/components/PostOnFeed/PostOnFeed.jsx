@@ -6,16 +6,15 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 //import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const PostOnFeed = ({ post }) => {
-
+  console.log(post)
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
 
   const [postedByUser, setPostedByUser] = useState(false);
 
-  const postContent = post.post ? post.post : "";
-  const firstname = post.postedBy.firstname ? post.postedBy.firstname : "";
-  const postId = post._id ? post._id : "";
-  
+  const postContent = post.post ? post.post : "Unknown";
+  const firstname = post.postedBy ? post.postedBy.firstname : "Unknown";
+  const postId = post._id ? post._id : "Unknown";
 
   useEffect(() => {
     if (post.postedBy._id == user._id){

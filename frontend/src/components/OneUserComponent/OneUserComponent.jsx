@@ -10,6 +10,7 @@ const ListOfUsers = ({ selectedUser }) => {
     const firstname = selectedUser.firstname ? selectedUser.firstname : "";
     const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "";
     const userId = selectedUser._id;
+    const intrests = selectedUser.intrests;
     const [saved, setSaved] = useState(false);
 
     // if user is saved to friends setSaved(true) else setSaved(false)
@@ -54,6 +55,10 @@ const ListOfUsers = ({ selectedUser }) => {
     <div className="user-card">
       <p>{firstname}</p> 
       {imageUrl && <img src={imageUrl} alt="" width="100" height="100" /> }
+      <p>Interests:</p>
+        {intrests && intrests.map((interest) => (
+          <p key={interest}>{interest}</p>
+        ))}
       {saved ? <button onClick={handleClick}>Remove</button> : <button onClick={handleClick}>Save</button>}
     </div>
     

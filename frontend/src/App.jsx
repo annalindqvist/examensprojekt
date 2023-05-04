@@ -17,6 +17,7 @@ import Users from './pages/Users';
 import OneUser from './pages/OneUser';
 import EditProfile from './pages/EditProfile';
 import EditProfilePicture from './pages/EditProfilePicture';
+import Settings from './pages/Settings';
 
 
 export default function App() {
@@ -53,6 +54,10 @@ export default function App() {
           <Route 
             path="/user/edit-profile-picture" 
             element={user ? <EditProfilePicture /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/user/settings" 
+            element={user ? <Settings /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/user/saved" 

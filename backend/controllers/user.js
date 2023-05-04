@@ -1,8 +1,10 @@
 import UserModel from "../models/user.js";
+import PostModel from "../models/post.js";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
+import bcrypt from "bcrypt";
 
 const createToken = (_id) => {
     return jwt.sign({
@@ -55,10 +57,13 @@ async function signIn(req, res) {
             password
         } = req.body;
 
+        console.log("Login form: email,", email, "password,", password);
+
         //check if user exists in db
         const user = await UserModel.findOne({
             email
         });
+        console.log("Login found user,", user)
 
         // if no user could be found
         if (!user) {
@@ -70,6 +75,7 @@ async function signIn(req, res) {
         // match password from form with hashed password in db
         const isMatching = await user.matchPassword(password, user.password);
 
+        console.log("Login isMatching" ,isMatching)
         // // if password doesnt match
         if (!isMatching) {
             return res.status(400).json({
@@ -87,6 +93,7 @@ async function signIn(req, res) {
         }
 
         res.status(200).json({
+            token,
             user: userInformation
         });
 
@@ -95,7 +102,6 @@ async function signIn(req, res) {
         res.status(500).send('Server error');
     }
 }
-
 
 // get the logged in users profile
 async function getUserInfo(id) {
@@ -114,7 +120,6 @@ async function getUserInfo(id) {
         };
     }
 }
-
 
 async function editProfilePicture(req, res) {
     
@@ -182,6 +187,72 @@ async function editProfile(req, res) {
                 message: "Something went wrong"
             });
         }
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server error');
+    }
+}
+
+async function editAuthSettings(req, res) {
+    const { email, oldPassword, newPassword1, newPassword2 } = req.body;
+
+    console.log(email,"REQ BODY", req.body)
+    try {
+
+        if (newPassword1 !== newPassword2) {
+            return res.status(400).json({
+                message: "Password doesnt match"
+            });
+        }
+
+         //check if user exists in db
+         const user = await UserModel.findOne({
+            _id: req.user._id
+        });
+        console.log("user", user)
+
+        // if no user could be found
+        if (!user) {
+            return res.status(400).json({
+                message: "Could not find any user."
+            });
+        }
+
+        // match password from form with hashed password in db
+        const isMatching = await user.matchPassword(oldPassword, user.password);
+
+        // // if password doesnt match
+        if (!isMatching) {
+            console.log("Not matching password")
+            return res.status(400).json({
+                message: "Old password doesnt match."
+            });
+        };
+
+        let salt = bcrypt.genSaltSync(10);
+        const newHashedPassword = bcrypt.hashSync(newPassword2, salt);
+
+        const updateAuthInfo = await UserModel.updateOne({
+            _id: req.user._id,
+        }, {
+            email,
+            password: newHashedPassword
+        })
+        // await user.save()
+
+        console.log(updateAuthInfo);
+
+        const userInformation = await getUserInfo(req.user._id);
+        if (!userInformation) {
+            return res.status(400).json({
+                message: "Something went wrong"
+            });
+        }
+
+        res.status(200).json({
+            user: userInformation
+        });
 
     } catch (err) {
         console.log(err)
@@ -262,13 +333,40 @@ const saveOneUser = async (req, res) => {
     }
 }
 
+const deleteAccount = async (req, res) => {
+    try {
+        const id = req.user._id;
+        const user = await UserModel.findOne({
+            _id: id
+        });
+        if(!user) {
+            console.log("!user")
+            return res.status(400).json({message: "Something went wrong"});
+        }
+
+        await PostModel.deleteMany({postedBy: req.user._id})
+        const deleteUser = await UserModel.findByIdAndDelete(id)
+        if(!deleteUser) {
+            console.log("!deleteuser")
+            return res.status(400).json({message: "Something went wrong"});
+        }
+        res.status(200).json('Account deleted');
+
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Server error');
+    }
+}
+
 export default {
     signUpUser,
     getUserInfo,
     signIn,
     editProfile,
     editProfilePicture,
+    editAuthSettings,
     getAllUsers,
     getOneUser,
     saveOneUser,
+    deleteAccount
 };
