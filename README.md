@@ -21,7 +21,7 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
 - Finnas på en server
 - En användare ska kunna: 
   - [x] registrera sig / logga in / logga ut
-  - uppdatera sin information (inloggningsuppgifter & [x] profil)
+  - [x] uppdatera sin information (inloggningsuppgifter & profil)
   - [x] ha en profil med (ålder, stad, profilbild, beskrivning, intressen)
   - [x] spara användare / ta bort sparad användare
   - chatta med sparade användare (chatta med en användare)
@@ -29,7 +29,6 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
   - gilla publika inlägg / avgilla inlägg man gillat
   - kommentera publika inlägg / ta bort kommentar man skapat
   - filtrera listvyn över användare (ex på ålder, intressen)
-
 
 ## Utmaningar utöver kravspecifikationen
 - Tagga en användare i ett publikt inlägg
