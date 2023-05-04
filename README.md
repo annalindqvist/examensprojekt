@@ -26,7 +26,7 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
   - [x] spara användare / ta bort sparad användare
   - chatta med sparade användare (chatta med en användare)
   - [x] dela publika inlägg / ta bort inlägg man delat
-  - gilla publika inlägg / avgilla inlägg man gillat
+  - [x] gilla publika inlägg / avgilla inlägg man gillat
   - kommentera publika inlägg / ta bort kommentar man skapat
   - filtrera listvyn över användare (ex på ålder, intressen)
 
