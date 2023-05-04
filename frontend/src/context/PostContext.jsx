@@ -18,6 +18,11 @@ export const postReducer = (state, action) => {
       return {
         posts: state.posts.filter((p) => p._id !== action.payload)
       }
+    case 'UPDATE_POST':
+       console.log("UPDATE_POST, action.payload", action.payload, "state.props", state.props)
+      return {        
+      posts: action.payload
+    };
     default:
       return state
   }

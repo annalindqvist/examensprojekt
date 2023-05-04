@@ -18,7 +18,7 @@ const PostOnFeed = ({ post }) => {
 
   const [postedByUser, setPostedByUser] = useState(false);
   const [likedByUser, setLikedByUser] = useState(false);
-  const [like, setLike] = useState(post.likes);
+  const [likes, setLikes] = useState(0);
   const [comment, setComment] = useState(post.comment);
 
   const postContent = post.post ? post.post : "Unknown";
@@ -35,13 +35,14 @@ const PostOnFeed = ({ post }) => {
     }
   }, [post.postedBy._id, user._id]);
 
-  // useEffect(() => {
-  //   if (post.postedBy._id == user._id){
-  //     setLikedByUser(true);
-  //   }
-  // }, [post.like, user._id]);
+  useEffect(() => {
+    if (post.likes){
+        setLikes(post.likes.length)
+    }
+    console.log("useeffct runs")
+  }, [dispatch, post]);
 
-  const handleClick = async () => {
+  const handleDelete = async () => {
 
     const token = localStorage.getItem('token');
     if (token && postedByUser) {
@@ -53,9 +54,30 @@ const PostOnFeed = ({ post }) => {
         }
       })
       const json = await res.json()
+      console.log(json)
 
       if (res.ok) {
         dispatch({type: 'DELETE_POST', payload: json})
+      }
+    }
+  }
+
+  const handleLike = async () => {
+
+    const token = localStorage.getItem('token');
+    if (token) {
+
+      const res = await fetch('http://localhost:8080/feed/like/' + postId,  {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      const json = await res.json()
+      console.log("like json", json)
+
+      if (res.ok) {
+        dispatch({type: 'UPDATE_POST', payload: json})
       }
     }
   }
@@ -67,14 +89,14 @@ const PostOnFeed = ({ post }) => {
         <div className="">
           <p className="s-font m-weight">{firstname}</p>
           <p className="xs-font">{city}</p>
-          {postedByUser && <span className="margin-left-auto" onClick={handleClick}>delete</span> } 
+          {postedByUser && <span className="margin-left-auto" onClick={handleDelete}>delete</span> } 
           {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
       </div>
       </div>
    
     <p>{postContent}</p> 
     <div className="flex-row">
-      <p>Like {like}</p>
+      <p onClick={handleLike}>Like {likes > 0 ? likes : ''}</p>
       <p>Comment{comment}</p>
     </div>
     </div>

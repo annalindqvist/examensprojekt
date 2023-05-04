@@ -9,7 +9,7 @@ const Schema = mongoose.Schema;
 // Read from .env file and add to process.env
 dotenv.config();
 
-// exit program if no connection string
+// Exit program if no connection string
 if (!process.env.MONGO_CONNECTION_STR) {
     console.error("MONGO_CONNECTION_STR is not defined in .env file");
     exit();
@@ -18,34 +18,23 @@ if (!process.env.MONGO_CONNECTION_STR) {
 // Connect to database
 mongoose.connect(process.env.MONGO_CONNECTION_STR);
 
-const postSchema = new Schema({
-    post: {
-        type: String,
-        required: "post must be filled in",
-        minlength: 1,
-        maxlength: 500,
+const likeSchema = new Schema({
+    like: {
+        type: Boolean,
+        default: false,
     },
-    postedBy: {
+    likedBy: {
         type: mongoose.Schema.ObjectId,
         ref: "User"
     },
-    commentCount: {
-        type: Number,
-        default: 0
-    },
-    comments: [{
+    post: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment'
-    }],
-    likes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Like'
-    }]
+        ref: 'Post'
+    }
 }, {
     timestamps: true
-
 })
 
-const PostModel = mongoose.model('Post', postSchema);
+const LikeModel = mongoose.model('Like', likeSchema);
 
-export default PostModel;
+export default LikeModel;
