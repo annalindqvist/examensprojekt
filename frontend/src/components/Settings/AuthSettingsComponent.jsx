@@ -10,7 +10,7 @@ const AuthSettingsComponent = () => {
 
     const {user, dispatch} = useAuthContext();
     const [email, setEmail] = useState(user.email);
-    const [oldpassword, setOldPassword] = useState("");
+    const [oldPassword, setOldPassword] = useState("");
     const [newPassword1, setNewPassword1] = useState("");
     const [newPassword2, setNewPassword2] = useState("")
 
@@ -30,7 +30,7 @@ const AuthSettingsComponent = () => {
             const res = await fetch('http://localhost:8080/user/auth-settings', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
-            body: JSON.stringify({ email, oldpassword, newPassword1, newPassword2 }),
+            body: JSON.stringify({ email, oldPassword, newPassword1, newPassword2 }),
             })
             const json = await res.json();
 

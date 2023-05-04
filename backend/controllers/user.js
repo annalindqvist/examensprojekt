@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
+import bcrypt from "bcrypt";
 
 const createToken = (_id) => {
     return jwt.sign({
@@ -56,10 +57,13 @@ async function signIn(req, res) {
             password
         } = req.body;
 
+        console.log("Login form: email,", email, "password,", password);
+
         //check if user exists in db
         const user = await UserModel.findOne({
             email
         });
+        console.log("Login found user,", user)
 
         // if no user could be found
         if (!user) {
@@ -71,13 +75,13 @@ async function signIn(req, res) {
         // match password from form with hashed password in db
         const isMatching = await user.matchPassword(password, user.password);
 
+        console.log("Login isMatching" ,isMatching)
         // // if password doesnt match
         if (!isMatching) {
             return res.status(400).json({
                 message: "Email or password is incorrect."
             });
         };
-
 
         // create a token
         const token = createToken(user._id);
@@ -226,13 +230,16 @@ async function editAuthSettings(req, res) {
             });
         };
 
-        const updateAuthInfo = new UserModel.updateOne({
+        let salt = bcrypt.genSaltSync(10);
+        const newHashedPassword = bcrypt.hashSync(newPassword2, salt);
+
+        const updateAuthInfo = await UserModel.updateOne({
             _id: req.user._id,
         }, {
             email,
-            password: newPassword2
+            password: newHashedPassword
         })
-        await user.save()
+        // await user.save()
 
         console.log(updateAuthInfo);
 
@@ -246,7 +253,6 @@ async function editAuthSettings(req, res) {
         res.status(200).json({
             user: userInformation
         });
-
 
     } catch (err) {
         console.log(err)
