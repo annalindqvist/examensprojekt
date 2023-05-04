@@ -17,9 +17,12 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+
+
 .pages {
   width: 100vw;
   height: 100vh;
+  margin: 16px;
 }
 
 .margin-top {
@@ -66,6 +69,10 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.margin-left-auto {
+  margin-left: auto;
 }
 /* FONT STYLES - color and font */
 

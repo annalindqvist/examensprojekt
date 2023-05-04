@@ -9,7 +9,7 @@ const getAllPosts = async () => {
     const posts = await PostModel.find({})
     .populate([{
         path: "postedBy",
-        select: "firstname"
+        select: "firstname img city"
     }])
     .sort({
         createdAt: -1
