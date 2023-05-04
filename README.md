@@ -30,6 +30,7 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
   - kommentera publika inlägg / ta bort kommentar man skapat
   - filtrera listvyn över användare (ex på ålder, intressen)
 
+
 ## Utmaningar utöver kravspecifikationen
 - Tagga en användare i ett publikt inlägg
 - Tagga en användare i en kommentar på ett publikt inlägg

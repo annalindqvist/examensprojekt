@@ -1,4 +1,5 @@
 import PostModel from "../models/post.js";
+import LikeModel from "../models/like.js";
 import {
     ObjectId
 } from "mongodb";
@@ -79,10 +80,97 @@ const deletePost = async (req, res) => {
     }
   
     res.status(200).json(id);
-  }
+}
+
+async function likePost(req, res) {
+   
+    try {
+        // get postid and who liked
+        const {
+            id
+        } = req.params;
+        const likedByUser = req.user._id;
+
+        // find the post 
+        const findPost = await PostModel.find({
+                _id: id
+            })
+            .populate("likes")
+            .exec()
+        console.log("findPost", findPost)
+        // alreadyLike returns true or false
+        // true if user already liked the post
+        // false if the user has not liked the post
+        const alreadyLike = findPost[0].likes.some(like => String(like.likedBy) === String(likedByUser));
+        console.log("aldreadyLike,", alreadyLike);
+
+        // if aldready liked post, remove the like
+        if (alreadyLike) {
+            // returns an array containting true or false values
+            const findLikeId = findPost[0].likes.map(like => String(like.likedBy) === String(likedByUser));
+            console.log("findLikeId, ", findLikeId);
+            // using findLikeId array to catch the index of the likeID in likeCollection
+            let likeId;
+            for (let i = 0; i < findLikeId.length; i++) {
+                if (findLikeId[i] == true){
+                    likeId = findPost[0].likes[i]._id;
+                };
+            };
+            // remove the like from likeCollection
+            const dislike = await LikeModel.deleteOne({
+                _id: likeId,
+            });
+            console.log("dislike, ", dislike);
+            if (dislike.deletedCount == 0) {
+                console.log('No like was removed');
+                
+            } else {
+                // remove the likeID from the post 
+                await PostModel.updateOne({
+                    _id: id
+                }, {
+                    $pull: {
+                        'likes': likeId
+                    }
+                });
+                console.log('Your like was removed.');
+            }
+
+        // if not aldready liked the post
+        } else {
+            // add one like
+            const likeDoc = new LikeModel({
+                like: true,
+                likedBy: likedByUser,
+                post: id
+            });
+            await likeDoc.save();
+            console.log("likeDoc,", likeDoc);
+            // add to post
+            await PostModel.updateOne({
+                _id: id
+            }, {
+                $push: {
+                    'likes': {
+                        _id: likeDoc._id
+                    }
+                }
+            });
+            console.log('Successfully liked post');
+        }
+
+        const allPosts = await getAllPosts()
+        res.status(200).json(allPosts);
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: err});
+    } 
+}
 
 export default {
     getPosts,
     createPost,
-    deletePost
+    deletePost,
+    likePost,
 };

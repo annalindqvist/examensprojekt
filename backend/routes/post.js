@@ -16,4 +16,8 @@ PostRouter.post("/post-to-feed", PostController.createPost);
 // delete post
 PostRouter.delete("/feed/delete/:id", PostController.deletePost);
 
+
+// like post
+PostRouter.put("/feed/like/:id", PostController.likePost);
+
 export default PostRouter;
