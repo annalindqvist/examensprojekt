@@ -1,5 +1,7 @@
 import PostModel from "../models/post.js";
 import LikeModel from "../models/like.js";
+import CommentModel from "../models/comment.js";
+
 import {
     ObjectId
 } from "mongodb";
@@ -8,20 +10,20 @@ import {
 const getAllPosts = async () => {
 
     const posts = await PostModel.find({})
-    .populate([{
-        path: "postedBy",
-        select: "firstname img city"
-    }])
-    .sort({
-        createdAt: -1
-    })
-    .exec();
+        .populate([{
+            path: "postedBy",
+            select: "firstname img city"
+        }, ])
+        .sort({
+            createdAt: -1
+        })
+        .exec();
     return posts;
 }
 
 // get all posts
 const getPosts = async (req, res) => {
-    
+
     const allPosts = await getAllPosts();
 
     res.status(200).json(allPosts);
@@ -58,7 +60,7 @@ const createPost = async (req, res) => {
         // send back only the created post with populated firstname or getallPosts?
         const allPosts = await getAllPosts();
         res.status(200).json(allPosts);
-        
+
     } catch (error) {
         res.status(400).json({
             error: error.message
@@ -69,21 +71,25 @@ const createPost = async (req, res) => {
 // delete post
 const deletePost = async (req, res) => {
     console.log("test");
-    const { id } = req.params;
+    const {
+        id
+    } = req.params;
     console.log("req.params", req.params);
 
     const deletedPost = await PostModel.findOneAndDelete({
         _id: id
     })
     if (!deletedPost) {
-        return res.status(404).json({error: 'No post deleted'});
+        return res.status(404).json({
+            error: 'No post deleted'
+        });
     }
-  
+
     res.status(200).json(id);
 }
 
 async function likePost(req, res) {
-   
+
     try {
         // get postid and who liked
         const {
@@ -112,7 +118,7 @@ async function likePost(req, res) {
             // using findLikeId array to catch the index of the likeID in likeCollection
             let likeId;
             for (let i = 0; i < findLikeId.length; i++) {
-                if (findLikeId[i] == true){
+                if (findLikeId[i] == true) {
                     likeId = findPost[0].likes[i]._id;
                 };
             };
@@ -123,7 +129,7 @@ async function likePost(req, res) {
             console.log("dislike, ", dislike);
             if (dislike.deletedCount == 0) {
                 console.log('No like was removed');
-                
+
             } else {
                 // remove the likeID from the post 
                 await PostModel.updateOne({
@@ -136,7 +142,7 @@ async function likePost(req, res) {
                 console.log('Your like was removed.');
             }
 
-        // if not aldready liked the post
+            // if not aldready liked the post
         } else {
             // add one like
             const likeDoc = new LikeModel({
@@ -164,13 +170,110 @@ async function likePost(req, res) {
 
     } catch (err) {
         console.log(err);
-        res.status(400).json({message: err});
-    } 
+        res.status(400).json({
+            message: err
+        });
+    }
 }
+
+async function commentPost(req, res) {
+
+    try {
+        // get comment, post-id and who posted comment
+        const {
+            comment
+        } = req.body;
+        const {
+            id
+        } = req.params;
+        const postedBy = req.user._id;
+
+        // create commentDocument
+        const commentDoc = new CommentModel({
+            comment,
+            postedBy,
+            post: id
+        });
+        // save comment do db 
+        await commentDoc.save();
+        // push commentID to post-comment-array
+        await PostModel.findOneAndUpdate({
+            _id: id
+        }, {
+            $push: {
+                "comments": commentDoc._id
+            }
+        });
+
+        const allPosts = await getAllPosts()
+        const selectedPost = await getSelectedPost(id)
+        console.log(allPosts)
+        res.status(200).json({
+            posts: allPosts,
+            selectedPost: selectedPost
+        });
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: err
+        });
+    }
+}
+
+const getOnePost = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const post = await PostModel.findOne({
+                _id: id
+            }).populate([{
+                path: "postedBy",
+                select: "firstname img city"
+            }, {
+                path: "comments",
+                populate: {
+                    path: 'postedBy',
+                    model: 'User'
+                }
+            }])
+            .exec();
+        res.status(200).json(post);
+
+    } catch (err) {
+        res.status(500).send('Server error');
+    }
+}
+
+const getSelectedPost = async (id) => {
+    try {
+
+        const post = await PostModel.findOne({
+                _id: id
+            }).populate([{
+                path: "postedBy",
+                select: "firstname img city"
+            }, {
+                path: "comments",
+                populate: {
+                    path: 'postedBy',
+                    model: 'User'
+                }
+            }])
+            .exec();
+        return post;
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 export default {
     getPosts,
     createPost,
     deletePost,
     likePost,
+    commentPost,
+    getOnePost
 };
