@@ -1,25 +1,32 @@
 // imports
 import {useState} from 'react';
 import { Link } from 'react-router-dom';
-import {signup} from "../../functions/test";
+import {useSignup} from "../../hooks/useSignupContext";
 
 import './SigninSignup.css';
 
 const SignupComponent = () => {
+    
+    const {signup, error, isLoading} = useSignup();
 
     const [email, setEmail] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
-    const [password, setPassword] = useState("");
+    const [password1, setPassword1] = useState("");
+    const [password2, setPassword2] = useState("");
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // console.log("firstname: ", {firstname});
         // console.log("lastname: ", {lastname});
         // console.log("password: ", {password});
+
+        if (password1 !== password2) {
+            return console.log("password doesnt match");
+        }
         
-        const user = {email, firstname, lastname, password};
-        signup(user);
+        signup(email, firstname, lastname, password1, password2);
     }
 
     return ( 
@@ -37,8 +44,8 @@ const SignupComponent = () => {
                 {/* <label>Email</label> */}
                 <input type="email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Your email"/>
                 {/* <label>Password</label> */}
-                <input type="text" name="password" onChange={(e) => setPassword(e.target.value)} placeholder="Choose a password.."/>
-                <input type="text" name="password" onChange={(e) => setPassword(e.target.value)} placeholder="And your chosen password again"/>
+                <input type="password" name="password" onChange={(e) => setPassword1(e.target.value)} placeholder="Choose a password.."/>
+                <input type="password" name="password" onChange={(e) => setPassword2(e.target.value)} placeholder="And your chosen password again"/>
                 <div className="terms-flex">
                     <input type="checkbox" name="terms" id="terms" />
                     <Link to="/terms-and-conditions" className="s-font">I have read and agree to GalVibes terms!</Link>
