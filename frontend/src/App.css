@@ -3,8 +3,10 @@
 /* COLORS */
 /* black - color: #1c1c1c; */
 /* beige/white color: #FDF0E8;  */
+/* lightbeirge color: #FFF9F5 */
 /* blue  color: #0D23C4; */
 /* orange  color: #EA744A; */
+/* grey color: #6D6D6D */
 
 
 * {
@@ -20,7 +22,7 @@ body {
 .pages {
   width: 100vw;
   height: 100vh;
-  margin: 16px;
+  
 }
 
 .margin-top {
@@ -59,6 +61,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  margin-right: 10px;
 }
 .l-profile-img {
   width: 138px;
@@ -69,9 +72,7 @@ body {
   background-repeat: no-repeat;
 }
 
-.margin-left-auto {
-  margin-left: auto;
-}
+
 /* FONT STYLES - color and font */
 
 a {
@@ -79,11 +80,19 @@ a {
 }
 
 .xs-font {
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .s-font {
+  font-size: 12px;
+}
+
+.m-font {
   font-size: 14px;
+}
+
+.l-font {
+  font-size: 20px;
 }
 
 .xl-font {
@@ -106,10 +115,61 @@ a {
   color: #EA744A;
 }
 
-/* BLUE BACKGROUND */
+.blue-text {
+  color:#0D23C4
+}
+
+.grey-text {
+  color: #6D6D6D;
+}
+
+/* BACKGROUND */
 
 .blue-background {
   background-color: #0D23C4;
 }
 
+.light-background {
+  background-color: #FFF9F5;
+  height: 100%;
+  width: 100%;
+}
+
 /* BUTTON */
+
+
+
+/* POST */
+.post {
+  margin: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #6D6D6D;
+  position: relative;
+  max-width: 500px;
+}
+
+.post-content {
+  
+  margin: 10px 0;
+}
+
+.delete-post {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+/* .input-field-container {
+  position: relative;
+} */
+
+.input-field {
+  width: 100%;
+}
+
+/* #input-btn {
+  position: absolute;
+  width: 20px;
+  font-size: 10px;
+  
+} */

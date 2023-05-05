@@ -92,23 +92,26 @@ const PostOnFeed = ({ post }) => {
   
   return (
     <div className="post">
+
       <div className="flex-row">
         {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
-        <div className="">
-          <p className="s-font m-weight">{firstname}</p>
-          <p className="xs-font">{city}</p>
-          {postedByUser && <span className="margin-left-auto" onClick={handleDelete}>delete</span> } 
+        <div>
+          <p className="m-font m-weight blue-text">{firstname}</p>
           {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
-      </div>
+          {postedByUser && <span className="delete-post xs-font" onClick={handleDelete}>delete</span> } 
+          <div className="time-city">
+            <p className="xs-font grey-text">23 min ago | {city}</p>
+          </div>
+        </div>
       </div>
    
-    <p>{postContent}</p> 
-    <div className="flex-row">
-      <p onClick={handleLike}>Like {likes > 0 ? likes : ''}</p>
-      <Link to={`/feed/${postId}`}>
-        <p>Comment {comments}</p>
-      </Link>
-    </div>
+      <p className="post-content s-font">{postContent}</p> 
+      <div className="flex-row">
+        <p onClick={handleLike}>Like {likes > 0 ? likes : ''}</p>
+        <Link to={`/feed/${postId}`}>
+          <p>Comment {comments}</p>
+        </Link>
+      </div>
     </div>
   )
 }
