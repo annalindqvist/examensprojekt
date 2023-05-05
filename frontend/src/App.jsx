@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Terms from "./pages/Terms";
 import Feed from "./pages/Feed";
 import Profile from "./pages/Profile";
+import Comments from "./pages/SelectedPost";
 import SavedFriends from "./pages/SavedFriends";
 import NoPage from "./pages/NoPage";
 import Navbar from "./components/Navbar/Navbar";
@@ -34,6 +35,10 @@ export default function App() {
           <Route 
             path="/" 
             element={user ? <Feed /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/feed/:id" 
+            element={user ? <Comments /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/profile" 

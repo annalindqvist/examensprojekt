@@ -20,27 +20,45 @@ async function signUpUser(req, res) {
         email,
         firstname,
         lastname,
-        password
+        password1,
+        password2
     } = req.body;
 
+    console.log(email, firstname, lastname, password1, password2)
+
     try {
+
+        if (password1 !== password2) {
+            return res.status(400).json({
+                error: "Password doesnt match"
+            });
+        };
+
         // create user document instance locally
         const user = new UserModel({
             email,
             firstname,
             lastname,
-            password
+            password: password2
         })
         // save to database
         await user.save()
-        // create a token - 
-        //const token = createToken(user._id)
+        // create a token
+        const token = createToken(user._id);
+        const userInformation = await getUserInfo(user._id);
+        if (!userInformation) {
+            res.status(400).json({
+                message: "Something went wrong"
+            });
+        }
 
         res.status(200).json({
-            message: "Successfully signed up!"
+            token,
+            user: userInformation
         });
 
     } catch (err) {
+        console.log(err)
         res.status(400).json({
             error: err.message
         })
@@ -75,7 +93,7 @@ async function signIn(req, res) {
         // match password from form with hashed password in db
         const isMatching = await user.matchPassword(password, user.password);
 
-        console.log("Login isMatching" ,isMatching)
+        console.log("Login isMatching", isMatching)
         // // if password doesnt match
         if (!isMatching) {
             return res.status(400).json({
@@ -122,7 +140,7 @@ async function getUserInfo(id) {
 }
 
 async function editProfilePicture(req, res) {
-    
+
     try {
         const updatePicture = await UserModel.updateOne({
             _id: req.user._id,
@@ -138,7 +156,7 @@ async function editProfilePicture(req, res) {
                     message: "Something went wrong"
                 });
             }
-    
+
             res.status(200).json({
                 user: userInformation
             });
@@ -147,7 +165,7 @@ async function editProfilePicture(req, res) {
                 message: "Something went wrong"
             });
         }
-        
+
     } catch (err) {
         console.log(err)
         res.status(500).send('Server error');
@@ -155,9 +173,14 @@ async function editProfilePicture(req, res) {
 }
 
 async function editProfile(req, res) {
-    const {age, city, description, intrests} = req.body;
+    const {
+        age,
+        city,
+        description,
+        intrests
+    } = req.body;
 
-    console.log(intrests,"REQ BODY", req.body)
+    console.log(intrests, "REQ BODY", req.body)
     try {
 
         const updateProfileInfo = await UserModel.updateOne({
@@ -195,9 +218,14 @@ async function editProfile(req, res) {
 }
 
 async function editAuthSettings(req, res) {
-    const { email, oldPassword, newPassword1, newPassword2 } = req.body;
+    const {
+        email,
+        oldPassword,
+        newPassword1,
+        newPassword2
+    } = req.body;
 
-    console.log(email,"REQ BODY", req.body)
+    console.log(email, "REQ BODY", req.body)
     try {
 
         if (newPassword1 !== newPassword2) {
@@ -206,8 +234,8 @@ async function editAuthSettings(req, res) {
             });
         }
 
-         //check if user exists in db
-         const user = await UserModel.findOne({
+        //check if user exists in db
+        const user = await UserModel.findOne({
             _id: req.user._id
         });
         console.log("user", user)
@@ -339,16 +367,22 @@ const deleteAccount = async (req, res) => {
         const user = await UserModel.findOne({
             _id: id
         });
-        if(!user) {
+        if (!user) {
             console.log("!user")
-            return res.status(400).json({message: "Something went wrong"});
+            return res.status(400).json({
+                message: "Something went wrong"
+            });
         }
 
-        await PostModel.deleteMany({postedBy: req.user._id})
+        await PostModel.deleteMany({
+            postedBy: req.user._id
+        })
         const deleteUser = await UserModel.findByIdAndDelete(id)
-        if(!deleteUser) {
+        if (!deleteUser) {
             console.log("!deleteuser")
-            return res.status(400).json({message: "Something went wrong"});
+            return res.status(400).json({
+                message: "Something went wrong"
+            });
         }
         res.status(200).json('Account deleted');
 

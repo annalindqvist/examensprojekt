@@ -1,5 +1,6 @@
 // REACT IMPORTS
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // HOOKS IMPORTS
 import { usePostContext } from '../../hooks/usePostContext';
@@ -19,7 +20,7 @@ const PostOnFeed = ({ post }) => {
   const [postedByUser, setPostedByUser] = useState(false);
   const [likedByUser, setLikedByUser] = useState(false);
   const [likes, setLikes] = useState(0);
-  const [comment, setComment] = useState(post.comment);
+  const [comments, setComments] = useState(0);
 
   const postContent = post.post ? post.post : "Unknown";
   const firstname = post.postedBy ? post.postedBy.firstname : "Unknown";
@@ -40,6 +41,13 @@ const PostOnFeed = ({ post }) => {
         setLikes(post.likes.length)
     }
     console.log("useeffct runs")
+  }, [dispatch, post]);
+
+  useEffect(() => {
+    if (post.comments){
+        setComments(post.comments.length)
+    }
+    console.log("useeffct comment runs")
   }, [dispatch, post]);
 
   const handleDelete = async () => {
@@ -77,7 +85,7 @@ const PostOnFeed = ({ post }) => {
       console.log("like json", json)
 
       if (res.ok) {
-        dispatch({type: 'UPDATE_POST', payload: json})
+        dispatch({type: 'UPDATE_POST', payload: json.posts})
       }
     }
   }
@@ -97,7 +105,9 @@ const PostOnFeed = ({ post }) => {
     <p>{postContent}</p> 
     <div className="flex-row">
       <p onClick={handleLike}>Like {likes > 0 ? likes : ''}</p>
-      <p>Comment{comment}</p>
+      <Link to={`/feed/${postId}`}>
+        <p>Comment {comments}</p>
+      </Link>
     </div>
     </div>
   )

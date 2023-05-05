@@ -6,7 +6,7 @@ import {
 
 const Schema = mongoose.Schema;
 
-// Read from .env file and add to process.env
+// read from .env file and add to process.env
 dotenv.config();
 
 // exit program if no connection string
@@ -18,10 +18,10 @@ if (!process.env.MONGO_CONNECTION_STR) {
 // Connect to database
 mongoose.connect(process.env.MONGO_CONNECTION_STR);
 
-const postSchema = new Schema({
-    post: {
+const commentSchema = new Schema({
+    comment: {
         type: String,
-        required: "post must be filled in",
+        required: "comment must be filled in",
         minlength: 1,
         maxlength: 500,
     },
@@ -29,19 +29,15 @@ const postSchema = new Schema({
         type: mongoose.Schema.ObjectId,
         ref: "User"
     },
-    comments: [{
+    post: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment'
-    }],
-    likes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Like'
-    }]
+        ref: 'Post'
+    },
 }, {
     timestamps: true
-
 })
 
-const PostModel = mongoose.model('Post', postSchema);
 
-export default PostModel;
+const CommentModel = mongoose.model('Comment', commentSchema);
+
+export default CommentModel;
