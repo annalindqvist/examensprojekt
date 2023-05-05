@@ -49,14 +49,15 @@ const PostToFeed = () => {
     };
 
     return ( 
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>Post to feed</label>
-                <input type="text" name="post" onChange={(e) => setPost(e.target.value)} />
-                <input  type="submit" value="Submit" />
+        <>
+            <form onSubmit={handleSubmit} className="input-field-container">
+                
+                    <input type="text" name="post" className="input-field" placeholder={'Start a conversation ' + user.firstname + '!'} onChange={(e) => setPost(e.target.value)} />
+                    <input  type="submit" id="input-btn" value="Share" />
+                
                 {error && <div className="error">{error}</div>}
             </form>
-        </div>
+        </>
      );
 }
  

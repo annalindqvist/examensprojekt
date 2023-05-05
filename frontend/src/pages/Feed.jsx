@@ -34,16 +34,19 @@ const Feed = () => {
   }, [dispatch, user]);
 
     return (
-      <div>
-        <h1>Feed</h1>
+      <div className="light-background flex">
+        <div className="logo flex">
+          <h1 className="lily-font blue-text l-font">GalVibe</h1>
+          <h2 className="blue-text xs-font">The place to connect with new gals!</h2>
+        </div>
+
         <PostToFeed/>
-        <p>All Posts</p>
 
         <div className="postOnFeed">
           {posts && posts.map((post) => (
             <PostOnFeed key={post._id} post={post} />
           ))}
-      </div>
+        </div>
         
       </div>
     );
