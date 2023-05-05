@@ -166,7 +166,11 @@ async function likePost(req, res) {
         }
 
         const allPosts = await getAllPosts()
-        res.status(200).json(allPosts);
+        const selectedPost = await getSelectedPost(id)
+        res.status(200).json({
+            posts: allPosts,
+            selectedPost: selectedPost
+        });
 
     } catch (err) {
         console.log(err);

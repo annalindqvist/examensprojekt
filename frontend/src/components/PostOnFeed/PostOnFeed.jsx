@@ -85,7 +85,7 @@ const PostOnFeed = ({ post }) => {
       console.log("like json", json)
 
       if (res.ok) {
-        dispatch({type: 'UPDATE_POST', payload: json})
+        dispatch({type: 'UPDATE_POST', payload: json.posts})
       }
     }
   }

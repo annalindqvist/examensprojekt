@@ -9,6 +9,7 @@ const Comments = () => {
     const params = useParams();
     const {selectedPost, dispatch} = usePostContext();
     
+    console.log(selectedPost)
     
   useEffect(() => {
     const token = localStorage.getItem('token');

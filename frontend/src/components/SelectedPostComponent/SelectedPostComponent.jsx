@@ -7,6 +7,8 @@ import { usePostContext } from "../../hooks/usePostContext";
 
 const SelectedPostComponent = ({ post }) => {
 
+  console.log("POST", post)
+
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
 
@@ -36,7 +38,7 @@ const SelectedPostComponent = ({ post }) => {
     if (post.likes){
         setLikes(post.likes.length)
     }
-    console.log("useeffct like runs")
+    console.log("useeffct runs")
   }, [dispatch, post]);
 
   useEffect(() => {
@@ -61,7 +63,8 @@ const SelectedPostComponent = ({ post }) => {
       console.log("like json", json)
 
       if (res.ok) {
-        dispatch({type: 'UPDATE_POST', payload: json})
+        dispatch({type: 'UPDATE_POST', payload: json.posts})
+        dispatch({type: 'SET_SELECTED_POST', payload: json.selectedPost})
       }
     }
   }
