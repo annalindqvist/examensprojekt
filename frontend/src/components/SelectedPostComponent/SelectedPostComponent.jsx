@@ -18,6 +18,7 @@ const SelectedPostComponent = ({ post }) => {
   const [comments, setComments] = useState(0);
 
   const [comment, setComment] = useState();
+  console.log(comment);
   
 
   const postContent = post.post ? post.post : "Unknown";
@@ -111,12 +112,12 @@ const SelectedPostComponent = ({ post }) => {
         const json = await res.json();
     
         if (!res.ok) {
-            console.log(res, json)
+            console.log(res, json);
         };
         if (res.ok) {
-            setComment('')
-            dispatch({type: 'UPDATE_POST', payload: json.posts})
-            dispatch({type: 'SET_SELECTED_POST', payload: json.selectedPost})
+            setComment('');
+            dispatch({type: 'UPDATE_POST', payload: json.posts});
+            dispatch({type: 'SET_SELECTED_POST', payload: json.selectedPost});
         };
     }
 };
@@ -139,18 +140,21 @@ console.log(post.comments)
     <p>{postContent}</p> 
     <div className="flex-row">
       <p onClick={handleLike}>Like {likes > 0 ? likes : ''}</p>
-        <p>Comment{comments}</p>
+        <p>Comment{comments > 0 ? comments : ''}</p>
     </div>
     </div>
+
     <div className="flex">
-    {post.comments && post.comments.map((comment) => {
+      {post.comments && post.comments.map((comment) => (
         <div className="flex-row" key={comment._id}> 
           <p className="m-weight">{comment.postedBy.firstname}</p>
           <p>{comment.comment}</p>
-        </div>})}
+        </div>
+      ))}
     </div>
+
       <form onSubmit={handleComment}>
-        <textarea name="comment" id="comment" cols="30" rows="3" defaultValue={comment} onChange={(e) => setComment(e.target.value)}/>
+        <textarea name="comment" id="comment" cols="30" rows="3" value={comment} onChange={(e) => setComment(e.target.value)}/>
         <input  type="submit" value="Send" />
       </form>
     </div>
