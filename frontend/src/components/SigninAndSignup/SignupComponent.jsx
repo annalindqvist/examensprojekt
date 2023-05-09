@@ -31,8 +31,8 @@ const SignupComponent = () => {
 
     return ( 
         <>
-            <div>
-                <h1 className="lily-font xl-font" >Sign up to GalVibe!</h1>
+            <div className="flex">
+                <h1 className="lily-font l-font" >Sign up to GalVibe!</h1>
                 <h2 className="orange-text s-font m-weight">The place to connect with new gals!</h2>
             </div>
             <form onSubmit={handleSubmit} className="centered-content-column">

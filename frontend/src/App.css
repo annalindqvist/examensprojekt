@@ -122,6 +122,9 @@ a {
 .grey-text {
   color: #6D6D6D;
 }
+.black-text {
+  color: #1c1c1c;
+}
 
 /* BACKGROUND */
 
@@ -173,3 +176,16 @@ a {
   font-size: 10px;
   
 } */
+
+/* TERMS */
+
+.terms {
+  border-radius: 10px 10px 0 0;
+  margin: 32px 16px 0 16px;
+  padding: 16px;
+  background-color: #FFF9F5;
+  overflow-y: scroll;
+}
+.terms h1 {
+  margin: 32px;
+}
