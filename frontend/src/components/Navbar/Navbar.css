@@ -1,0 +1,15 @@
+.menu {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 40px;
+    background-color: burlywood;
+}
+.menu nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+}

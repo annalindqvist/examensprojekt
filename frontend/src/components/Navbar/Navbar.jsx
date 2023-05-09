@@ -1,6 +1,12 @@
+// REACT IMPORTS
 import { Link } from 'react-router-dom';
+
+// IMPORT HOOKS
 import { useSignout } from '../../hooks/useSignoutContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
+
+// IMPORT CSS
+import "./Navbar.css"
 
 const Navbar = () => {
   const { signout } = useSignout();
@@ -13,24 +19,16 @@ const Navbar = () => {
   return (
     
       <div className="menu">
-        <nav>
           {user && (
-            <div>
-                <div>
-                    <span>{user.firstname}</span>
-                    <button onClick={handleClick}>Sign out</button>
-                </div>
-                <div>
-                    <Link to="/">Feed</Link>
-                    <Link to="/profile">Profile</Link>
-                    <Link to="/users">All users</Link>
-                    <Link to="/user/saved">Saved</Link>
-                </div>
-            </div>
+            <nav>
+                <Link to="/">Feed</Link>
+                <Link to="/profile">Profile</Link>
+                <Link to="/users">All users</Link>
+                <Link to="/user/saved">Saved</Link>
+                <button onClick={handleClick}>Sign out</button>
+            </nav>
           )}
-        </nav>
-      </div>
-      
+      </div> 
   )
 }
 

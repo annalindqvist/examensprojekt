@@ -109,7 +109,7 @@ const PostOnFeed = ({ post }) => {
       <div className="flex-row">
         <p onClick={handleLike}>Like {likes > 0 ? likes : ''}</p>
         <Link to={`/feed/${postId}`}>
-          <p>Comment {comments}</p>
+          <p className="black-text">Comment {comments}</p>
         </Link>
       </div>
     </div>
