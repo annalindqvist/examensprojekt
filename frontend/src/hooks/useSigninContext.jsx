@@ -10,7 +10,7 @@ export const useSignin = () => {
     setIsLoading(true)
     setError(null)
 
-    const res = await fetch('http://localhost:8080/sign-in', {
+    const res = await fetch('http://localhost:8080/backend/sign-in', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ email, password })
