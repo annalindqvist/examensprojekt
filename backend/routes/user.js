@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage, limits: {fileSize: 3000000}});
 
-// SIGN IN ROUTE - /backend/
+// SIGN IN ROUTE - /backend/signin
 UserRouter.post("/backend/sign-in", UserController.signIn);
 
 // SIGN UP ROUTE
