@@ -19,6 +19,7 @@ const Navbar = () => {
   return (
     
       <div className="menu">
+        <p>test</p>
           {user && (
             <nav>
                 <Link to="/">Feed</Link>
