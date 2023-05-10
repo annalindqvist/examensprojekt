@@ -4,14 +4,22 @@ import { useEffect, useState } from 'react';
 // IMPORT HOOKS
 import { useAuthContext } from "../../hooks/useAuthContext";
 
+import env from "react-dotenv";
+// `${env.REACT_APP_API_URL}/`
+
 const ListOfUsers = ({ selectedUser }) => {
+
+  // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com:8080/feed";
+  // const URL2 = "http:/localhost:8080/feed";
 
     const {user, dispatch} = useAuthContext();
     const firstname = selectedUser.firstname ? selectedUser.firstname : "";
-    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "";
+    const imageUrl = selectedUser.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${selectedUser.img}` : "";
     const userId = selectedUser._id;
     const intrests = selectedUser.intrests;
     const [saved, setSaved] = useState(false);
+
+   
 
     // if user is saved to friends setSaved(true) else setSaved(false)
     useEffect(() => {
@@ -32,7 +40,7 @@ const ListOfUsers = ({ selectedUser }) => {
       const token = localStorage.getItem('token');
       if (token) {
 
-        const res = await fetch('http://localhost:8080/user/save', {
+        const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/user/save`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

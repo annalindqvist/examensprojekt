@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 
+import env from "react-dotenv";
+// `${env.REACT_APP_API_URL}/`
+
 export const useSignin = () => {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
@@ -10,13 +13,17 @@ export const useSignin = () => {
     setIsLoading(true)
     setError(null)
 
-    const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com/backend/sign-in', {
+
+    //const URL1 = "http://143-42-49-241.ip.linodeusercontent.com:8080/backend/sign-in";
+    // const URL2 = "http://localhost:8080/sign-in";
+
+    const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/backend/sign-in`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ email, password })
     })
     const json = await res.json();
-    console.log(json)
+    console.log("json response sign in", json)
 
     if (!res.ok) {
       setIsLoading(false);

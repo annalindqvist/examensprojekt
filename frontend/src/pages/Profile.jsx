@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 // HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
 
+import env from "react-dotenv";
+// `${env.REACT_APP_API_URL}/`
+
 const Profile = () => {
 
     const {user} = useAuthContext();
-
-    console.log("user in profile", user)
-    console.log("user.img in profile", user.img)
-    const imageUrl = `http://localhost:8080/static/${user.img}`;
+    const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${user.img}`;
 
     return (
       <div>

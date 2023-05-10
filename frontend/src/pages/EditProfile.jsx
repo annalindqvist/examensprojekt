@@ -4,6 +4,9 @@ import {  useState }from 'react';
 // HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
 
+import env from "react-dotenv";
+// `${env.REACT_APP_API_URL}/`
+
 const EditProfile = () => {
     
     // -----------------------
@@ -12,8 +15,7 @@ const EditProfile = () => {
     // -----------------------
 
     const {user, dispatch} = useAuthContext();
-    const imageUrl = `http://localhost:8080/static/${user.img}`;
-
+   
     const [age, setAge] = useState(user.age);
     const [city, setCity] = useState(user.city);
     const [description, setDescription] = useState(user.description);
@@ -34,14 +36,14 @@ const EditProfile = () => {
         return setInterests(intrests.filter(i => i !== checkedValue ))
       }
     }
-
+    
     const editProfile = async () => {
 
         const token = localStorage.getItem('token');
 
         if (token) {
 
-            const res = await fetch('http://localhost:8080/user/edit', {
+            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/user/edit', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
             body: JSON.stringify({ age, city, description, intrests}),

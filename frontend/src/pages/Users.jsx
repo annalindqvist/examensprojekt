@@ -3,6 +3,9 @@ import { useUserContext } from "../hooks/useUserContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ListOfUsers from '../components/ListOfUsers/ListOfUsers';
 
+import env from "react-dotenv";
+// `${env.REACT_APP_API_URL}/`
+
 const Users = () => {
 
   const {listOfUsers, dispatch} = useUserContext();
@@ -12,7 +15,7 @@ const Users = () => {
     const token = localStorage.getItem('token');
 
     const fetchUsers = async () => {
-      const res = await fetch("http://localhost:8080/all-users", {
+      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/all-users`, {
         headers: {'Authorization': `Bearer ${token}`},
       })
       const json = await res.json();

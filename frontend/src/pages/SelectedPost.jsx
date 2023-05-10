@@ -4,18 +4,24 @@ import { useParams } from 'react-router';
 
 import SelectedPostComponent from "../components/SelectedPostComponent/SelectedPostComponent";
 
+import env from "react-dotenv";
+// `${env.REACT_APP_API_URL}/`
+
 const Comments = () => {
 
     const params = useParams();
     const {selectedPost, dispatch} = usePostContext();
     
     console.log(selectedPost)
+
+    // const URL1 = `http://143-42-49-241.ip.linodeusercontent.com:8080/feed/${params.id}`;
+    // const URL2 = `http://localhost:8080/feed/${params.id}`;
     
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     const fetchPost = async () => {
-      const res = await fetch(`http://localhost:8080/feed/${params.id}`, {
+      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/feed/${params.id}`, {
         method: 'GET',
         headers: {'Authorization': `Bearer ${token}`},
       })

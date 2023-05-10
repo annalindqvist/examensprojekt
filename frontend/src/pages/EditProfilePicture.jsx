@@ -4,10 +4,13 @@ import {  useState }from 'react';
 // HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
 
+import env from "react-dotenv";
+// `${env.REACT_APP_API_URL}/`
+
 const EditProfilePicture = () => {
 
     const {user, dispatch} = useAuthContext();
-    const imageUrl = `http://localhost:8080/static/${user.img}`;
+    const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${user.img}`;
     const [image, setImage] = useState(user.img);
    
     const handleSubmit = async (e) => {

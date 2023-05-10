@@ -5,6 +5,8 @@ import { usePostContext } from "../../hooks/usePostContext";
 import { useAuthContext } from '../../hooks/useAuthContext';
 import './PostToFeed.css';
 
+import env from "react-dotenv";
+// `${env.REACT_APP_API_URL}/`
 
 const PostToFeed = () => {
 
@@ -12,6 +14,9 @@ const PostToFeed = () => {
     const { user } = useAuthContext();
     const [error, setError] = useState(null)
     const [post, setPost] = useState("");
+
+   // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com:8080/feed";
+   // const URL2 = "http:/localhost:8080/feed";
 
 
     const handleSubmit = async (e) => {
@@ -24,7 +29,7 @@ const PostToFeed = () => {
                 return;
             }
 
-            const res = await fetch('http://localhost:8080/post-to-feed', {
+            const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/post-to-feed`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
