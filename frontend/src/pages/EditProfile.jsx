@@ -36,14 +36,14 @@ const EditProfile = () => {
         return setInterests(intrests.filter(i => i !== checkedValue ))
       }
     }
-    
+
     const editProfile = async () => {
 
         const token = localStorage.getItem('token');
 
         if (token) {
 
-            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/user/edit', {
+            const res = await fetch('http://localhost:8080/user/edit', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
             body: JSON.stringify({ age, city, description, intrests}),

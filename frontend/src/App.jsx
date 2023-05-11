@@ -19,6 +19,7 @@ import OneUser from './pages/OneUser';
 import EditProfile from './pages/EditProfile';
 import EditProfilePicture from './pages/EditProfilePicture';
 import Settings from './pages/Settings';
+import Chat from './pages/Chat';
 
 
 export default function App() {
@@ -43,6 +44,10 @@ export default function App() {
           <Route 
             path="/profile" 
             element={user ? <Profile /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/chat" 
+            element={user ? <Chat /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/users" 

@@ -13,10 +13,10 @@ export const useSignup = () => {
     setIsLoading(true)
     setError(null)
 
-    //const URL1 = "http://143-42-49-241.ip.linodeusercontent.com:8080/backend/sign-in";
+    //const URL1 = "http://localhost:8080/backend/sign-in";
     // const URL2 = "http://localhost:8080/sign-up";
 
-    const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/sign-up`, {
+    const res = await fetch(`http://localhost:8080/sign-up`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ email, firstname, lastname, password1, password2 })

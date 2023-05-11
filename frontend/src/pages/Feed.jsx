@@ -12,8 +12,8 @@ import env from "react-dotenv";
 
 const Feed = () => {
 
-  // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com:8080/feed";
-  // const URL2 = "http:/localhost:8080/feed";
+  // const URL1 = "http://localhost:8080/feed";
+  // const URL2 = "http://localhost:8080/feed";
 
   const {posts, dispatch} = usePostContext();
   const {user} = useAuthContext();
@@ -22,7 +22,7 @@ const Feed = () => {
     const token = localStorage.getItem('token');
 
     const fetchPosts = async () => {
-      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/feed`, {
+      const res = await fetch('http://localhost:8080/feed', {
         headers: {'Authorization': `Bearer ${token}`},
       })
       const json = await res.json();

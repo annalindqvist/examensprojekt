@@ -18,18 +18,21 @@ const Navbar = () => {
 
   return (
     
-      <div className="menu">
-        <p>test</p>
-          {user && (
+      <>
+      {user && (
+        <div className="menu">
             <nav>
                 <Link to="/">Feed</Link>
                 <Link to="/profile">Profile</Link>
                 <Link to="/users">All users</Link>
                 <Link to="/user/saved">Saved</Link>
+                <Link to="/chat">Chat</Link>
                 <button onClick={handleClick}>Sign out</button>
             </nav>
-          )}
-      </div> 
+          
+        </div> 
+      )}
+      </>
   )
 }
 

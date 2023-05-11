@@ -322,6 +322,7 @@ const saveOneUser = async (req, res) => {
             _id: req.user._id,
             savedGirls: saveUserId
         })
+        console.log("alreadySaved" ,alreadySaved)
         if (alreadySaved) {
             await UserModel.updateOne({
                 _id: req.user._id,

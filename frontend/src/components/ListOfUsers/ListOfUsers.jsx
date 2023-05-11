@@ -13,7 +13,7 @@ import env from "react-dotenv";
 const ListOfUsers = ({ user }) => {
 
   const firstname = user.firstname ? user.firstname : "";
-  const imageUrl = user.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${user.img}` : "";
+  const imageUrl = user.img ? `http://localhost:8080/static/${user.img}` : "";
 
   return (
     <Link to={`/user/${user._id}`}>
