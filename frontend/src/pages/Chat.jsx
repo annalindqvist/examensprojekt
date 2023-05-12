@@ -4,7 +4,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import ChatConversationComponent from "../components/ChatConversationComponent/ChatConversationComponent";
 import MessageComponent from "../components/MessageComponent/MessageComponent";
 
-
 const Chat = () => {
 
     const {user} = useAuthContext();
@@ -14,7 +13,6 @@ const Chat = () => {
     const [chatId, setChatId] = useState(null);
     const [previousMessage, setPreviousMessage] = useState(null);
     const socket = useRef();
-    console.log("currentChat", currentChat)
     
     useEffect(() => {
         socket.current = io('http://localhost:8080'); // Connect to the Socket.io server
@@ -25,8 +23,9 @@ const Chat = () => {
         });
 
         socket.current.on("getMessage", (data) => {
+          console.log(data)
             setPreviousMessage({
-              sender: data.senderId,
+              sender: data.sender,
               text: data.text,
               createdAt: Date.now(),
             });
@@ -47,10 +46,16 @@ const Chat = () => {
         
       }, [user]);
 
+      // 
       useEffect(() => {
-          previousMessage &&
-          currentChat?.includes(previousMessage.sender) &&
-          setMessages((prev) => [...prev, previousMessage]);
+        if (previousMessage && currentChat) {
+          const isMessageForCurrentChat = currentChat.some(
+            (chatMember) => chatMember._id === previousMessage.sender
+          );
+          if (isMessageForCurrentChat) {
+            setMessages((prevMessages) => [...prevMessages, previousMessage]);
+          }
+        }
       }, [previousMessage, currentChat]);
 
       //get previous sent messages from db of this chat
@@ -60,7 +65,7 @@ const Chat = () => {
           try {
             if (token) {
 
-            const members = {reciever: currentChat[0], me: user._id};
+            const members = {reciever: currentChat[0]._id, me: user._id};
             console.log("members", members)
             const res = await fetch('http://localhost:8080/chat/open/', {
             method: 'POST',
@@ -70,12 +75,6 @@ const Chat = () => {
             },
             body: JSON.stringify({members})})
 
-            // const res = await fetch('http://localhost:8080/chat/messages/' + currentChat, {
-            // method: 'GET',
-            // headers: {
-            //     'Content-Type': 'application/json',
-            //     'Authorization': `Bearer ${token}`
-            // },})
             const json = await res.json();
             console.log("get old messages", json)
             setMessages(json.messages);
@@ -88,15 +87,11 @@ const Chat = () => {
         getOldMessages();
       }, [currentChat, chatId]);
 
-      //console.log("currentChat", currentChat)
-      console.log("chatId", chatId)
-      
       const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
 
         if (token) {
-
             const message = {
             sender: user._id,
             text: newMessage,
@@ -104,12 +99,12 @@ const Chat = () => {
             };
         
             const receiverId = currentChat.find(
-            (chatMember) => chatMember !== user._id
+            (chatMember) => chatMember._id !== user._id
             );
         
             socket.current.emit("sendMessage", {
             senderId: user._id,
-            receiverId,
+            receiverId: receiverId._id,
             text: newMessage,
             });
     
@@ -143,13 +138,16 @@ const Chat = () => {
             };
         } 
       };
-    
+    console.log("currentChat", currentChat)
 
     return ( 
         <>
         <h1>Chat</h1>
         {currentChat ? (
             <>
+              <div>
+                <p>Open chat with: {currentChat[0].firstname}</p>
+              </div>
              <div className="chatMessagesContainer">
              {messages?.map((m) => (
                <div>
@@ -171,7 +169,7 @@ const Chat = () => {
             ) : (
             user.savedGirls &&
             user.savedGirls.map((girl) => (
-                <div onClick={() => setCurrentChat([girl._id])}>
+                <div onClick={() => setCurrentChat([girl])}>
                     <div key={girl._id}>
                         <p>{girl.firstname}</p>
                     </div>
