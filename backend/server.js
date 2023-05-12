@@ -81,10 +81,13 @@ io.on('connection', (socket) => {
     console.log(receiverId)
     const user = getConnectedUser(receiverId);
     console.log(user)
-    io.to(user.socketId).emit("getMessage", {
-      senderId,
-      text,
-    });
+    if(user) {
+      io.to(user.socketId).emit("getMessage", {
+        senderId,
+        text,
+      });
+    }
+    
   });
 
   // disconnectioned user

@@ -7,6 +7,9 @@ const ChatRouter = Router();
 // check online for all post routes
 ChatRouter.use(verifyJWT);
 
+// open/start chat
+ChatRouter.post("/chat/open", ChatController.openChat);
+
 // send message
 ChatRouter.post("/chat/send", ChatController.sendMessage);
 

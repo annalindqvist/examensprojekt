@@ -6,6 +6,42 @@ import {
     ObjectId
 } from "mongodb";
 
+const openChat = async (req, res) => {
+    console.log(req.body.members)
+    const {
+        reciever,
+        me
+     } = req.body.members;
+
+    try {
+        
+        const chat = await ChatModel.find({
+            members: { $all: [reciever, me] },
+        });
+        console.log("chat", chat.length)
+        if (chat.length > 0) {
+            console.log("there is a chat")
+            console.log(chat[0])
+            const messages = await MessageModel.find({
+                conversationId: chat[0]._id,
+            });
+            console.log("messages", messages)
+            res.status(200).json({chat: chat[0]._id, messages});
+        } else {
+            console.log("no chat")
+            const chatDoc = new ChatModel({
+                members: [reciever, me]
+            });
+            await chatDoc.save();
+            console.log(chatDoc)
+    
+            res.status(200).json({chat: chatDoc._id, messages: []});
+        }
+        
+    } catch (err) {
+        res.status(500).send('Server error');
+    }
+}
 
 const sendMessage = async (req, res) => {
     const {
@@ -13,11 +49,11 @@ const sendMessage = async (req, res) => {
        conversationId,
        text
     } = req.body.message;
-   
-
 
      // add doc to db
      try {
+
+        console.log(conversationId)
         
         const messageDoc = new MessageModel({
             senderId,
@@ -53,6 +89,7 @@ const getChatMessages = async (req, res) => {
 
 
 export default {
+    openChat,
     sendMessage,
     getChatMessages,
     

@@ -11,9 +11,10 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [currentChat, setCurrentChat] = useState(null);
+    const [chatId, setChatId] = useState(null);
     const [previousMessage, setPreviousMessage] = useState(null);
     const socket = useRef();
-    console.log(user)
+    console.log("currentChat", currentChat)
     
     useEffect(() => {
         socket.current = io('http://localhost:8080'); // Connect to the Socket.io server
@@ -58,23 +59,37 @@ const Chat = () => {
           const token = localStorage.getItem('token');
           try {
             if (token) {
-            const res = await fetch('http://localhost:8080/chat/messages/' + currentChat, {
-            method: 'GET',
+
+            const members = {reciever: currentChat[0], me: user._id};
+            console.log("members", members)
+            const res = await fetch('http://localhost:8080/chat/open/', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            },})
+            },
+            body: JSON.stringify({members})})
+
+            // const res = await fetch('http://localhost:8080/chat/messages/' + currentChat, {
+            // method: 'GET',
+            // headers: {
+            //     'Content-Type': 'application/json',
+            //     'Authorization': `Bearer ${token}`
+            // },})
             const json = await res.json();
             console.log("get old messages", json)
-            setMessages(res.data);
+            setMessages(json.messages);
+            setChatId(json.chat);
           }
           } catch (err) {
             console.log(err);
           }
         };
         getOldMessages();
-      }, [currentChat]);
+      }, [currentChat, chatId]);
 
+      //console.log("currentChat", currentChat)
+      console.log("chatId", chatId)
       
       const handleSubmit = async (e) => {
         e.preventDefault();
@@ -85,7 +100,7 @@ const Chat = () => {
             const message = {
             sender: user._id,
             text: newMessage,
-            conversationId: currentChat[0],
+            conversationId: chatId,
             };
         
             const receiverId = currentChat.find(
