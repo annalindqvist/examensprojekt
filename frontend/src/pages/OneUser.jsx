@@ -30,7 +30,7 @@ const OneUser = () => {
 
       if (res.ok) {
         dispatch({type: 'SET_SELECTED_USER', payload: json});
-        console.log("OneUser.jsx json", json);
+        
 
       }
       if(!res.ok) {

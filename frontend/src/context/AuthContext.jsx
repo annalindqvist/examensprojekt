@@ -27,6 +27,7 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, { 
     user
   })
+  console.log("user", user)
 
   // const fetchUser = async () => {
 

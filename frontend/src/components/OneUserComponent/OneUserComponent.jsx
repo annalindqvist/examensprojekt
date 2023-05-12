@@ -19,20 +19,12 @@ const ListOfUsers = ({ selectedUser }) => {
     const intrests = selectedUser.intrests;
     const [saved, setSaved] = useState(false);
 
-   
-
     // if user is saved to friends setSaved(true) else setSaved(false)
     useEffect(() => {
-      if (Array.isArray(user.savedGirls)){
-        user.savedGirls.map((girl) => {
-          if (girl._id === selectedUser._id){
-            setSaved(true);
-          }else {
-            setSaved(false)
-          }
-        })
-      } 
-    }, [dispatch, user]);
+      const isSaved = Array.isArray(user.savedGirls) && 
+        user.savedGirls.some((girl) => girl._id === selectedUser._id);
+        setSaved(isSaved);
+    }, [user.savedGirls, selectedUser._id]);
 
     // if clicked to save/remove friend
     const handleClick = async () => {
@@ -52,7 +44,7 @@ const ListOfUsers = ({ selectedUser }) => {
             console.log(json)
         if (res.ok) {
           dispatch({type: 'UPDATE_USER', payload: json.user})
-          setSaved(true);
+          localStorage.setItem('user', JSON.stringify(json.user));
           //console.log("Saved one user", json)
         }
       }

@@ -22,7 +22,7 @@ const Users = () => {
 
       if (res.ok) {
         dispatch({type: 'SET_USERS', payload: json});
-        console.log("Users.jsx json ", json)
+        //console.log("Users.jsx json ", json)
       }
       if(!res.ok) {
         console.log("res, ", res, "json, ", json)

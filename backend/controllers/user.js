@@ -110,6 +110,8 @@ async function signIn(req, res) {
             });
         }
 
+        console.log("userInformation", userInformation)
+
         res.status(200).json({
             token,
             user: userInformation
