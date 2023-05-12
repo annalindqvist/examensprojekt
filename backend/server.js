@@ -78,12 +78,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on("sendMessage", ({senderId, receiverId, text}) => {
-    console.log(receiverId)
+    console.log("RECEIVER", receiverId)
     const user = getConnectedUser(receiverId);
-    console.log(user)
+    console.log("USER", user)
     if(user) {
       io.to(user.socketId).emit("getMessage", {
-        senderId,
+        sender: senderId,
         text,
       });
     }

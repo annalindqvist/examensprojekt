@@ -4,7 +4,7 @@ import verifyJWT from "../middlewares/auth.js";
 
 const ChatRouter = Router();
 
-// check online for all post routes
+// check online for all chat routes
 ChatRouter.use(verifyJWT);
 
 // open/start chat

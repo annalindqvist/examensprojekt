@@ -6,6 +6,8 @@ import {
     ObjectId
 } from "mongodb";
 
+// open chat and get messages or start new chat
+// return chatId and old messages
 const openChat = async (req, res) => {
     console.log(req.body.members)
     const {
@@ -18,14 +20,13 @@ const openChat = async (req, res) => {
         const chat = await ChatModel.find({
             members: { $all: [reciever, me] },
         });
-        console.log("chat", chat.length)
+        // chat returns as an array, if > 0 there is one chat
         if (chat.length > 0) {
             console.log("there is a chat")
-            console.log(chat[0])
             const messages = await MessageModel.find({
                 conversationId: chat[0]._id,
             });
-            console.log("messages", messages)
+            // return chatId and messages
             res.status(200).json({chat: chat[0]._id, messages});
         } else {
             console.log("no chat")
@@ -33,8 +34,7 @@ const openChat = async (req, res) => {
                 members: [reciever, me]
             });
             await chatDoc.save();
-            console.log(chatDoc)
-    
+            // return chatId and empty array of messages
             res.status(200).json({chat: chatDoc._id, messages: []});
         }
         
@@ -52,16 +52,12 @@ const sendMessage = async (req, res) => {
 
      // add doc to db
      try {
-
-        console.log(conversationId)
-        
         const messageDoc = new MessageModel({
             senderId,
             conversationId,
             text
         });
         await messageDoc.save();
-        console.log(messageDoc)
 
         res.status(200).json(messageDoc);
 
@@ -70,7 +66,6 @@ const sendMessage = async (req, res) => {
             error: error.message
         });
     }
-   
 }
 
 const getChatMessages = async (req, res) => {
