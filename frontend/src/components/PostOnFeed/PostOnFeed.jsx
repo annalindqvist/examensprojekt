@@ -31,7 +31,7 @@ const PostOnFeed = ({ post }) => {
   const city = post.postedBy ? post.postedBy.city : "Unknown";
   const image = post.postedBy ? post.postedBy.img : "Unknown";
 
-  const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${image}`;
+  const imageUrl = `http://localhost:8080static/${image}`;
 
   useEffect(() => {
     if (post.postedBy._id == user._id){

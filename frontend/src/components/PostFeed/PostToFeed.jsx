@@ -15,7 +15,7 @@ const PostToFeed = () => {
     const [error, setError] = useState(null)
     const [post, setPost] = useState("");
 
-   // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com:8080/feed";
+   // const URL1 = "http://localhost:8080feed";
    // const URL2 = "http:/localhost:8080/feed";
 
 
@@ -29,7 +29,7 @@ const PostToFeed = () => {
                 return;
             }
 
-            const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/post-to-feed`, {
+            const res = await fetch(`http://localhost:8080post-to-feed`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

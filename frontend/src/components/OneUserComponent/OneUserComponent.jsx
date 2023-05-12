@@ -9,30 +9,19 @@ import env from "react-dotenv";
 
 const ListOfUsers = ({ selectedUser }) => {
 
-  // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com:8080/feed";
-  // const URL2 = "http:/localhost:8080/feed";
-
     const {user, dispatch} = useAuthContext();
     const firstname = selectedUser.firstname ? selectedUser.firstname : "";
-    const imageUrl = selectedUser.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${selectedUser.img}` : "";
+    const imageUrl = selectedUser.img ? `http://localhost:8080static/${selectedUser.img}` : "";
     const userId = selectedUser._id;
     const intrests = selectedUser.intrests;
     const [saved, setSaved] = useState(false);
 
-   
-
     // if user is saved to friends setSaved(true) else setSaved(false)
     useEffect(() => {
-      if (Array.isArray(user.savedGirls)){
-        user.savedGirls.map((girl) => {
-          if (girl._id === selectedUser._id){
-            setSaved(true);
-          }else {
-            setSaved(false)
-          }
-        })
-      } 
-    }, [dispatch, user]);
+      const isSaved = Array.isArray(user.savedGirls) && 
+        user.savedGirls.some((girl) => girl._id === selectedUser._id);
+        setSaved(isSaved);
+    }, [user.savedGirls, selectedUser._id]);
 
     // if clicked to save/remove friend
     const handleClick = async () => {
@@ -40,7 +29,7 @@ const ListOfUsers = ({ selectedUser }) => {
       const token = localStorage.getItem('token');
       if (token) {
 
-        const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/user/save`, {
+        const res = await fetch(`http://localhost:8080/user/save`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,10 +38,11 @@ const ListOfUsers = ({ selectedUser }) => {
             body: JSON.stringify({ saveUserId: userId})
             })
         const json = await res.json()
+        console.log("json savegirl", json)
   
         if (res.ok) {
           dispatch({type: 'UPDATE_USER', payload: json.user})
-          setSaved(true);
+          localStorage.setItem('user', JSON.stringify(json.user));
           //console.log("Saved one user", json)
         }
       }
