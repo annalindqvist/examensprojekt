@@ -11,6 +11,7 @@ import http from 'http';
 // ROUTES IMPORT
 import UserRouter from './routes/user.js';
 import PostRouter from './routes/post.js';
+import ChatRouter from './routes/chat.js';
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/static', express.static('public/images'));
 // ---- ROUTES
 app.use(UserRouter);
 app.use(PostRouter);
+app.use(ChatRouter);
 
 
 // set port, listen for requests

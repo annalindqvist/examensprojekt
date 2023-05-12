@@ -52,6 +52,30 @@ const Chat = () => {
           setMessages((prev) => [...prev, previousMessage]);
       }, [previousMessage, currentChat]);
 
+      //get previous sent messages from db of this chat
+      useEffect(() => {
+        const getOldMessages = async () => {
+          const token = localStorage.getItem('token');
+          try {
+            if (token) {
+            const res = await fetch('http://localhost:8080/chat/messages/' + currentChat, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },})
+            const json = await res.json();
+            console.log("get old messages", json)
+            setMessages(res.data);
+          }
+          } catch (err) {
+            console.log(err);
+          }
+        };
+        getOldMessages();
+      }, [currentChat]);
+
+      
       const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
@@ -61,11 +85,9 @@ const Chat = () => {
             const message = {
             sender: user._id,
             text: newMessage,
-            conversationId: currentChat._id,
+            conversationId: currentChat[0],
             };
         
-            console.log(currentChat)
-            console.log(user._id)
             const receiverId = currentChat.find(
             (chatMember) => chatMember !== user._id
             );
@@ -81,20 +103,22 @@ const Chat = () => {
                 console.log("You must be signed in to post.");
                 return;
             }
-
-            const res = await fetch(`http://localhost:8080/chat/send`, {
+            const res = await fetch('http://localhost:8080/chat/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ message})
+            body: JSON.stringify({ message })
             })
-
-            setMessages([...messages, res.data]);
-            setNewMessage("");
-
             const json = await res.json();
+
+
+            setMessages([...messages, json]);
+            setNewMessage("");
+            console.log("messages", messages)
+            
+            console.log(json)
         
             if (!res.ok) {
                 console.log("error")
@@ -112,7 +136,7 @@ const Chat = () => {
         {currentChat ? (
             <>
              <div className="chatMessagesContainer">
-             {messages.map((m) => (
+             {messages?.map((m) => (
                <div>
                  <MessageComponent message={m} myMessage={m.sender === user._id} />
                </div>

@@ -7,7 +7,10 @@ const ChatRouter = Router();
 // check online for all post routes
 ChatRouter.use(verifyJWT);
 
+// send message
 ChatRouter.post("/chat/send", ChatController.sendMessage);
 
+// get old chat history
+ChatRouter.get("/chat/messages:id", ChatController.getChatMessages);
 
 export default ChatRouter;
