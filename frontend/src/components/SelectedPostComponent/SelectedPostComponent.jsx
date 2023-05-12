@@ -25,7 +25,7 @@ const SelectedPostComponent = ({ post }) => {
   const city = post.postedBy ? post.postedBy.city : "Unknown";
   const image = post.postedBy ? post.postedBy.img : "Unknown";
 
-  const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${image}`;
+  const imageUrl = `http://localhost:8080static/${image}`;
 
   useEffect(() => {
     if (post.postedBy._id == user._id){
@@ -52,7 +52,7 @@ const SelectedPostComponent = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token) {
 
-      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/feed/like/' + postId,  {
+      const res = await fetch('http://localhost:8080feed/like/' + postId,  {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -73,7 +73,7 @@ const SelectedPostComponent = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token && postedByUser) {
 
-      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/feed/delete/' + postId,  {
+      const res = await fetch('http://localhost:8080feed/delete/' + postId,  {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -99,7 +99,7 @@ const SelectedPostComponent = ({ post }) => {
             return;
         }
 
-        const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/feed/comment/${postId}`, {
+        const res = await fetch(`http://localhost:8080feed/comment/${postId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
