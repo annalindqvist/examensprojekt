@@ -397,4 +397,9 @@ a {
   width: 70%;
   margin-bottom: 5px;
 }
+.my-message {
+  margin-left: auto;
+  border-radius: 10px 10px 0 10px;
+  background-color: #F9EAF1;
 
+}

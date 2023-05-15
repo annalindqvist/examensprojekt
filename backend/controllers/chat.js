@@ -25,8 +25,9 @@ const openChat = async (req, res) => {
             console.log("there is a chat")
             const messages = await MessageModel.find({
                 conversationId: chat[0]._id,
-            });
-            // return chatId and messages
+            }) .populate("senderId", "_id")
+            .exec();
+            console.log(messages)
             res.status(200).json({chat: chat[0]._id, messages});
         } else {
             console.log("no chat")
@@ -45,11 +46,12 @@ const openChat = async (req, res) => {
 
 const sendMessage = async (req, res) => {
     const {
-       senderId,
+        senderId,
        conversationId,
        text
     } = req.body.message;
-
+    
+    console.log("SENDERID,", senderId)
      // add doc to db
      try {
         const messageDoc = new MessageModel({

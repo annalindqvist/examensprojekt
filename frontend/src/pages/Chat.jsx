@@ -96,11 +96,11 @@ const Chat = () => {
 
         if (token) {
             const message = {
-            sender: user._id,
+            senderId: user._id,
             text: newMessage,
             conversationId: chatId,
             };
-        
+        console.log(message)
             const receiverId = currentChat.find(
             (chatMember) => chatMember._id !== user._id
             );
@@ -156,7 +156,7 @@ const Chat = () => {
               </div>
              <div className="chat-messages-container">
              {messages?.map((m) => (
-                 <MessageComponent message={m} myMessage={m.sender === user._id} />
+                 <MessageComponent message={m} myMessage={m.senderId?._id === user._id} />
              ))}
            </div>
            <div className="chat-input-container">

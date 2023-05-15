@@ -1,7 +1,7 @@
 const MessageComponent = ({message, myMessage}) => {
     
     const imageUrl = `http://localhost:8080/static/undefined`;
-
+console.log(myMessage)
     return ( 
         <div>
         <div className={myMessage ? "my-message message-content" : "message-content"}>
