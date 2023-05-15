@@ -58,7 +58,7 @@ const PostOnFeed = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token && postedByUser) {
 
-      const res = await fetch(`${env.REACT_APP_API_URL}/feed/delete/` + postId,  {
+      const res = await fetch(`http://localhost:8080/feed/delete/` + postId,  {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -78,7 +78,7 @@ const PostOnFeed = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token) {
 
-      const res = await fetch(`${env.REACT_APP_API_URL}/feed/like/` + postId,  {
+      const res = await fetch(`http://localhost:8080/feed/like/` + postId,  {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
