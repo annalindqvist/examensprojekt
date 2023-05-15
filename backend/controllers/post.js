@@ -32,10 +32,11 @@ const getAllPosts = async () => {
 const getPosts = async (req, res) => {
 
     const allPosts = await getAllPosts();
-
+console.log(allPost)
     res.status(200).json(allPosts);
 
     if (!allPosts) {
+        
         return res.status(400).json({
             error: 'No posts found'
         });
@@ -263,6 +264,7 @@ const getOnePost = async (req, res) => {
         res.status(200).json(post);
 
     } catch (err) {
+        console.log(err)
         res.status(500).send('Server error');
     }
 }

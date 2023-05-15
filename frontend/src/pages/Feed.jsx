@@ -29,7 +29,7 @@ const Feed = () => {
     const token = localStorage.getItem('token');
 
     const fetchPosts = async () => {
-      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com/feed', {
+      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com/backend/feed', {
         headers: {'Authorization': `Bearer ${token}`},
       })
       const json = await res.json();
