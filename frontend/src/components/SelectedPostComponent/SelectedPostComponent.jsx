@@ -148,7 +148,7 @@ const SelectedPostComponent = ({ post }) => {
             <div className="time-city">
             <p className="xs-font grey-text">23 min ago | {city}</p>
           </div>
-            {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash /></span>}
+            {postedByUser && <span className="delete-post" onClick={handleDelete}>delete</span>}
             {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
           </div>
         </div>
