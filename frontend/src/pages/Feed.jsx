@@ -63,7 +63,7 @@ const Feed = () => {
           {/* <PostToFeed/> */}
         
 
-        <div className="postOnFeed">
+        <div className="post-on-feed overflow-scroll">
           {posts && posts.map((post) => (
             <PostOnFeed key={post._id} post={post} />
           ))}

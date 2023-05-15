@@ -16,8 +16,11 @@ const ListOfUsers = ({ selectedUser }) => {
     const firstname = selectedUser.firstname ? selectedUser.firstname : "";
     const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "";
     const userId = selectedUser._id;
-    const intrests = selectedUser.intrests;
+    const intrests = selectedUser.intrests ? selectedUser.intrests : null;
+    const description = selectedUser.description ? selectedUser.description : null;
     const [saved, setSaved] = useState(false);
+
+    console.log(selectedUser)
 
     // if user is saved to friends setSaved(true) else setSaved(false)
     useEffect(() => {
@@ -59,6 +62,7 @@ const ListOfUsers = ({ selectedUser }) => {
         {intrests && intrests.map((interest) => (
           <p key={interest}>{interest}</p>
         ))}
+      <p>{description}</p>   
       {saved ? <button onClick={handleClick}>Remove</button> : <button onClick={handleClick}>Save</button>}
     </div>
     

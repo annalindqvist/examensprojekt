@@ -13,13 +13,14 @@ const getAllPosts = async () => {
         .populate([{
             path: "postedBy",
             select: "firstname img city"
-        },{
+        }, {
             path: "likes",
             populate: {
                 path: 'likedBy',
-                select:"_id",
+                select: "_id",
                 model: 'User'
-            },} ])
+            },
+        }])
         .sort({
             createdAt: -1
         })
@@ -238,15 +239,26 @@ const getOnePost = async (req, res) => {
         const post = await PostModel.findOne({
                 _id: id
             }).populate([{
-                path: "postedBy",
-                select: "firstname img city"
-            }, {
-                path: "comments",
-                populate: {
-                    path: 'postedBy',
-                    model: 'User'
+                    path: "postedBy",
+                    select: "firstname img city",
+                },
+                {
+                    path: "comments",
+                    populate: {
+                        path: 'postedBy',
+                        select: "firstname img _id",
+                        model: 'User',
+                    },
+                },
+                {
+                    path: "likes",
+                    populate: {
+                        path: 'likedBy',
+                        select: "_id",
+                        model: 'User',
+                    },
                 }
-            }])
+            ])
             .exec();
         res.status(200).json(post);
 
@@ -261,15 +273,26 @@ const getSelectedPost = async (id) => {
         const post = await PostModel.findOne({
                 _id: id
             }).populate([{
-                path: "postedBy",
-                select: "firstname img city"
-            }, {
-                path: "comments",
-                populate: {
-                    path: 'postedBy',
-                    model: 'User'
+                    path: "postedBy",
+                    select: "firstname img city",
+                },
+                {
+                    path: "comments",
+                    populate: {
+                        path: 'postedBy',
+                        select: "firstname img _id",
+                        model: 'User',
+                    },
+                },
+                {
+                    path: "likes",
+                    populate: {
+                        path: 'likedBy',
+                        select: "_id",
+                        model: 'User',
+                    },
                 }
-            }])
+            ])
             .exec();
         return post;
 

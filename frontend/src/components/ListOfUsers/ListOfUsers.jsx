@@ -17,7 +17,6 @@ const ListOfUsers = ({ user }) => {
 
   return (
     <>
-    <Link to="/user/saved">Saved</Link>
     <Link to={`/user/${user._id}`}>
       <div className="user-card">
         <p>{firstname}</p> 

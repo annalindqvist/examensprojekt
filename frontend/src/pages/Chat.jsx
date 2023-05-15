@@ -4,6 +4,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import ChatConversationComponent from "../components/ChatConversationComponent/ChatConversationComponent";
 import MessageComponent from "../components/MessageComponent/MessageComponent";
 
+import { BsSend } from 'react-icons/bs';
+
+
 const Chat = () => {
 
     const {user} = useAuthContext();
@@ -141,29 +144,28 @@ const Chat = () => {
     console.log("currentChat", currentChat)
 
     return ( 
-        <>
-        <h1>Chat</h1>
+        <div className="white-background">
+          <div className="logo flex">
+            <h1 className="lily-font dark-text l-font">GalVibe</h1>
+            <h2 className="dark-text xs-font">The place to connect with new gals!</h2>
+          </div>
         {currentChat ? (
             <>
               <div>
                 <p>Open chat with: {currentChat[0].firstname}</p>
               </div>
-             <div className="chatMessagesContainer">
+             <div className="chat-messages-container">
              {messages?.map((m) => (
-               <div>
                  <MessageComponent message={m} myMessage={m.sender === user._id} />
-               </div>
              ))}
            </div>
-           <div className="chatInputContainer">
-             <textarea
+           <div className="chat-input-container">
+             <textarea id="chat-input"
                placeholder="Aa.."
                onChange={(e) => setNewMessage(e.target.value)}
                value={newMessage}
              ></textarea>
-             <button onClick={handleSubmit}>
-               Send
-             </button>
+             <span onClick={handleSubmit}><BsSend/></span>
            </div>
          </>
             ) : (
@@ -176,7 +178,7 @@ const Chat = () => {
                 </div>
             ))
             )}
-        </>
+        </div>
      );
 }
  

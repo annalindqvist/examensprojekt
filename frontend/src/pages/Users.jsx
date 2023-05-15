@@ -1,6 +1,12 @@
+// REACT IMPORTS
 import { useEffect }from 'react';
+import { Link } from 'react-router-dom';
+
+// HOOKS IMPORT
 import { useUserContext } from "../hooks/useUserContext";
 import { useAuthContext } from "../hooks/useAuthContext";
+
+// COMPONENT IMPORTS
 import ListOfUsers from '../components/ListOfUsers/ListOfUsers';
 
 import env from "react-dotenv";
@@ -34,10 +40,12 @@ const Users = () => {
     }
   }, [dispatch, user]);
 
+  
+
     return (
-      <div>
+      <div className="pink-background">
         <h1>All users</h1>
-        
+        <Link to="/user/saved">Saved</Link>
         <div className="list-of-users">
             {listOfUsers && listOfUsers.map((users) => {
               if (users._id !== user._id) {

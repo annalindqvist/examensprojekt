@@ -26,7 +26,7 @@ body {
 }
 
 .logo {
-  margin: 16px;
+  padding: 16px;
 }
 
 .margin-top {
@@ -148,6 +148,29 @@ a {
   width: 100%;
 }
 
+.white-background {
+  background-color: #fafafa;
+  height: 100%;
+  width: 100%;
+}
+
+/* overflow scoll */
+.overflow-scroll {
+  overflow-y: scroll;
+  height: 100%;
+  margin-bottom: 50px;
+}
+
+/* remove the scrollbar - display none */
+.overflow-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.overflow-scroll::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+
 /* BUTTON */
 
 
@@ -156,7 +179,7 @@ a {
 .post {
   margin: 16px;
   padding: 10px 0;
-  border-bottom: 1px solid #6D6D6D;
+  border-bottom: 1px solid #3C2345;
   position: relative;
   max-width: 500px;
 }
@@ -295,8 +318,83 @@ a {
 
 .post-input-container {
   width: 90%;
-  max-width: 500%;
+  max-width: 500px;
   padding: 5px;
   border-radius: 10px;
   background-color: #fafafa;
 }
+
+.post-on-feed {
+  background-color: #fafafa; 
+  margin-top: 16px;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Selected post*/
+
+.selected-post {
+  border-radius: 10px 10px 0 0;
+  width: 90%;
+  max-width: 500px;
+  padding: 10px;
+}
+
+.comments-container {
+  overflow-y: scroll;
+  margin-top: 16px;
+}
+/* one comment */
+
+
+.comment-flex {
+  display: flex;
+  flex-direction: column;
+  margin: 5px 0 5px 5px;
+}
+
+.share-post-input, .chat-input-container {
+  padding: 0 10px 0 0;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  background-color: #F9EAF1;
+}
+.share-post-input #comment, .chat-input-container #chat-input{
+    width: 100%;
+    height: 40px;
+    background-color: #F9EAF1;
+    border: none;
+    padding: 8px;
+    outline: none;
+    border-radius: 10px;
+    color: #3C2345;
+}
+
+.share-post-input span{
+ display: flex;
+ color: #3C2345;
+}
+
+/* CHAT */
+
+.chat-messages-container {
+  overflow-y: scroll;
+  height: 70%;
+  padding: 16px;
+}
+
+.chat-messages-container::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-messages-container::-webkit-scrollbar-thumb {
+  display: none;
+}
+.message-content {
+  background-color: #E497BB;
+  border-radius: 10px 10px 10px 0;
+  padding: 5px;
+  width: 70%;
+  margin-bottom: 5px;
+}
+

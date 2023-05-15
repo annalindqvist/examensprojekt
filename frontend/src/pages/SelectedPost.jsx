@@ -12,7 +12,6 @@ const Comments = () => {
     const params = useParams();
     const {selectedPost, dispatch} = usePostContext();
     
-    console.log(selectedPost)
 
     // const URL1 = `http://localhost:8080/feed/${params.id}`;
     // const URL2 = `http://localhost:8080/feed/${params.id}`;
@@ -29,7 +28,6 @@ const Comments = () => {
 
       if (res.ok) {
         dispatch({type: 'SET_SELECTED_POST', payload: json});
-        console.log("Comments.jsx", json);
 
       }
       if(!res.ok) {
@@ -44,8 +42,11 @@ const Comments = () => {
 
 
     return (
-      <div>
-        <h1>One post</h1>
+      <div className="pink-background flex">
+        <div className="logo flex">
+          <h1 className="lily-font dark-text l-font">GalVibe</h1>
+        </div>
+        
         {selectedPost && <SelectedPostComponent key={selectedPost._id} post={selectedPost} />}  
       </div>
     
