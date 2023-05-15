@@ -1,5 +1,7 @@
 // imports
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 import { usePostContext } from "../../hooks/usePostContext";
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -14,10 +16,11 @@ const PostToFeed = () => {
     const { user } = useAuthContext();
     const [error, setError] = useState(null)
     const [post, setPost] = useState("");
+    const navigate = useNavigate();
 
-   // const URL1 = "http://localhost:8080/feed";
-   // const URL2 = "http://localhost:8080/feed";
-
+   const handleNavigate = () => {
+    navigate('/');
+  };
 
     const handleSubmit = async (e) => {
 
@@ -47,19 +50,27 @@ const PostToFeed = () => {
             if (res.ok) {
                 setPost('')
                 setError(null)
-                
                 dispatch({type: 'CREATE_POST', payload: json})
+                console.log("navigate")
+                handleNavigate();
             };
         }
     };
 
+
     return ( 
         <>
-            <form onSubmit={handleSubmit} className="input-field-container">
-                
-                    <input type="text" name="post" className="input-field" placeholder={'Start a conversation ' + user.firstname + '!'} onChange={(e) => setPost(e.target.value)} />
-                    <input  type="submit" id="input-btn" value="Share" />
-                
+            <form onSubmit={handleSubmit} className="post-to-feed-page pink-background">
+                <div className="post-input-top flex-row">
+                    <Link to="/feed" className="item1">
+                        <span className="dark-text">x</span>
+                    </Link>
+                    <p className="s-font item2">Share post</p>
+                    <input  type="submit" value="Publish" className="item3" id="post-to-feed-submit"/>
+                </div>
+                    <textarea name="post" id="post-input" cols="30" rows="10" onChange={(e) => setPost(e.target.value)}/>
+                    {/* <input type="text" name="post" className="input-field" placeholder={'Start a conversation ' + user.firstname + '!'} onChange={(e) => setPost(e.target.value)} /> */}
+                    {/* <input  type="submit" value="Share" /> */}
                 {error && <div className="error">{error}</div>}
             </form>
         </>

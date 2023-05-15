@@ -25,6 +25,10 @@ body {
   
 }
 
+.logo {
+  margin: 16px;
+}
+
 .margin-top {
   margin-top: 20vh;
 }
@@ -111,12 +115,12 @@ a {
   color: #FDF0E8;
 }
 
-.orange-text {
-  color: #EA744A;
+.mediumpink-text {
+  color: #E497BB;
 }
 
-.blue-text {
-  color:#0D23C4
+.dark-text {
+  color:#3C2345;
 }
 
 .grey-text {
@@ -128,12 +132,18 @@ a {
 
 /* BACKGROUND */
 
-.blue-background {
-  background-color: #0D23C4;
+.dark-background {
+  background-color: #3C2345;
 }
 
 .light-background {
-  background-color: #FFF9F5;
+  background-color: #fafafa;
+  height: 100%;
+  width: 100%;
+}
+
+.pink-background {
+  background-color: #F9EAF1;
   height: 100%;
   width: 100%;
 }
@@ -183,9 +193,101 @@ a {
   border-radius: 10px 10px 0 0;
   margin: 32px 16px 0 16px;
   padding: 16px;
-  background-color: #FFF9F5;
+  background-color: #F9EAF1;
   overflow-y: scroll;
 }
 .terms h1 {
   margin: 32px;
+}
+
+/* FORM */
+
+form {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px; 
+}
+form input {
+  padding: 12px 24px;
+  margin: 10px 0;
+}
+
+form input{
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  width: 100%;
+  background-color: #fafafa;
+  
+}
+
+form input[type=submit] {
+  color: #3C2345;
+  background-color: #E497BB;
+  width: 50%;
+  border-radius: 10px;
+  border: none;
+  box-shadow: none;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+}
+
+form input[type=checkbox] {
+  width: 16px;
+  height: 16px;
+  margin-right: 16px;
+}
+
+/* form input[type=checkbox]:checked {
+  background-color: #FDF0E8; 
+}  */
+
+/* CUSTOM SELECT */
+
+.custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 12px 24px;
+  margin: 10px 0;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+.custom-select::after {
+  
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  
+}
+
+.custom-select option {
+  padding: 12px 24px;
+  width: 100%;
+}
+
+
+a {
+  color:#FDF0E8
+}
+.terms-flex {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+/* FEED PAGE */
+
+.post-input-container {
+  width: 90%;
+  max-width: 500%;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #fafafa;
 }

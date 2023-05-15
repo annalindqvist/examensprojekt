@@ -1,6 +1,9 @@
 // REACT IMPORTS
 import { Link } from 'react-router-dom';
 
+// IMPORT ICONS
+
+
 // IMPORT HOOKS
 import { useSignout } from '../../hooks/useSignoutContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
@@ -17,7 +20,6 @@ const Navbar = () => {
   };
 
   return (
-    
       <>
       {user && (
         <div className="menu">

@@ -99,7 +99,7 @@ const PostOnFeed = ({ post }) => {
       <div className="flex-row">
         {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
         <div>
-          <p className="m-font m-weight blue-text">{firstname}</p>
+          <p className="m-font m-weight dark-text">{firstname}</p>
           {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
           {postedByUser && <span className="delete-post xs-font" onClick={handleDelete}>delete</span> } 
           <div className="time-city">

@@ -20,6 +20,7 @@ import EditProfile from './pages/EditProfile';
 import EditProfilePicture from './pages/EditProfilePicture';
 import Settings from './pages/Settings';
 import Chat from './pages/Chat';
+import PostToFeedPage from './pages/PostToFeedPage';
 
 
 export default function App() {
@@ -40,6 +41,10 @@ export default function App() {
           <Route 
             path="/feed/:id" 
             element={user ? <Comments /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/share-post" 
+            element={user ? <PostToFeedPage /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/profile" 

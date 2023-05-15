@@ -21,7 +21,7 @@ const SigninComponent = () => {
         <>
             <div className="flex margin-top">
                 <h1 className="lily-font xl-font">GalVibe</h1>
-                <h2 className="orange-text s-font m-weight">The place to connect with new gals!</h2>
+                <h2 className="dark-text s-font m-weight">The place to connect with new gals!</h2>
             </div>
             <form onSubmit={handleSubmit} className="centered-content-column">
                 {/* <label>Email</label> */}
@@ -33,7 +33,7 @@ const SigninComponent = () => {
                 {error && <div className="error">{error}</div>}
             </form>
             <div className="flex">
-                <p className="s-font">Not a member of GalVibe yet? <Link to="/signup" className="orange-text">Sign up!</Link></p>
+                <p className="s-font">Not a member of GalVibe yet? <Link to="/signup" className="mediumpink-text">Sign up!</Link></p>
                 <p className="xs-font">Forgot password?</p>
             </div>
         </>

@@ -1,8 +1,13 @@
+
+// REACT IMPORTS
 import { useEffect }from 'react';
+import { Link } from 'react-router-dom';
+
+// HOOKS IMPORTS
 import { usePostContext } from "../hooks/usePostContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-// COMPONENTS
+// COMPONENTS IMPORTS
 import PostOnFeed from "../components/PostOnFeed/PostOnFeed";
 import PostToFeed from "../components/PostFeed/PostToFeed";
 
@@ -15,8 +20,10 @@ const Feed = () => {
   // const URL1 = "http://localhost:8080/feed";
   // const URL2 = "http://localhost:8080/feed";
 
+
   const {posts, dispatch} = usePostContext();
   const {user} = useAuthContext();
+  const imageUrl = `http://localhost:8080/static/${user?.img}`;
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -41,13 +48,20 @@ const Feed = () => {
   }, [dispatch, user]);
 
     return (
-      <div className="light-background flex">
+      <div className="pink-background flex">
         <div className="logo flex">
-          <h1 className="lily-font blue-text l-font">GalVibe</h1>
-          <h2 className="blue-text xs-font">The place to connect with new gals!</h2>
+          <h1 className="lily-font dark-text l-font">GalVibe</h1>
+          <h2 className="dark-text xs-font">The place to connect with new gals!</h2>
         </div>
 
-        <PostToFeed/>
+       
+          <Link to="/share-post" className="post-input-container flex-row">
+            {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
+            <p className="s-font dark-text">Share a post {user?.firstname}!</p>
+          </Link>
+         
+          {/* <PostToFeed/> */}
+        
 
         <div className="postOnFeed">
           {posts && posts.map((post) => (
@@ -56,6 +70,7 @@ const Feed = () => {
         </div>
         
       </div>
+     
     );
   };
   
