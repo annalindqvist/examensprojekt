@@ -31,15 +31,22 @@ const getAllPosts = async () => {
 // get all posts
 const getPosts = async (req, res) => {
 
-    const allPosts = await getAllPosts();
-console.log(allPost)
-    res.status(200).json(allPosts);
+    try {
 
-    if (!allPosts) {
-        
-        return res.status(400).json({
-            error: 'No posts found'
-        });
+
+        const allPosts = await getAllPosts();
+    
+        res.status(200).json(allPosts);
+
+        if (!allPosts) {
+
+            return res.status(400).json({
+                error: 'No posts found'
+            });
+        }
+
+    } catch (err) {
+        console.log("getPosts error", err);
     }
 }
 
