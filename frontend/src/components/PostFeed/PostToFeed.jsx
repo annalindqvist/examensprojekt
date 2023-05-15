@@ -1,8 +1,11 @@
-// imports
+// RECT IMPORTS
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+// ICON IMPORT
+import { IoClose } from 'react-icons/io5';
 
+// HOOKS IMPORT
 import { usePostContext } from "../../hooks/usePostContext";
 import { useAuthContext } from '../../hooks/useAuthContext';
 import './PostToFeed.css';
@@ -51,7 +54,6 @@ const PostToFeed = () => {
                 setPost('')
                 setError(null)
                 dispatch({type: 'CREATE_POST', payload: json})
-                console.log("navigate")
                 handleNavigate();
             };
         }
@@ -62,8 +64,8 @@ const PostToFeed = () => {
         <>
             <form onSubmit={handleSubmit} className="post-to-feed-page pink-background">
                 <div className="post-input-top flex-row">
-                    <Link to="/feed" className="item1">
-                        <span className="dark-text">x</span>
+                    <Link to="/" className="item1">
+                        <span className="dark-text"><IoClose/></span>
                     </Link>
                     <p className="s-font item2">Share post</p>
                     <input  type="submit" value="Publish" className="item3" id="post-to-feed-submit"/>

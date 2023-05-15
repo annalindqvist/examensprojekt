@@ -13,7 +13,13 @@ const getAllPosts = async () => {
         .populate([{
             path: "postedBy",
             select: "firstname img city"
-        }, ])
+        },{
+            path: "likes",
+            populate: {
+                path: 'likedBy',
+                select:"_id",
+                model: 'User'
+            },} ])
         .sort({
             createdAt: -1
         })

@@ -172,6 +172,15 @@ a {
   top: 10px;
 }
 
+.post .post-like-comment span {
+  margin-right: 10px;
+}
+
+.liked-commented {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
 /* .input-field-container {
   position: relative;
 } */
