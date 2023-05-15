@@ -35,7 +35,7 @@ const PostToFeed = () => {
                 return;
             }
 
-            const res = await fetch(`http://localhost:8080/post-to-feed`, {
+            const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com/post-to-feed`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

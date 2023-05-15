@@ -13,7 +13,7 @@ const Profile = () => {
   
     const { signout } = useSignout();
     const {user} = useAuthContext();
-    const imageUrl = `http://localhost:8080/static/${user.img}`;
+    const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com/static/${user.img}`;
 
     const handleClick = () => {
       signout();

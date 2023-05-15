@@ -18,7 +18,7 @@ const Chat = () => {
     const socket = useRef();
     
     useEffect(() => {
-        socket.current = io('http://localhost:8080'); // Connect to the Socket.io server
+        socket.current = io('http://143-42-49-241.ip.linodeusercontent.com'); // Connect to the Socket.io server
         console.log(socket)
         // Handle connection
         socket.current.on('connect', () => {
@@ -70,7 +70,7 @@ const Chat = () => {
 
             const members = {reciever: currentChat[0]._id, me: user._id};
             console.log("members", members)
-            const res = await fetch('http://localhost:8080/chat/open/', {
+            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com/chat/open/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ const Chat = () => {
                 console.log("You must be signed in to post.");
                 return;
             }
-            const res = await fetch('http://localhost:8080/chat/send', {
+            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com/chat/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

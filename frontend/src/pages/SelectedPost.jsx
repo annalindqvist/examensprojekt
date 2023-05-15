@@ -13,14 +13,14 @@ const Comments = () => {
     const {selectedPost, dispatch} = usePostContext();
     
 
-    // const URL1 = `http://localhost:8080/feed/${params.id}`;
-    // const URL2 = `http://localhost:8080/feed/${params.id}`;
+    // const URL1 = `http://143-42-49-241.ip.linodeusercontent.com/feed/${params.id}`;
+    // const URL2 = `http://143-42-49-241.ip.linodeusercontent.com/feed/${params.id}`;
     
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     const fetchPost = async () => {
-      const res = await fetch(`http://localhost:8080/feed/${params.id}`, {
+      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com/feed/${params.id}`, {
         method: 'GET',
         headers: {'Authorization': `Bearer ${token}`},
       })

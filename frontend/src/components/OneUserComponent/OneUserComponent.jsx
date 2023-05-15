@@ -9,12 +9,12 @@ import env from "react-dotenv";
 
 const ListOfUsers = ({ selectedUser }) => {
 
-  // const URL1 = "http://localhost:8080/feed";
-  // const URL2 = "http://localhost:8080/feed";
+  // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com/feed";
+  // const URL2 = "http://143-42-49-241.ip.linodeusercontent.com/feed";
 
     const {user, dispatch} = useAuthContext();
     const firstname = selectedUser.firstname ? selectedUser.firstname : "";
-    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "";
+    const imageUrl = selectedUser.img ? `http://143-42-49-241.ip.linodeusercontent.com/static/${selectedUser.img}` : "";
     const userId = selectedUser._id;
     const intrests = selectedUser.intrests ? selectedUser.intrests : null;
     const description = selectedUser.description ? selectedUser.description : null;
@@ -35,7 +35,7 @@ const ListOfUsers = ({ selectedUser }) => {
       const token = localStorage.getItem('token');
       if (token) {
 
-        const res = await fetch(`http://localhost:8080/user/save`, {
+        const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com/user/save`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

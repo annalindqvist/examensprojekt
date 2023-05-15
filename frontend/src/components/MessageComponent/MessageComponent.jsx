@@ -1,6 +1,6 @@
 const MessageComponent = ({message, myMessage}) => {
     
-    const imageUrl = `http://localhost:8080/static/undefined`;
+    const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com/static/undefined`;
 console.log(myMessage)
     return ( 
         <div>
