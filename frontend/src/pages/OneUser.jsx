@@ -14,15 +14,15 @@ const OneUser = () => {
     const {selectedUser, dispatch} = useUserContext();
     const {user} = useAuthContext();
 
-    // const URL1 = `http://143-42-49-241.ip.linodeusercontent.com/user/${params.id}`;
-    // const URL2 = "http://143-42-49-241.ip.linodeusercontent.com/user/${params.id}";
+    // const URL1 = `http://143-42-49-241.ip.linodeusercontent.com:8080/user/${params.id}`;
+    // const URL2 = "http://143-42-49-241.ip.linodeusercontent.com:8080/user/${params.id}";
     
   //console.log(env.REACT_APP_API_URL)
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     const fetchUser = async () => {
-      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com/user/${params.id}`, {
+      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/user/${params.id}`, {
         method: 'GET',
         headers: {'Authorization': `Bearer ${token}`},
       })

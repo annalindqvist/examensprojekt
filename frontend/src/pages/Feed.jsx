@@ -17,19 +17,19 @@ import env from "react-dotenv";
 
 const Feed = () => {
 
-  // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com/feed";
-  // const URL2 = "http://143-42-49-241.ip.linodeusercontent.com/feed";
+  // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com:8080/feed";
+  // const URL2 = "http://143-42-49-241.ip.linodeusercontent.com:8080/feed";
 
 
   const {posts, dispatch} = usePostContext();
   const {user} = useAuthContext();
-  const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com/static/${user?.img}`;
+  const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${user?.img}`;
   
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     const fetchPosts = async () => {
-      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com/feed', {
+      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/feed', {
         headers: {'Authorization': `Bearer ${token}`},
       })
       const json = await res.json();

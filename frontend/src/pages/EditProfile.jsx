@@ -43,7 +43,7 @@ const EditProfile = () => {
 
         if (token) {
 
-            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com/user/edit', {
+            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/user/edit', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
             body: JSON.stringify({ age, city, description, intrests}),
