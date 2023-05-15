@@ -7,9 +7,9 @@ import { usePostContext } from '../../hooks/usePostContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 // ICONS IMPORT
-import { HiOutlineTrash } from 'react-icons/hi2';
-import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
-import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
+// import { HiOutlineTrash } from 'react-icons/hi2';
+// import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
+// import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
 
 // CSS IMPORT
 import './PostOnFeed.css';
@@ -121,7 +121,7 @@ const PostOnFeed = ({ post }) => {
         <div>
           <p className="m-font m-weight dark-text">{firstname}</p>
           {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
-          {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash/></span> } 
+          {postedByUser && <span className="delete-post" onClick={handleDelete}>delete</span> } 
           <div className="time-city">
             <p className="xs-font grey-text">23 min ago | {city}</p>
           </div>
@@ -132,19 +132,19 @@ const PostOnFeed = ({ post }) => {
       <div className="flex-row post-like-comment">
       {likedByUser ? (
           <span onClick={handleLike} className="flex-row mediumpink-text">
-            <RiHeart3Fill />
+            liked
             {likes > 0 && <p className="liked-commented dark-text">{likes}</p>}
           </span>
           ) : (
             
               <span onClick={handleLike} className="flex-row dark-text">
-                <RiHeart3Line />
+                like
                 {likes > 0 && <p className="liked-commented dark-text">{likes}</p>}
               </span>
             
           )}        
         <Link to={`/feed/${postId}`}>
-          <span className="black-text flex-row"><HiOutlineChatBubbleOvalLeftEllipsis/>{comments > 0 ? <p className="liked-commented dark-text">{comments}</p> : ''}</span>
+          <span className="black-text flex-row">comments{comments > 0 ? <p className="liked-commented dark-text">{comments}</p> : ''}</span>
         </Link>
       </div>
     </div>

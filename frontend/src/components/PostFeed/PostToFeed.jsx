@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // ICON IMPORT
-import { IoClose } from 'react-icons/io5';
+// import { IoClose } from 'react-icons/io5';
 
 // HOOKS IMPORT
 import { usePostContext } from "../../hooks/usePostContext";
@@ -65,7 +65,7 @@ const PostToFeed = () => {
             <form onSubmit={handleSubmit} className="post-to-feed-page pink-background">
                 <div className="post-input-top flex-row">
                     <Link to="/" className="item1">
-                        <span className="dark-text"><IoClose/></span>
+                        <span className="dark-text">x</span>
                     </Link>
                     <p className="s-font item2">Share post</p>
                     <input  type="submit" value="Publish" className="item3" id="post-to-feed-submit"/>
