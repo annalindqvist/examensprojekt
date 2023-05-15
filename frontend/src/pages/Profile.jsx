@@ -4,14 +4,20 @@ import { Link } from 'react-router-dom';
 
 // HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useSignout } from '../hooks/useSignoutContext';
 
 import env from "react-dotenv";
 // `${env.REACT_APP_API_URL}/`
 
 const Profile = () => {
-
+  
+    const { signout } = useSignout();
     const {user} = useAuthContext();
-    const imageUrl = `http://localhost:8080/static/${user.img}`;
+    const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com/static/${user.img}`;
+
+    const handleClick = () => {
+      signout();
+    };
 
     return (
       <div>
@@ -30,6 +36,7 @@ const Profile = () => {
         <Link to="/user/edit">Edit profile</Link>
         <Link to="/user/edit-profile-picture">Edit profile picture</Link>
         <Link to="/user/settings">Settings</Link>
+        <button onClick={handleClick}>Sign out</button>
     </div>
     );
   };

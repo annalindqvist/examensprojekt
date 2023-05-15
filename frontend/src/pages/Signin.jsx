@@ -4,7 +4,7 @@ import SigninComponent from '../components/SigninAndSignup/SigninComponent';
 
 const Signin = () => {
 
-    return <div className="centered-content-column full-screen-content blue-background white-text">
+    return <div className="centered-content-column full-screen-content pink-background">
        
         <SigninComponent/>
         

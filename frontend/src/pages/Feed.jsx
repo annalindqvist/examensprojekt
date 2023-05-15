@@ -1,8 +1,13 @@
+
+// REACT IMPORTS
 import { useEffect }from 'react';
+import { Link } from 'react-router-dom';
+
+// HOOKS IMPORTS
 import { usePostContext } from "../hooks/usePostContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-// COMPONENTS
+// COMPONENTS IMPORTS
 import PostOnFeed from "../components/PostOnFeed/PostOnFeed";
 import PostToFeed from "../components/PostFeed/PostToFeed";
 
@@ -12,17 +17,19 @@ import env from "react-dotenv";
 
 const Feed = () => {
 
-  // const URL1 = "http://localhost:8080/feed";
-  // const URL2 = "http://localhost:8080/feed";
+  // const URL1 = "http://143-42-49-241.ip.linodeusercontent.com/feed";
+  // const URL2 = "http://143-42-49-241.ip.linodeusercontent.com/feed";
+
 
   const {posts, dispatch} = usePostContext();
   const {user} = useAuthContext();
+  const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com/static/${user?.img}`;
   
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     const fetchPosts = async () => {
-      const res = await fetch('http://localhost:8080/feed', {
+      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com/feed', {
         headers: {'Authorization': `Bearer ${token}`},
       })
       const json = await res.json();
@@ -41,21 +48,29 @@ const Feed = () => {
   }, [dispatch, user]);
 
     return (
-      <div className="light-background flex">
+      <div className="pink-background flex">
         <div className="logo flex">
-          <h1 className="lily-font blue-text l-font">GalVibe</h1>
-          <h2 className="blue-text xs-font">The place to connect with new gals!</h2>
+          <h1 className="lily-font dark-text l-font">GalVibe</h1>
+          <h2 className="dark-text xs-font">The place to connect with new gals!</h2>
         </div>
 
-        <PostToFeed/>
+       
+          <Link to="/share-post" className="post-input-container flex-row">
+            {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
+            <p className="s-font dark-text">Share a post {user?.firstname}!</p>
+          </Link>
+         
+          {/* <PostToFeed/> */}
+        
 
-        <div className="postOnFeed">
+        <div className="post-on-feed overflow-scroll">
           {posts && posts.map((post) => (
             <PostOnFeed key={post._id} post={post} />
           ))}
         </div>
         
       </div>
+     
     );
   };
   

@@ -1,4 +1,4 @@
-form {
+/* form {
     width: 100%;
     max-width: 400px;
     padding: 16px; 
@@ -13,13 +13,13 @@ form input{
     border: none;
     outline: none;
     width: 100%;
-    background-color: #FDF0E8;
+    background-color: #fafafa;
     box-shadow: inset 4px 4px 4px rgba(234, 116, 74, 0.08);
 }
 
 form input[type=submit] {
     color: #FDF0E8;
-    background-color: #EA744A;
+    background-color: #E497BB;
     width: 50%;
     border-radius: 10px;
     border: none;
@@ -37,7 +37,7 @@ form input[type=checkbox] {
     background-color: #FDF0E8; 
 }  */
 
-a {
+/* a {
     color:#FDF0E8
 }
 .terms-flex {
@@ -45,4 +45,4 @@ a {
     align-items: center;
     flex-wrap: nowrap;
     justify-content: flex-start;
-}
+}  */
