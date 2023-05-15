@@ -25,6 +25,7 @@ const getAllPosts = async () => {
             createdAt: -1
         })
         .exec();
+        console.log("Posts", posts)
     return posts;
 }
 
