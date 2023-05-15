@@ -11,7 +11,7 @@ import env from "react-dotenv";
 const Profile = () => {
 
     const {user} = useAuthContext();
-    const imageUrl = `http://localhost:8080static/${user.img}`;
+    const imageUrl = `http://localhost:8080/static/${user.img}`;
 
     return (
       <div>

@@ -10,7 +10,7 @@ const createToken = (_id) => {
     return jwt.sign({
         _id
     }, process.env.JWT_SECRET, {
-        expiresIn: '3d'
+        expiresIn: '7d'
     })
 }
 
@@ -324,6 +324,7 @@ const saveOneUser = async (req, res) => {
             _id: req.user._id,
             savedGirls: saveUserId
         })
+        console.log("alreadySaved" ,alreadySaved)
         if (alreadySaved) {
             await UserModel.updateOne({
                 _id: req.user._id,

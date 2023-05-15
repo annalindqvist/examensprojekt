@@ -36,7 +36,7 @@ const EditProfile = () => {
         return setInterests(intrests.filter(i => i !== checkedValue ))
       }
     }
-    
+
     const editProfile = async () => {
 
         const token = localStorage.getItem('token');

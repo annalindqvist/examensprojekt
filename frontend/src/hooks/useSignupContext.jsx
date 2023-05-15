@@ -13,7 +13,7 @@ export const useSignup = () => {
     setIsLoading(true)
     setError(null)
 
-    //const URL1 = "http://localhost:8080backend/sign-in";
+    //const URL1 = "http://localhost:8080/backend/sign-in";
     // const URL2 = "http://localhost:8080/sign-up";
 
     const res = await fetch(`http://localhost:8080/sign-up`, {

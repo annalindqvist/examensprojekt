@@ -31,7 +31,7 @@ const PostOnFeed = ({ post }) => {
   const city = post.postedBy ? post.postedBy.city : "Unknown";
   const image = post.postedBy ? post.postedBy.img : "Unknown";
 
-  const imageUrl = `http://localhost:8080static/${image}`;
+  const imageUrl = `http://localhost:8080/static/${image}`;
 
   useEffect(() => {
     if (post.postedBy._id == user._id){
@@ -58,7 +58,7 @@ const PostOnFeed = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token && postedByUser) {
 
-      const res = await fetch(`${env.REACT_APP_API_URL}/feed/delete/` + postId,  {
+      const res = await fetch(`http://localhost:8080/feed/delete/` + postId,  {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -78,7 +78,7 @@ const PostOnFeed = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token) {
 
-      const res = await fetch(`${env.REACT_APP_API_URL}/feed/like/` + postId,  {
+      const res = await fetch(`http://localhost:8080/feed/like/` + postId,  {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`

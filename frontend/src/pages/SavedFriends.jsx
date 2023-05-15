@@ -8,7 +8,7 @@ const SavedFriends = () => {
 
     const {user} = useAuthContext();
     console.log("user", user)
-   
+    console.log("user.savedGirls, ", user.savedGirls)
     return (
       <div>
         <h1>Your saved girls</h1>

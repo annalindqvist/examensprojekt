@@ -14,10 +14,10 @@ export const useSignin = () => {
     setError(null)
 
 
-    //const URL1 = "http://localhost:8080backend/sign-in";
+    //const URL1 = "http://localhost:8080/backend/sign-in";
     // const URL2 = "http://localhost:8080/sign-in";
 
-    const res = await fetch(`http://localhost:8080/sign-in`, {
+    const res = await fetch('http://localhost:8080/sign-in', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ email, password })

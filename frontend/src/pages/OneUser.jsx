@@ -14,7 +14,7 @@ const OneUser = () => {
     const {selectedUser, dispatch} = useUserContext();
     const {user} = useAuthContext();
 
-    // const URL1 = `http://localhost:8080user/${params.id}`;
+    // const URL1 = `http://localhost:8080/user/${params.id}`;
     // const URL2 = "http://localhost:8080/user/${params.id}";
     
   //console.log(env.REACT_APP_API_URL)

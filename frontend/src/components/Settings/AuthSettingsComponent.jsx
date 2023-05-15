@@ -27,7 +27,7 @@ const AuthSettingsComponent = () => {
                 return console.log("Password doesnt match");
             }
 
-            const res = await fetch('http://localhost:8080user/auth-settings', {
+            const res = await fetch('http://localhost:8080/user/auth-settings', {
             method: 'PUT',
             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
             body: JSON.stringify({ email, oldPassword, newPassword1, newPassword2 }),

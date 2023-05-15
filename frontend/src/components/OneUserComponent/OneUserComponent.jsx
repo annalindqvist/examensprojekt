@@ -9,9 +9,12 @@ import env from "react-dotenv";
 
 const ListOfUsers = ({ selectedUser }) => {
 
+  // const URL1 = "http://localhost:8080/feed";
+  // const URL2 = "http://localhost:8080/feed";
+
     const {user, dispatch} = useAuthContext();
     const firstname = selectedUser.firstname ? selectedUser.firstname : "";
-    const imageUrl = selectedUser.img ? `http://localhost:8080static/${selectedUser.img}` : "";
+    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "";
     const userId = selectedUser._id;
     const intrests = selectedUser.intrests;
     const [saved, setSaved] = useState(false);
@@ -38,8 +41,7 @@ const ListOfUsers = ({ selectedUser }) => {
             body: JSON.stringify({ saveUserId: userId})
             })
         const json = await res.json()
-        console.log("json savegirl", json)
-  
+            console.log(json)
         if (res.ok) {
           dispatch({type: 'UPDATE_USER', payload: json.user})
           localStorage.setItem('user', JSON.stringify(json.user));
