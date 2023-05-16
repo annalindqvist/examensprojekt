@@ -27,7 +27,7 @@ const openChat = async (req, res) => {
                 conversationId: chat[0]._id,
             }) .populate("senderId", "_id")
             .exec();
-            console.log(messages)
+            console.log(messages[9])
             res.status(200).json({chat: chat[0]._id, messages});
         } else {
             console.log("no chat")
@@ -60,8 +60,8 @@ const sendMessage = async (req, res) => {
             text
         });
         await messageDoc.save();
-
-        res.status(200).json(messageDoc);
+        console.log("messageDoc", messageDoc)
+        res.status(200).json({conversationId: messageDoc.conversationId, text: messageDoc.text, senderId: {_id: messageDoc.senderId}, createdAt: messageDoc.createdAt});
 
     } catch (error) {
         res.status(400).json({
@@ -70,24 +70,24 @@ const sendMessage = async (req, res) => {
     }
 }
 
-const getChatMessages = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const messages = await MessageModel.find({
-            conversationId: req.params.conversationId,
-        });
+// const getChatMessages = async (req, res) => {
+//     try {
+//         const id = req.params.id;
+//         const messages = await MessageModel.find({
+//             conversationId: req.params.conversationId,
+//         });
         
-        res.status(200).json(messages);
+//         res.status(200).json(messages);
 
-    } catch (err) {
-        res.status(500).send('Server error');
-    }
-}
+//     } catch (err) {
+//         res.status(500).send('Server error');
+//     }
+// }
 
 
 export default {
     openChat,
     sendMessage,
-    getChatMessages,
+    // getChatMessages,
     
 };

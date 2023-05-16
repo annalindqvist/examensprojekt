@@ -14,6 +14,6 @@ ChatRouter.post("/chat/open", ChatController.openChat);
 ChatRouter.post("/chat/send", ChatController.sendMessage);
 
 // get old chat history
-ChatRouter.get("/chat/messages:id", ChatController.getChatMessages);
+// ChatRouter.get("/chat/messages:id", ChatController.getChatMessages);
 
 export default ChatRouter;

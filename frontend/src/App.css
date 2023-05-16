@@ -103,6 +103,10 @@ a {
   font-size: 45px;
 }
 
+.normal-weight {
+  font-weight: 400;
+}
+
 .m-weight {
   font-weight: 600;
 }
