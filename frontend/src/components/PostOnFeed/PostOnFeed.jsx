@@ -7,7 +7,7 @@ import { usePostContext } from '../../hooks/usePostContext';
 import { useAuthContext } from '../../hooks/useAuthContext';
 
 // ICONS IMPORT
-// import { HiOutlineTrash } from 'react-icons/hi2';
+import { HiOutlineTrash } from 'react-icons/hi2';
 // import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 // import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
 
@@ -121,7 +121,7 @@ const PostOnFeed = ({ post }) => {
         <div>
           <p className="m-font m-weight dark-text">{firstname}</p>
           {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
-          {postedByUser && <span className="delete-post" onClick={handleDelete}>delete</span> } 
+          {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash/></span> } 
           <div className="time-city">
             <p className="xs-font grey-text">23 min ago | {city}</p>
           </div>
