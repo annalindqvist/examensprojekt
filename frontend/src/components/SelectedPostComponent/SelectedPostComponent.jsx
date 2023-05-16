@@ -7,10 +7,10 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { usePostContext } from "../../hooks/usePostContext";
 
 // IMPORT ICONS
-// import { HiOutlineTrash } from 'react-icons/hi2';
-// import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
-// import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
-// import { BsSend } from 'react-icons/bs';
+import { HiOutlineTrash } from 'react-icons/hi2';
+import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
+import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
+import { BsSend } from 'react-icons/bs';
 
 
 
@@ -148,7 +148,7 @@ const SelectedPostComponent = ({ post }) => {
             <div className="time-city">
             <p className="xs-font grey-text">23 min ago | {city}</p>
           </div>
-            {postedByUser && <span className="delete-post" onClick={handleDelete}>delete</span>}
+            {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash/></span>}
             {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
           </div>
         </div>
@@ -157,16 +157,16 @@ const SelectedPostComponent = ({ post }) => {
         <div className="flex-row post-like-comment">
           {likedByUser ? (
             <span onClick={handleLike} className="flex-row mediumpink-text">
-              liked
+              <RiHeart3Fill/>
               {likes > 0 && <p className="liked-commented dark-text">{likes}</p>}
             </span>
           ) : (
               <span onClick={handleLike} className="flex-row dark-text">
-               like
+               <RiHeart3Line/>
                 {likes > 0 && <p className="liked-commented dark-text">{likes}</p>}
               </span>
           )}
-         <span className="black-text flex-row">comments{comments > 0 ? <p className="liked-commented dark-text">{comments}</p> : ''}</span>
+         <span className="black-text flex-row"><HiOutlineChatBubbleOvalLeftEllipsis/>{comments > 0 ? <p className="liked-commented dark-text">{comments}</p> : ''}</span>
 
         </div>
 
@@ -185,7 +185,7 @@ const SelectedPostComponent = ({ post }) => {
 
         <form className="share-post-input">
           <textarea name="comment" id="comment" cols="30" rows="3" value={comment} onChange={(e) => setComment(e.target.value)} />
-          <span onClick={handleComment}>send</span>
+          <span onClick={handleComment}><BsSend/></span>
         </form>
       </div>
     

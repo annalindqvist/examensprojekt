@@ -4,7 +4,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import ChatConversationComponent from "../components/ChatConversationComponent/ChatConversationComponent";
 import MessageComponent from "../components/MessageComponent/MessageComponent";
 
-// import { BsSend } from 'react-icons/bs';
+import { BsSend } from 'react-icons/bs';
 
 
 const Chat = () => {
@@ -165,7 +165,7 @@ const Chat = () => {
                onChange={(e) => setNewMessage(e.target.value)}
                value={newMessage}
              ></textarea>
-             <span onClick={handleSubmit}>send</span>
+             <span onClick={handleSubmit}><BsSend/></span>
            </div>
          </>
             ) : (
