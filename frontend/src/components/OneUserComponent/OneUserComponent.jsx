@@ -14,7 +14,7 @@ const ListOfUsers = ({ selectedUser }) => {
 
     const {user, dispatch} = useAuthContext();
     const firstname = selectedUser.firstname ? selectedUser.firstname : "";
-    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "";
+    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "http://localhost:8080/static/defaultimg.png";
     const userId = selectedUser._id;
     const intrests = selectedUser.intrests ? selectedUser.intrests : null;
     const description = selectedUser.description ? selectedUser.description : null;

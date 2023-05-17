@@ -34,7 +34,7 @@ const PostOnFeed = ({ post }) => {
   const firstname = post.postedBy ? post.postedBy.firstname : "Unknown";
   const postId = post._id ? post._id : "Unknown";
   const city = post.postedBy ? post.postedBy.city : "Unknown";
-  const image = post.postedBy ? post.postedBy.img : "Unknown";
+  const image = post.postedBy ? post.postedBy.img : "defaultimg.png";
   const createdAt = post.createdAt ? post.createdAt : "";
   const postedById = post.postedBy ? post.postedBy._id : "";
 

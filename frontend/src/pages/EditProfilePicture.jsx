@@ -10,7 +10,7 @@ import env from "react-dotenv";
 const EditProfilePicture = () => {
 
     const {user, dispatch} = useAuthContext();
-    const imageUrl = `http://localhost:8080/static/${user.img}`;
+    const imageUrl = user.img ?  `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
     const [image, setImage] = useState(user.img);
    
     const handleSubmit = async (e) => {
