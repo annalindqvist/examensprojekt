@@ -12,6 +12,8 @@ import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
 import { BsSend } from 'react-icons/bs';
 
+// IMPORT DATE FNS
+import {  formatDistanceToNow } from 'date-fns';
 
 
 const SelectedPostComponent = ({ post }) => {
@@ -30,7 +32,7 @@ const SelectedPostComponent = ({ post }) => {
   const city = post.postedBy ? post.postedBy.city : "Unknown";
   const image = post.postedBy ? post.postedBy.img : "Unknown";
 
-  const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${image}`;
+  const imageUrl = `http://localhost:8080/static/${image}`;
 
   console.log("post",post)
   useEffect(() => {
@@ -69,7 +71,7 @@ const SelectedPostComponent = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token) {
 
-      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/feed/like/' + postId, {
+      const res = await fetch('http://localhost:8080/feed/like/' + postId, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -90,7 +92,7 @@ const SelectedPostComponent = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token && postedByUser) {
 
-      const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/feed/delete/' + postId, {
+      const res = await fetch('http://localhost:8080/feed/delete/' + postId, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -116,7 +118,7 @@ const SelectedPostComponent = ({ post }) => {
         return;
       }
 
-      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/feed/comment/${postId}`, {
+      const res = await fetch(`http://localhost:8080/feed/comment/${postId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -174,9 +176,9 @@ const SelectedPostComponent = ({ post }) => {
           {post.comments && post.comments.map((comment) => (
 
             <div className="flex-row" key={comment._id}>
-               {comment.postedBy.img && <div style={{ backgroundImage: `url(http://143-42-49-241.ip.linodeusercontent.com:8080/static/${comment.postedBy.img})`}} alt="profileimage" className="s-profile-img"/> }
+               {comment.postedBy.img && <div style={{ backgroundImage: `url(http://localhost:8080/static/${comment.postedBy.img})`}} alt="profileimage" className="s-profile-img"/> }
               <div className="comment-flex">
-              <p className="m-weight m-font">{comment.postedBy.firstname}</p>
+              <p className="m-weight m-font">{comment.postedBy.firstname} <span className="xs-font normal-weight">{comment.createdAt? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span></p>
               <p className="m-font">{comment.comment}</p>
               </div>
             </div>

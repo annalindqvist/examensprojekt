@@ -17,8 +17,8 @@ import './PostOnFeed.css';
 import env from "react-dotenv";
 // `${env.REACT_APP_API_URL}/`
 
-// date fns
-//import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+// IMPORT DATE FNS
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const PostOnFeed = ({ post }) => {
   console.log(post)
@@ -35,8 +35,9 @@ const PostOnFeed = ({ post }) => {
   const postId = post._id ? post._id : "Unknown";
   const city = post.postedBy ? post.postedBy.city : "Unknown";
   const image = post.postedBy ? post.postedBy.img : "Unknown";
+  const createdAt = post.createdAt ? post.createdAt : "";
 
-  const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${image}`;
+  const imageUrl = `http://localhost:8080/static/${image}`;
 
   console.log("post", post.likes)
 
@@ -78,7 +79,7 @@ const PostOnFeed = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token && postedByUser) {
 
-      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/feed/delete/` + postId,  {
+      const res = await fetch(`http://localhost:8080/feed/delete/` + postId,  {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -98,7 +99,7 @@ const PostOnFeed = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token) {
 
-      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/feed/like/` + postId,  {
+      const res = await fetch(`http://localhost:8080/feed/like/` + postId,  {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -123,7 +124,7 @@ const PostOnFeed = ({ post }) => {
           {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
           {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash/></span> } 
           <div className="time-city">
-            <p className="xs-font grey-text">23 min ago | {city}</p>
+            <p className="xs-font grey-text">{createdAt? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : createdAt}  | {city}</p>
           </div>
         </div>
       </div>

@@ -6,7 +6,6 @@ import MessageComponent from "../components/MessageComponent/MessageComponent";
 
 import { BsSend } from 'react-icons/bs';
 
-
 const Chat = () => {
 
     const {user} = useAuthContext();
@@ -18,7 +17,9 @@ const Chat = () => {
     const socket = useRef();
     
     useEffect(() => {
-        socket.current = io('http://143-42-49-241.ip.linodeusercontent.com:8080'); // Connect to the Socket.io server
+      
+        // Connect to the Socket.io server
+        socket.current = io('http://localhost:8080'); 
         console.log(socket)
         // Handle connection
         socket.current.on('connect', () => {
@@ -26,12 +27,13 @@ const Chat = () => {
         });
 
         socket.current.on("getMessage", (data) => {
-          console.log(data)
+          console.log("getMessage current on", data)
             setPreviousMessage({
-              sender: data.sender,
+              senderId: data.senderId,
               text: data.text,
               createdAt: Date.now(),
             });
+            console.log("previousmessage getmessage", previousMessage)
           });
     
         // Handle disconnection
@@ -44,6 +46,7 @@ const Chat = () => {
         };
       }, []);
 
+
       useEffect(() => {
         socket.current.emit("newConnectedUser", user._id);
         
@@ -51,12 +54,15 @@ const Chat = () => {
 
       // 
       useEffect(() => {
+        console.log("useEffect prevcurent", previousMessage, currentChat)
         if (previousMessage && currentChat) {
           const isMessageForCurrentChat = currentChat.some(
-            (chatMember) => chatMember._id === previousMessage.sender
+            (chatMember) => chatMember._id === previousMessage.senderId
           );
           if (isMessageForCurrentChat) {
+            console.log("before ismessageforcurrentchat", messages)
             setMessages((prevMessages) => [...prevMessages, previousMessage]);
+            console.log("AFTER ismessageforcurrentchat", messages)
           }
         }
       }, [previousMessage, currentChat]);
@@ -70,7 +76,7 @@ const Chat = () => {
 
             const members = {reciever: currentChat[0]._id, me: user._id};
             console.log("members", members)
-            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/chat/open/', {
+            const res = await fetch('http://localhost:8080/chat/open/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,7 +106,7 @@ const Chat = () => {
             text: newMessage,
             conversationId: chatId,
             };
-        console.log(message)
+            console.log("message to send", message)
             const receiverId = currentChat.find(
             (chatMember) => chatMember._id !== user._id
             );
@@ -116,7 +122,7 @@ const Chat = () => {
                 console.log("You must be signed in to post.");
                 return;
             }
-            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/chat/send', {
+            const res = await fetch('http://localhost:8080/chat/send', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -129,10 +135,9 @@ const Chat = () => {
 
             setMessages([...messages, json]);
             setNewMessage("");
-            console.log("messages", messages)
-            
+            console.log("messages in handlesubmit", messages)
             console.log(json)
-        
+            
             if (!res.ok) {
                 console.log("error")
             };
@@ -141,7 +146,8 @@ const Chat = () => {
             };
         } 
       };
-    console.log("currentChat", currentChat)
+    //console.log("currentChat", currentChat)
+    console.log("after submit messages", messages)
 
     return ( 
         <div className="white-background">
