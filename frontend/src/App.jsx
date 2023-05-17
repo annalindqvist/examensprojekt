@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // import {useState, useEffect} from "react";
 import { useAuthContext } from './hooks/useAuthContext'
+import { useSocketContext } from "./hooks/useSocketContext";
 
 // PAGES
 import Signin from "./pages/Signin";
@@ -22,12 +23,19 @@ import Settings from './pages/Settings';
 import Chat from './pages/Chat';
 import PostToFeedPage from './pages/PostToFeedPage';
 import CurrentChat from './pages/CurrentChat';
-
+import { useEffect } from 'react';
 
 export default function App() {
+  const { socket } = useSocketContext();
 
-  const { user } = useAuthContext()
+  const { user, dispatch } = useAuthContext()
   console.log("USER", user)
+
+  useEffect(() => {
+    if (user && socket) {
+      socket.emit("newConnectedUser", user._id);
+    } 
+  },[dispatch, socket])
 
   return (
     <div className="App">

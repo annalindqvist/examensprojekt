@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
   socket.on("sendMessage", ({senderId, receiverId, text}) => {
     console.log("sendMessage", senderId, receiverId, text)
     const user = getConnectedUser(receiverId);
-    
+    console.log("CONNECTEDusers", connectedUsers.length)
     console.log("reveiver-user", user)
     if(user) {
       console.log("user", user)

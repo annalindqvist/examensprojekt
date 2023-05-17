@@ -9,10 +9,6 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSocketContext } from "../hooks/useSocketContext";
 
-// IMPORT COMPONENTS
-import ChatConversationComponent from "../components/ChatConversationComponent/ChatConversationComponent";
-import MessageComponent from "../components/MessageComponent/MessageComponent";
-
 // IMPORT ICONS
 import { BsSend } from 'react-icons/bs';
 
@@ -48,8 +44,6 @@ const Chat = () => {
   }, [dispatch, user]);
 
 
-
-
   return (
     <div className="white-background">
       <div className="logo flex">
@@ -57,14 +51,14 @@ const Chat = () => {
         <h2 className="dark-text xs-font">The place to connect with new gals!</h2>
       </div>
 
-      
+
       <button onClick={() => setAllChats(true)}>Chats</button>
       <button onClick={() => setAllChats(false)}>Saved</button>
 
 
       {allChats ? (
         <>
-        {/* PREVIOUS CHATS */}
+          {/* PREVIOUS CHATS */}
           <h1>Chats</h1>
           {listOfChats &&
             listOfChats.map((chat) =>
@@ -86,7 +80,7 @@ const Chat = () => {
       ) : (
         <>
           <h1>Saved</h1>
-        {/* ALL SAVED */}
+          {/* ALL SAVED */}
           {user.savedGirls &&
             user.savedGirls.map((girl) => (
               <Link to={`/chat/${girl._id}`} key={girl._id}>

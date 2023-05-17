@@ -11,7 +11,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useSocketContext } from "../hooks/useSocketContext";
 import { useUserContext } from "../hooks/useUserContext";
 
-
 // IMPORT COMPONENTS
 import MessageComponent from "../components/MessageComponent/MessageComponent";
 import TopOfChatComponent from "../components/MessageComponent/TopOfChatComponent";
@@ -23,7 +22,7 @@ const CurrentChat = () => {
 
     const params = useParams();
     const { user } = useAuthContext();
-    const { dispatch, selectedChat } = useSocketContext();
+    const { dispatch, selectedChat, socket } = useSocketContext();
     const { selectedUser, dispatch: userDispatch } = useUserContext();
 
     const [messages, setMessages] = useState([]);
@@ -31,44 +30,42 @@ const CurrentChat = () => {
     const [currentChat, setCurrentChat] = useState(null);
     const [chatId, setChatId] = useState(null);
     const [previousMessage, setPreviousMessage] = useState(null);
-    const socket = useRef();
+    // const socket = useRef();
     const effectRan = useRef(false);
 
     useEffect(() => {
 
-        // Connect to the Socket.io server
-        socket.current = io('http://localhost:8080');
-        //console.log(socket)
-        // Handle connection
-        socket.current.on('connect', () => {
-            console.log('Connected to Socket.io server.');
-        });
-
-
-        socket.current.on("getMessage", (message) => {
-            console.log("getMessage current on", message)
-            setPreviousMessage({
-                senderId: message.senderId,
-                text: message.text,
-                createdAt: Date.now(),
+        // // Connect to the Socket.io server
+        // socket.current = io('http://localhost:8080');
+        // //console.log(socket)
+        // // Handle connection
+        // socket.current.on('connect', () => {
+        //     console.log('Connected to Socket.io server.');
+        // });
+        
+        if(socket) {
+            
+        
+            socket.on("getMessage", (message) => {
+                console.log("getMessage current on", message)
+                setPreviousMessage({
+                    senderId: message.senderId,
+                    text: message.text,
+                    createdAt: Date.now(),
+                });
+                console.log("previousmessage getmessage", previousMessage)
             });
-            console.log("previousmessage getmessage", previousMessage)
-        });
+    
+            return () => {
+                socket.off(); // Clean up the socket connection when unmounting the component
+            };
+        }
+        }, [socket, setPreviousMessage]);
 
-        // Handle disconnection
-        socket.current.on('disconnect', () => {
-            console.log('Disconnected from Socket.io server.');
-        });
+    // useEffect(() => {
+    //     socket.current.emit("newConnectedUser", user._id);
 
-        return () => {
-            socket.current.disconnect(); // Clean up the socket connection when unmounting the component
-        };
-    }, []);
-
-    useEffect(() => {
-        socket.current.emit("newConnectedUser", user._id);
-
-    }, [user]);
+    // }, [user]);
 
     //create chat if there is no one
     // get previous sent messages
@@ -162,7 +159,7 @@ const CurrentChat = () => {
 
             const receiverId = selectedUser._id;
 
-            socket.current.emit("sendMessage", {
+            socket.emit("sendMessage", {
                 senderId: user._id,
                 receiverId,
                 text: newMessage,
@@ -194,6 +191,8 @@ const CurrentChat = () => {
             };
         }
     };
+
+    //console.log("SOCKET", socket)
 
     return (
         <>
