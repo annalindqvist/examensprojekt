@@ -27,7 +27,7 @@ export const SocketReducer = (state, action) => {
     case 'CHAT_NOTIFICATIONS':
       console.log("CHAT_NOTIFICATIONS")
       return {
-        ...state, chatNotifications: action.payload._id
+        ...state, chatNotifications: action.payload
       }
     case 'OTHER_NOTIFICATINS':
       console.log("OTHER_NOTIFICATIONS")

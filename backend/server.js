@@ -89,8 +89,15 @@ io.on('connection', (socket) => {
         senderId,
         text,
       });
+    const notificationPayload = {
+      senderId,
+      text,
+      createdAt: new Date()
+    };
+    // Send notification 
+    io.to(user.socketId).emit("newChatNotification", notificationPayload);
     }
-    
+
   });
 
   // disconnectioned user

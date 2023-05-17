@@ -62,6 +62,25 @@ const CurrentChat = () => {
         }
         }, [socket, setPreviousMessage]);
 
+        useEffect(() => {
+            // Listen for the "newChatNotification" event
+            
+            if(socket) {
+
+            
+            socket.on("newChatNotification", (notification) => {
+                console.log("notification", notification)
+                // Update the chat notifications state
+              dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
+            });
+            
+            return () => {
+              // Clean up the event listener when component unmounts
+              socket.off("newChatNotification");
+            };
+        }
+          }, [socket, dispatch]);
+
     // useEffect(() => {
     //     socket.current.emit("newConnectedUser", user._id);
 
