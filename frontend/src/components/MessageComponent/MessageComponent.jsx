@@ -1,6 +1,5 @@
 import {  formatDistanceToNow } from 'date-fns';
 
-
 const MessageComponent = ({message, myMessage}) => {
     
     const imageUrl = `http://localhost:8080/static/undefined`;
