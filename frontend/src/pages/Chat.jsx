@@ -1,9 +1,18 @@
+// SOCKET IMPORT
 import { io } from "socket.io-client";
+
+// REACT IMPORTS
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+
+// IMPORT HOOKS
 import { useAuthContext } from "../hooks/useAuthContext";
+
+// IMPORT COMPONENTS
 import ChatConversationComponent from "../components/ChatConversationComponent/ChatConversationComponent";
 import MessageComponent from "../components/MessageComponent/MessageComponent";
 
+// IMPORT ICONS
 import { BsSend } from 'react-icons/bs';
 
 const Chat = () => {
@@ -146,9 +155,8 @@ const Chat = () => {
             };
         } 
       };
-    //console.log("currentChat", currentChat)
-    console.log("after submit messages", messages)
-
+    console.log("currentChat", currentChat)
+    
     return ( 
         <div className="white-background">
           <div className="logo flex">
@@ -158,7 +166,10 @@ const Chat = () => {
         {currentChat ? (
             <>
               <div>
+                {/* Link to profile */}
+              <Link to={`/user/${currentChat[0]._id}`}>
                 <p>Open chat with: {currentChat[0].firstname}</p>
+              </Link>
               </div>
              <div className="chat-messages-container">
              {messages?.map((m) => (

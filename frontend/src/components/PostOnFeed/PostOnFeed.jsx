@@ -36,6 +36,7 @@ const PostOnFeed = ({ post }) => {
   const city = post.postedBy ? post.postedBy.city : "Unknown";
   const image = post.postedBy ? post.postedBy.img : "Unknown";
   const createdAt = post.createdAt ? post.createdAt : "";
+  const postedById = post.postedBy ? post.postedBy._id : "";
 
   const imageUrl = `http://localhost:8080/static/${image}`;
 
@@ -118,7 +119,11 @@ const PostOnFeed = ({ post }) => {
     <div className="post">
 
       <div className="flex-row">
-        {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
+        {/* Link to profile */}
+        {postedById && <Link to={`/user/${postedById}`}>
+          {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
+        </Link>}
+        
         <div>
           <p className="m-font m-weight dark-text">{firstname}</p>
           {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
