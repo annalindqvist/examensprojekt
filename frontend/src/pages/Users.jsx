@@ -1,5 +1,5 @@
 // REACT IMPORTS
-import { useEffect }from 'react';
+import { useEffect, useState }from 'react';
 import { Link } from 'react-router-dom';
 
 // HOOKS IMPORT
@@ -8,6 +8,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 // COMPONENT IMPORTS
 import ListOfUsers from '../components/ListOfUsers/ListOfUsers';
+import SavedFriendsComponent from "../components/SavedFriends/SavedFriendsComponent";
 
 import env from "react-dotenv";
 // `${env.REACT_APP_API_URL}/`
@@ -16,6 +17,8 @@ const Users = () => {
 
   const {listOfUsers, dispatch} = useUserContext();
   const {user} = useAuthContext();
+  const [allUsers, setAllUsers] = useState(true)
+
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -44,8 +47,12 @@ const Users = () => {
     return (
       <div className="pink-background">
         <h1>All users</h1>
-        <Link to="/user/saved">Saved</Link>
-        <div className="list-of-users">
+        <span onClick={() => setAllUsers(true)}>Explore</span>
+        <span onClick={() => setAllUsers(false)}>Saved</span>
+
+        {allUsers ? (
+        <>
+          <div className="list-of-users">
             {listOfUsers && listOfUsers.map((users) => {
               if (users._id !== user._id) {
                 return <ListOfUsers key={users._id} user={users} />;
@@ -54,6 +61,17 @@ const Users = () => {
             }
             )}
       </div>
+        </>
+      ) : (
+        <>
+          <h1>Saved</h1>
+          {user.savedGirls && user.savedGirls.map((girl) => (
+            <SavedFriendsComponent key={girl._id} girl={girl} />
+          ))}
+        </>
+      )}
+
+        
       </div>
         
      

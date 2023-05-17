@@ -21,6 +21,7 @@ import EditProfilePicture from './pages/EditProfilePicture';
 import Settings from './pages/Settings';
 import Chat from './pages/Chat';
 import PostToFeedPage from './pages/PostToFeedPage';
+import CurrentChat from './pages/CurrentChat';
 
 
 export default function App() {
@@ -53,6 +54,10 @@ export default function App() {
           <Route 
             path="/chat" 
             element={user ? <Chat /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/chat/:id" 
+            element={user ? <CurrentChat /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/users" 
