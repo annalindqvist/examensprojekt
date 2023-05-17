@@ -13,7 +13,7 @@ const Profile = () => {
   
     const { signout } = useSignout();
     const {user} = useAuthContext();
-    const imageUrl = `http://localhost:8080/static/${user.img}`;
+    const imageUrl = user?.img ? `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
 
     const handleClick = () => {
       signout();

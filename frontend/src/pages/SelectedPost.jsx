@@ -11,10 +11,7 @@ const Comments = () => {
 
     const params = useParams();
     const {selectedPost, dispatch} = usePostContext();
-    
-
-    // const URL1 = `http://localhost:8080/feed/${params.id}`;
-    // const URL2 = `http://localhost:8080/feed/${params.id}`;
+  
     
   useEffect(() => {
     const token = localStorage.getItem('token');

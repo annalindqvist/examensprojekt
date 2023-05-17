@@ -13,7 +13,8 @@ const SavedFriendComponent = ({ girl }) => {
     const firstname = girl.firstname;
     const city = girl.city;
     const id = girl._id;
-    const imageUrl = `http://localhost:8080/static/${girl.img}`;
+    console.log(girl)
+    const imageUrl = girl.img ? `http://localhost:8080/static/${girl.img}` : 'http://localhost:8080/static/defaultimg.png';
 
   return (
     <div className="user-card">
