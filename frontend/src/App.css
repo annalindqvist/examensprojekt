@@ -407,3 +407,18 @@ a {
   background-color: #F9EAF1;
 
 }
+
+.notification-parent-list {
+  position: relative;
+}
+.notification-indicator-list {
+  position: absolute;
+  top: 5px;
+  
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 10px;
+  background-color: red;
+  z-index: 99999;
+}

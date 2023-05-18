@@ -15,8 +15,9 @@ import { BsSend } from 'react-icons/bs';
 const Chat = () => {
 
   const { user } = useAuthContext();
-  const { dispatch, listOfChats } = useSocketContext();
+  const { dispatch, listOfChats, socket, chatNotifications: socketChatNotifictions } = useSocketContext();
   const [allChats, setAllChats] = useState(true);
+  const [chatNotification, setChatNotifiction] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -44,6 +45,13 @@ const Chat = () => {
   }, [dispatch, user]);
 
 
+  useEffect(() => {
+
+    setChatNotifiction(socketChatNotifictions)
+
+  }, [socketChatNotifictions]);
+  console.log("chat chat not", chatNotification)
+
   return (
     <div className="white-background">
       <div className="logo flex">
@@ -64,11 +72,14 @@ const Chat = () => {
             listOfChats.map((chat) =>
               chat.members.map((member) => {
                 if (member._id !== user._id) {
+                  const newChat = chatNotification.some(
+                    (notification) => notification.senderId === member._id
+                  );
                   return (
-
                     <Link to={`/chat/${member._id}`} key={member._id}>
+                      
                       <div>
-                        <p>{member.firstname}</p>
+                        <p className="notification-parent-list">{member.firstname}{newChat && <span className="notification-indicator-list"></span>}</p>
                       </div>
                     </Link>
                   );
