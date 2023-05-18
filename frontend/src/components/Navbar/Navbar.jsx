@@ -1,5 +1,6 @@
 // REACT IMPORTS
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 // IMPORT ICONS
 import { CgGirl, CgHome } from 'react-icons/cg';
@@ -10,6 +11,8 @@ import { IoMdNotificationsOutline } from 'react-icons/io';
 
 // IMPORT HOOKS
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { useSocketContext } from '../../hooks/useSocketContext';
+
 
 // IMPORT CSS
 import "./Navbar.css"
@@ -17,50 +20,79 @@ import "./Navbar.css"
 const Navbar = () => {
 
   const { user } = useAuthContext();
+  const { socket, dispatch, chatNotifications: socketChatNotifictions } = useSocketContext();
+  const [chatNotification, setChatNotifiction] = useState([]);
+
+
+  useEffect(() => {
+    // Listen for the "newChatNotification" event
+    if (socket) {
+      socket.on("newChatNotification", (notification) => {
+        console.log("notification", notification)
+        // Update the chat notifications state
+        dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
+        setChatNotifiction((prev) => [...prev, notification])
+      });
+
+      return () => {
+        // Clean up the event listener when component unmounts
+        socket.off("newChatNotification");
+      };
+    }
+  }, [socket]);
+
+  useEffect(() => {
+  
+    setChatNotifiction(socketChatNotifictions)
+    
+  }, [socketChatNotifictions]);
+
+  console.log("CHATNOT", chatNotification)
 
   return (
-      <>
+    <>
       {user && (
         <div className="menu">
-            <nav>
-                <Link to="/">
-                  <span className="centered-content-column">
-                    <BiHomeAlt />
-                    <p className="xs-font">Feed</p>
-                  </span>
-                  </Link>
-                <Link to="/profile">
-                    <span className="centered-content-column">
-                      <CgGirl />
-                      <p className="xs-font">Profile</p>
-                    </span>
-                </Link>
-                <Link to="/users">
-                <span className="centered-content-column">
-                      <IoPeopleOutline />
-                      <p className="xs-font">Explore</p>
-                    </span>
-                 
-                  </Link>
-                
-                <Link to="/chat">
-                   <span className="centered-content-column">
-                      <HiOutlineChatBubbleOvalLeftEllipsis />
-                      <p className="xs-font">Chat</p>
-                    </span>
-                </Link>
-                <Link to="/">
-                   <span className="centered-content-column">
-                      <IoMdNotificationsOutline />
-                      <p className="xs-font">Notifications</p>
-                    </span>
-                </Link>
-                
-            </nav>
-          
-        </div> 
+          <nav>
+            <Link to="/">
+              <span className="centered-content-column">
+                <BiHomeAlt className='icon'/>
+                <p className="xs-font">Feed</p>
+              </span>
+            </Link>
+            <Link to="/profile">
+              <span className="centered-content-column">
+                <CgGirl className='icon'/>
+                <p className="xs-font">Profile</p>
+              </span>
+            </Link>
+            <Link to="/users">
+              <span className="centered-content-column">
+                <IoPeopleOutline className='icon'/>
+                <p className="xs-font">Explore</p>
+              </span>
+
+            </Link>
+
+            <Link to="/chat">
+              <span className="centered-content-column notification-parent">
+                {chatNotification.length > 0 ? <span className="notification-indicator"></span> : ""}
+                <HiOutlineChatBubbleOvalLeftEllipsis className='icon'/>
+                <p className="xs-font">Chat</p>
+              </span>
+            </Link>
+            <Link to="/">
+              <span className="centered-content-column">
+                <IoMdNotificationsOutline className='icon'/>
+                <p className="xs-font">Notifications</p>
+              </span>
+            </Link>
+
+          </nav>
+
+        </div>
       )}
-      </>
+    </>
   )
 }
 

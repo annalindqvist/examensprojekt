@@ -22,7 +22,7 @@ const CurrentChat = () => {
 
     const params = useParams();
     const { user } = useAuthContext();
-    const { dispatch, selectedChat, socket } = useSocketContext();
+    const { dispatch, selectedChat, socket, chatNotifications } = useSocketContext();
     const { selectedUser, dispatch: userDispatch } = useUserContext();
 
     const [messages, setMessages] = useState([]);
@@ -62,24 +62,24 @@ const CurrentChat = () => {
         }
         }, [socket, setPreviousMessage]);
 
-        useEffect(() => {
-            // Listen for the "newChatNotification" event
+        // useEffect(() => {
+        //     // Listen for the "newChatNotification" event
             
-            if(socket) {
+        //     if(socket) {
 
             
-            socket.on("newChatNotification", (notification) => {
-                console.log("notification", notification)
-                // Update the chat notifications state
-              dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
-            });
+        //     socket.on("newChatNotification", (notification) => {
+        //         console.log("notification", notification)
+        //         // Update the chat notifications state
+        //       dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
+        //     });
             
-            return () => {
-              // Clean up the event listener when component unmounts
-              socket.off("newChatNotification");
-            };
-        }
-          }, [socket, dispatch]);
+        //     return () => {
+        //       // Clean up the event listener when component unmounts
+        //       socket.off("newChatNotification");
+        //     };
+        // }
+        //   }, [socket, dispatch]);
 
     // useEffect(() => {
     //     socket.current.emit("newConnectedUser", user._id);
@@ -138,6 +138,8 @@ const CurrentChat = () => {
 
         if (res.ok) {
             userDispatch({ type: 'SET_SELECTED_USER', payload: json });
+            dispatch({ type: 'DELETE_CHAT_NOTIFICATIONS', payload: json._id });
+            
             setCurrentChat([json]);
 
         }
@@ -145,6 +147,8 @@ const CurrentChat = () => {
             console.log("res, ", res, "json, ", json)
         }
     }
+
+    
 
 
     // this useEffect shows the messages in realtime for the reviecer.. 

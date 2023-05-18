@@ -20,3 +20,22 @@
 a {
     color: #3C2345;
 }
+
+.icon {
+    font-size: 20px;
+}
+
+.notification-parent {
+    position: relative;
+}
+.notification-indicator {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 10px;
+    background-color: red;
+    z-index: 99999;
+}

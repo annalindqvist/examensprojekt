@@ -24,13 +24,18 @@ export const SocketReducer = (state, action) => {
         ...state,
         selectedChat: action.payload
       }
-    case 'CHAT_NOTIFICATIONS':
-      console.log("CHAT_NOTIFICATIONS")
+    case 'SET_CHAT_NOTIFICATIONS':
+      console.log("SET_CHAT_NOTIFICATIONS", state.chatNotifications, action.payload)
       return {
-        ...state, chatNotifications: action.payload
+        ...state, chatNotifications: [...state.chatNotifications, action.payload]
       }
-    case 'OTHER_NOTIFICATINS':
-      console.log("OTHER_NOTIFICATIONS")
+    case 'DELETE_CHAT_NOTIFICATIONS':
+      console.log("SET_CHAT_NOTIFICATIONS", state.chatNotifications, action.payload)
+      return {
+        ...state, chatNotifications: state.chatNotifications.filter((n) => n.senderId !== action.payload)
+      }
+    case 'SET_OTHER_NOTIFICATINS':
+      console.log("SET_OTHER_NOTIFICATIONS")
       return {
         ...state, otherNotifications: action.payload._id
       }
@@ -44,7 +49,7 @@ export const SocketContextProvider = ({ children }) => {
     socket: null,
     listOfChats: null,
     selectedChat: null,
-    chatNotifications: null,
+    chatNotifications: [],
     otherNotifications: null
   });
 
@@ -71,6 +76,8 @@ export const SocketContextProvider = ({ children }) => {
   }, []);
 
 
+
+console.log("state.chatn", state.chatNotifications)
 
   return (
     <SocketContext.Provider value={{ ...state, dispatch }}>
