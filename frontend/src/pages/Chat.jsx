@@ -53,56 +53,71 @@ const Chat = () => {
   console.log("chat chat not", chatNotification)
 
   return (
-    <div className="white-background">
+    <div className="pink-background">
       <div className="logo flex">
         <h1 className="lily-font dark-text l-font">GalVibe</h1>
-        <h2 className="dark-text xs-font">The place to connect with new gals!</h2>
       </div>
 
+      <div className="inner-container">
+        <div className="btn-container">
+          <span onClick={() => setAllChats(true)} className={allChats ? "active-btn s-font m-weight white-text" : "btn s-font"}>Chats</span>
+          <span onClick={() => setAllChats(false)} className={!allChats ? "active-btn s-font m-weight white-text" : "btn s-font"}>Saved gals</span>
+        </div>
 
-      <button onClick={() => setAllChats(true)}>Chats</button>
-      <button onClick={() => setAllChats(false)}>Saved</button>
 
+        {allChats ? (
+          <>
+            {/* PREVIOUS CHATS */}
 
-      {allChats ? (
-        <>
-          {/* PREVIOUS CHATS */}
-          <h1>Chats</h1>
-          {listOfChats &&
-            listOfChats.map((chat) =>
-              chat.members.map((member) => {
-                if (member._id !== user._id) {
-                  const newChat = chatNotification.some(
-                    (notification) => notification.senderId === member._id
-                  );
-                  return (
-                    <Link to={`/chat/${member._id}`} key={member._id}>
-                      
-                      <div>
-                        <p className="notification-parent-list">{member.firstname}{newChat && <span className="notification-indicator-list"></span>}</p>
+            {listOfChats &&
+              listOfChats.map((chat) =>
+                chat.members.map((member) => {
+                  if (member._id !== user._id) {
+                    const newChat = chatNotification.some(
+                      (notification) => notification.senderId === member._id
+                    );
+                    const imageUrl = member.img ? `http://localhost:8080/static/${member.img}` : 'http://localhost:8080/static/defaultimg.png';
+                    return (
+                      <Link to={`/chat/${member._id}`} key={member._id}>
+
+                        <div className="flex-row chat-list">
+                          {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})` }} alt="profileimage" className="s-profile-img" />}
+                          <p className="notification-parent-list">{member.firstname}{newChat && <span className="notification-indicator-list"></span>}</p>
+                        </div>
+                      </Link>
+                    );
+                  }
+                  return null;
+                })
+              )}
+          </>
+        ) : (
+          <>
+
+            {/* ALL SAVED */}
+            {user.savedGirls &&
+              user.savedGirls.map((girl) => {
+                const imageUrl = girl.img ? `http://localhost:8080/static/${girl.img}` : 'http://localhost:8080/static/defaultimg.png';
+                return (
+                  <Link to={`/chat/${girl._id}`} key={girl._id}>
+                    <div className="flex-row chat-list">
+                      {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})` }} alt="profileimage" className="s-profile-img" />}
+                      <div className="flex-column notification-parent-list">
+                        <p >{girl.firstname}</p>
+                        <div className="time-city">
+                          <p className="xs-font grey-text">{girl.age ? girl.age + " | " : ""}{girl.city}</p>
+                        </div>
+                        
                       </div>
-                    </Link>
-                  );
-                }
-                return null;
-              })
-            )}
-        </>
-      ) : (
-        <>
-          <h1>Saved</h1>
-          {/* ALL SAVED */}
-          {user.savedGirls &&
-            user.savedGirls.map((girl) => (
-              <Link to={`/chat/${girl._id}`} key={girl._id}>
-                <div>
-                  <p>{girl.firstname}</p>
-                </div>
-              </Link>
-            ))}
-        </>
-      )
-      }
+
+                    </div>
+                  </Link>
+                )
+              })}
+          </>
+        )
+        }
+      </div>
 
     </div>
 

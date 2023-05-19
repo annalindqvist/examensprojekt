@@ -96,6 +96,7 @@ io.on('connection', (socket) => {
     };
     // Send notification 
     io.to(user.socketId).emit("newChatNotification", notificationPayload);
+    console.log(notificationPayload)
     }
 
   });

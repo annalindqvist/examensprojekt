@@ -129,7 +129,7 @@ async function getUserInfo(id) {
         //.select('-password') - get all info of the user but not password
         const user = await UserModel.findById(id).select('-password').populate({
                 path: "savedGirls",
-                select: "firstname city img"
+                select: "firstname city img age"
             })
             .exec();
         console.log("USER,", user)

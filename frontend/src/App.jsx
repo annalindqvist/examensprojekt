@@ -29,13 +29,18 @@ export default function App() {
   const { socket } = useSocketContext();
 
   const { user, dispatch } = useAuthContext()
-  console.log("USER", user)
 
   useEffect(() => {
+    console.log("useeffect app.jsx", user, socket)
     if (user && socket) {
       socket.emit("newConnectedUser", user._id);
-    } 
-  },[dispatch, socket])
+    
+    }
+  },[user, socket])
+
+  
+
+  console.log("APP.JSX SOCKET", socket)
 
   return (
     <div className="App">

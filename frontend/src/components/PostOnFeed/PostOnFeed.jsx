@@ -21,7 +21,7 @@ import env from "react-dotenv";
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const PostOnFeed = ({ post }) => {
-  console.log(post)
+  
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
 
@@ -40,18 +40,17 @@ const PostOnFeed = ({ post }) => {
 
   const imageUrl = `http://localhost:8080/static/${image}`;
 
-  console.log("post", post.likes)
-
   // --- if posted by user - setPostedByUser(true) - to display delete button
   useEffect(() => {
-    if (post.postedBy._id == user._id){
+    if (post.postedBy?._id == user._id){
       setPostedByUser(true);
     }
-  }, [post.postedBy._id, user._id]);
+  }, [post.postedBy?._id, user._id]);
 
   // --- if post liked by user - show pink filled heart
   useEffect(() => {
-    const checkLikedBy = post.likes.some((like) => like.likedBy._id === user._id);
+    
+    const checkLikedBy = post.likes.some((like) => like.likedBy?._id === user._id);
     
     if (checkLikedBy) {
       setLikedByUser(true);
@@ -107,7 +106,6 @@ const PostOnFeed = ({ post }) => {
         }
       })
       const json = await res.json()
-      console.log("like json", json)
 
       if (res.ok) {
         dispatch({type: 'UPDATE_POST', payload: json.posts})
@@ -126,7 +124,6 @@ const PostOnFeed = ({ post }) => {
         
         <div>
           <p className="m-font m-weight dark-text">{firstname}</p>
-          {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
           {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash/></span> } 
           <div className="time-city">
             <p className="xs-font grey-text">{createdAt? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : createdAt}  | {city}</p>

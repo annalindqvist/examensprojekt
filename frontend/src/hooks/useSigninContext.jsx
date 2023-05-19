@@ -35,6 +35,7 @@ export const useSignin = () => {
       localStorage.setItem('token', json.token);
       //console.log("user", json.user)
       localStorage.setItem('user', JSON.stringify(json.user));
+
      
       // // update the auth context
       dispatch({type: 'SIGNIN', payload: json.user});

@@ -55,6 +55,7 @@ const CurrentChat = () => {
                 });
                 console.log("previousmessage getmessage", previousMessage)
             });
+
     
             return () => {
                 socket.off(); // Clean up the socket connection when unmounting the component

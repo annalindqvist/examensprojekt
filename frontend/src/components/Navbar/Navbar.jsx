@@ -20,18 +20,19 @@ import "./Navbar.css"
 const Navbar = () => {
 
   const { user } = useAuthContext();
-  const { socket, dispatch, chatNotifications: socketChatNotifictions } = useSocketContext();
-  const [chatNotification, setChatNotifiction] = useState([]);
+  const { socket, dispatch, chatNotifications: socketChatNotifications } = useSocketContext();
+  const [chatNotification, setChatNotification] = useState([]);
 
-
+  
   useEffect(() => {
     // Listen for the "newChatNotification" event
+    console.log("socket navbar")
     if (socket) {
       socket.on("newChatNotification", (notification) => {
         console.log("notification", notification)
         // Update the chat notifications state
         dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
-        setChatNotifiction((prev) => [...prev, notification])
+        setChatNotification((prev) => [...prev, notification])
       });
 
       return () => {
@@ -39,13 +40,21 @@ const Navbar = () => {
         socket.off("newChatNotification");
       };
     }
-  }, [socket]);
+  }, [socket, dispatch]);
+
+  socket?.on("newChatNotification", (notification) => {
+    console.log("notification", notification)
+    // Update the chat notifications state
+    dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
+    
+  });
+
 
   useEffect(() => {
-  
-    setChatNotifiction(socketChatNotifictions)
+    console.log("socketchatnot", socketChatNotifications)
+    setChatNotification(socketChatNotifications)
     
-  }, [socketChatNotifictions]);
+  }, [socketChatNotifications]);
 
   console.log("CHATNOT", chatNotification)
 

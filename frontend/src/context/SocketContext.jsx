@@ -8,6 +8,7 @@ export const SocketContext = createContext();
 export const SocketReducer = (state, action) => {
   switch (action.type) {
     case 'SET_SOCKET':
+      console.log("SET_SOCKET", action.payload)
       return {
         ...state,
         socket: action.payload
@@ -61,23 +62,14 @@ export const SocketContextProvider = ({ children }) => {
     socket.on('connect', () => {
       console.log('Connected to Socket.io server.');
     });
-
-    // Handle disconnection
-    socket.on('disconnect', () => {
-      console.log('Disconnected from Socket.io server.');
-    });
-
-    dispatch({ type: 'SET_SOCKET', payload: socket });
+     dispatch({ type: 'SET_SOCKET', payload: socket });
 
     return () => {
+      console.log("socket.disconnect")
       socket.disconnect();
     };
 
   }, []);
-
-
-
-console.log("state.chatn", state.chatNotifications)
 
   return (
     <SocketContext.Provider value={{ ...state, dispatch }}>
