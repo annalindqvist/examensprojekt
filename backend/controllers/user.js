@@ -293,6 +293,8 @@ async function editAuthSettings(req, res) {
 const getAllUsers = async (req, res) => {
     try {
         const allUsers = await UserModel.find({})
+        console.log(allUsers)
+        // only select: firstname, savedgirls if saved the online user, img, id, interests, description, 
         res.status(200).json(allUsers);
 
     } catch (err) {
