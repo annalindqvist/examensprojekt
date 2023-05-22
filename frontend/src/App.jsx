@@ -24,9 +24,12 @@ import Chat from './pages/Chat';
 import PostToFeedPage from './pages/PostToFeedPage';
 import CurrentChat from './pages/CurrentChat';
 import { useEffect } from 'react';
+import Notifications from './pages/Notifications';
 
 export default function App() {
-  const { socket } = useSocketContext();
+  const { socket, selectedChat } = useSocketContext();
+
+  console.log("selectedChat", selectedChat)
 
   const { user, dispatch } = useAuthContext()
 
@@ -95,6 +98,10 @@ export default function App() {
           <Route 
             path="/user/saved" 
             element={user ? <SavedFriends /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/notifications" 
+            element={user ? <Notifications /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/signin" 

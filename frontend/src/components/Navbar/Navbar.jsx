@@ -90,7 +90,7 @@ const Navbar = () => {
                 <p className="xs-font">Chat</p>
               </span>
             </Link>
-            <Link to="/">
+            <Link to="/notifications">
               <span className="centered-content-column">
                 <IoMdNotificationsOutline className='icon'/>
                 <p className="xs-font">Notifications</p>

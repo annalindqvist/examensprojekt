@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 // IMPORT HOOKS
 import { useAuthContext } from "../../hooks/useAuthContext";
 
+// IMPORT ICONS
+import { AiOutlineUserAdd } from 'react-icons/ai';
+
+
 import env from "react-dotenv";
 // `${env.REACT_APP_API_URL}/`
 
@@ -20,8 +24,6 @@ const ListOfUsers = ({ selectedUser }) => {
     const intrests = selectedUser.intrests ? selectedUser.intrests : null;
     const description = selectedUser.description ? selectedUser.description : null;
     const [saved, setSaved] = useState(false);
-
-    console.log(selectedUser)
 
     // if user is saved to friends setSaved(true) else setSaved(false)
     useEffect(() => {
@@ -45,30 +47,19 @@ const ListOfUsers = ({ selectedUser }) => {
             body: JSON.stringify({ saveUserId: userId})
             })
         const json = await res.json()
-            console.log(json)
         if (res.ok) {
           dispatch({type: 'UPDATE_USER', payload: json.user})
           localStorage.setItem('user', JSON.stringify(json.user));
-          //console.log("Saved one user", json)
         }
       }
     }
 
   return (
 
-    <div className="user-card">
-      <p>{firstname}</p> 
-      {imageUrl && <img src={imageUrl} alt="" width="100" height="100" /> }
-      <p>Interests:</p>
-        {intrests && intrests.map((interest) => (
-          <p key={interest}>{interest}</p>
-        ))}
-      <p>{description}</p>   
-      {saved ? <button onClick={handleClick}>Remove</button> : <button onClick={handleClick}>Save</button>}
-      <Link to={`/chat/${userId}`}>
-          open chat
-      </Link>
-    </div>
+    <>
+      {saved ? <button onClick={handleClick}><AiOutlineUserAdd className="icon"/>Remove</button> : <button onClick={handleClick}><AiOutlineUserAdd/> Save</button>}
+      <Link to={`/chat/${userId}`} className="profile-chat-btn">Send message!</Link>
+    </>
     
   )
 }
