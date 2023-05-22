@@ -13,7 +13,7 @@ ChatRouter.post("/chat/open", ChatController.openChat);
 // send message
 ChatRouter.post("/chat/send", ChatController.sendMessage);
 
-// get old chat history
-// ChatRouter.get("/chat/messages:id", ChatController.getChatMessages);
+// get all chats
+ChatRouter.get("/chat", ChatController.getAllChats);
 
 export default ChatRouter;

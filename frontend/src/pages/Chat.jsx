@@ -7,196 +7,121 @@ import { Link } from "react-router-dom";
 
 // IMPORT HOOKS
 import { useAuthContext } from "../hooks/useAuthContext";
-
-// IMPORT COMPONENTS
-import ChatConversationComponent from "../components/ChatConversationComponent/ChatConversationComponent";
-import MessageComponent from "../components/MessageComponent/MessageComponent";
+import { useSocketContext } from "../hooks/useSocketContext";
 
 // IMPORT ICONS
 import { BsSend } from 'react-icons/bs';
 
 const Chat = () => {
 
-    const {user} = useAuthContext();
-    const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState("");
-    const [currentChat, setCurrentChat] = useState(null);
-    const [chatId, setChatId] = useState(null);
-    const [previousMessage, setPreviousMessage] = useState(null);
-    const socket = useRef();
-    
-    useEffect(() => {
-      
-        // Connect to the Socket.io server
-        socket.current = io('http://localhost:8080'); 
-        console.log(socket)
-        // Handle connection
-        socket.current.on('connect', () => {
-          console.log('Connected to Socket.io server.');
-        });
+  const { user } = useAuthContext();
+  const { dispatch, listOfChats, socket, chatNotifications: socketChatNotifictions } = useSocketContext();
+  const [allChats, setAllChats] = useState(true);
+  const [chatNotification, setChatNotifiction] = useState([]);
 
-        socket.current.on("getMessage", (data) => {
-          console.log("getMessage current on", data)
-            setPreviousMessage({
-              senderId: data.senderId,
-              text: data.text,
-              createdAt: Date.now(),
-            });
-            console.log("previousmessage getmessage", previousMessage)
-          });
-    
-        // Handle disconnection
-        socket.current.on('disconnect', () => {
-          console.log('Disconnected from Socket.io server.');
-        });
-    
-        return () => {
-          socket.current.disconnect(); // Clean up the socket connection when unmounting the component
-        };
-      }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    const fetchChats = async () => {
+      const res = await fetch(`http://localhost:8080/chat`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      })
+      const json = await res.json();
+
+      console.log("json", json)
+      console.log("user", user.savedGirls)
+
+      if (res.ok) {
+        dispatch({ type: 'SET_CHATS', payload: json });
+      }
+      if (!res.ok) {
+        console.log("res, ", res, "json, ", json)
+      }
+    }
+
+    if (token) {
+      fetchChats();
+    }
+  }, [dispatch, user]);
 
 
-      useEffect(() => {
-        socket.current.emit("newConnectedUser", user._id);
-        
-      }, [user]);
+  useEffect(() => {
 
-      // 
-      useEffect(() => {
-        console.log("useEffect prevcurent", previousMessage, currentChat)
-        if (previousMessage && currentChat) {
-          const isMessageForCurrentChat = currentChat.some(
-            (chatMember) => chatMember._id === previousMessage.senderId
-          );
-          if (isMessageForCurrentChat) {
-            console.log("before ismessageforcurrentchat", messages)
-            setMessages((prevMessages) => [...prevMessages, previousMessage]);
-            console.log("AFTER ismessageforcurrentchat", messages)
-          }
-        }
-      }, [previousMessage, currentChat]);
+    setChatNotifiction(socketChatNotifictions)
 
-      //get previous sent messages from db of this chat
-      useEffect(() => {
-        const getOldMessages = async () => {
-          const token = localStorage.getItem('token');
-          try {
-            if (token) {
+  }, [socketChatNotifictions]);
+  console.log("chat chat not", chatNotification)
 
-            const members = {reciever: currentChat[0]._id, me: user._id};
-            console.log("members", members)
-            const res = await fetch('http://localhost:8080/chat/open/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({members})})
+  return (
+    <div className="pink-background">
+      <div className="logo flex">
+        <h1 className="lily-font dark-text l-font">GalVibe</h1>
+      </div>
 
-            const json = await res.json();
-            console.log("get old messages", json)
-            setMessages(json.messages);
-            setChatId(json.chat);
-          }
-          } catch (err) {
-            console.log(err);
-          }
-        };
-        getOldMessages();
-      }, [currentChat, chatId]);
-
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('token');
-
-        if (token) {
-            const message = {
-            senderId: user._id,
-            text: newMessage,
-            conversationId: chatId,
-            };
-            console.log("message to send", message)
-            const receiverId = currentChat.find(
-            (chatMember) => chatMember._id !== user._id
-            );
-        
-            socket.current.emit("sendMessage", {
-            senderId: user._id,
-            receiverId: receiverId._id,
-            text: newMessage,
-            });
-    
-            e.preventDefault();
-            if (!user) {
-                console.log("You must be signed in to post.");
-                return;
-            }
-            const res = await fetch('http://localhost:8080/chat/send', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ message })
-            })
-            const json = await res.json();
-
-
-            setMessages([...messages, json]);
-            setNewMessage("");
-            console.log("messages in handlesubmit", messages)
-            console.log(json)
-            
-            if (!res.ok) {
-                console.log("error")
-            };
-            if (res.ok) {
-                console.log("resok")
-            };
-        } 
-      };
-    console.log("currentChat", currentChat)
-    
-    return ( 
-        <div className="white-background">
-          <div className="logo flex">
-            <h1 className="lily-font dark-text l-font">GalVibe</h1>
-            <h2 className="dark-text xs-font">The place to connect with new gals!</h2>
-          </div>
-        {currentChat ? (
-            <>
-              <div>
-                {/* Link to profile */}
-              <Link to={`/user/${currentChat[0]._id}`}>
-                <p>Open chat with: {currentChat[0].firstname}</p>
-              </Link>
-              </div>
-             <div className="chat-messages-container">
-             {messages?.map((m) => (
-                 <MessageComponent message={m} myMessage={m.senderId?._id === user._id} />
-             ))}
-           </div>
-           <div className="chat-input-container">
-             <textarea id="chat-input"
-               placeholder="Aa.."
-               onChange={(e) => setNewMessage(e.target.value)}
-               value={newMessage}
-             ></textarea>
-             <span onClick={handleSubmit}><BsSend/></span>
-           </div>
-         </>
-            ) : (
-            user.savedGirls &&
-            user.savedGirls.map((girl) => (
-                <div onClick={() => setCurrentChat([girl])}>
-                    <div key={girl._id}>
-                        <p>{girl.firstname}</p>
-                    </div>
-                </div>
-            ))
-            )}
+      <div className="inner-container">
+        <div className="btn-container">
+          <span onClick={() => setAllChats(true)} className={allChats ? "active-btn s-font m-weight white-text" : "btn s-font"}>Chats</span>
+          <span onClick={() => setAllChats(false)} className={!allChats ? "active-btn s-font m-weight white-text" : "btn s-font"}>Saved gals</span>
         </div>
-     );
+
+
+        {allChats ? (
+          <>
+            {/* PREVIOUS CHATS */}
+
+            {listOfChats &&
+              listOfChats.map((chat) =>
+                chat.members.map((member) => {
+                  if (member._id !== user._id) {
+                    const newChat = chatNotification.some(
+                      (notification) => notification.senderId === member._id
+                    );
+                    const imageUrl = member.img ? `http://localhost:8080/static/${member.img}` : 'http://localhost:8080/static/defaultimg.png';
+                    return (
+                      <Link to={`/chat/${member._id}`} key={member._id}>
+
+                        <div className="flex-row chat-list">
+                          {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})` }} alt="profileimage" className="s-profile-img" />}
+                          <p className="notification-parent-list">{member.firstname}{newChat && <span className="notification-indicator-list"></span>}</p>
+                        </div>
+                      </Link>
+                    );
+                  }
+                  return null;
+                })
+              )}
+          </>
+        ) : (
+          <>
+
+            {/* ALL SAVED */}
+            {user.savedGirls &&
+              user.savedGirls.map((girl) => {
+                const imageUrl = girl.img ? `http://localhost:8080/static/${girl.img}` : 'http://localhost:8080/static/defaultimg.png';
+                return (
+                  <Link to={`/chat/${girl._id}`} key={girl._id}>
+                    <div className="flex-row chat-list">
+                      {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})` }} alt="profileimage" className="s-profile-img" />}
+                      <div className="flex-column notification-parent-list">
+                        <p >{girl.firstname}</p>
+                        <div className="time-city">
+                          <p className="xs-font grey-text">{girl.age ? girl.age + " | " : ""}{girl.city}</p>
+                        </div>
+                        
+                      </div>
+
+                    </div>
+                  </Link>
+                )
+              })}
+          </>
+        )
+        }
+      </div>
+
+    </div>
+
+  );
 }
- 
+
 export default Chat;

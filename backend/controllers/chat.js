@@ -20,6 +20,7 @@ const openChat = async (req, res) => {
         const chat = await ChatModel.find({
             members: { $all: [reciever, me] },
         });
+        console.log("CHAT", chat)
         // chat returns as an array, if > 0 there is one chat
         if (chat.length > 0) {
             console.log("there is a chat")
@@ -27,7 +28,7 @@ const openChat = async (req, res) => {
                 conversationId: chat[0]._id,
             }) .populate("senderId", "_id")
             .exec();
-            console.log(messages[9])
+            
             res.status(200).json({chat: chat[0]._id, messages});
         } else {
             console.log("no chat")
@@ -70,24 +71,25 @@ const sendMessage = async (req, res) => {
     }
 }
 
-// const getChatMessages = async (req, res) => {
-//     try {
-//         const id = req.params.id;
-//         const messages = await MessageModel.find({
-//             conversationId: req.params.conversationId,
-//         });
+const getAllChats = async (req, res) => {
+    try {
+        const id = req.user._id;
+        const allChats = await ChatModel.find({
+            members: { $in: [ id ] },
+        }).populate('members').select('-password')
+        .exec();;
         
-//         res.status(200).json(messages);
+        res.status(200).json(allChats);
 
-//     } catch (err) {
-//         res.status(500).send('Server error');
-//     }
-// }
+    } catch (err) {
+        res.status(500).send('Server error');
+    }
+}
 
 
 export default {
     openChat,
     sendMessage,
-    // getChatMessages,
+    getAllChats,
     
 };

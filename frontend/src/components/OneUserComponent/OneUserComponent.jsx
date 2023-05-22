@@ -1,5 +1,6 @@
 // REACT IMPORTS
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // IMPORT HOOKS
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -64,6 +65,9 @@ const ListOfUsers = ({ selectedUser }) => {
         ))}
       <p>{description}</p>   
       {saved ? <button onClick={handleClick}>Remove</button> : <button onClick={handleClick}>Save</button>}
+      <Link to={`/chat/${userId}`}>
+          open chat
+      </Link>
     </div>
     
   )

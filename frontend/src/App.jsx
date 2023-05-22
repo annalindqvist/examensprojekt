@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // import {useState, useEffect} from "react";
 import { useAuthContext } from './hooks/useAuthContext'
+import { useSocketContext } from "./hooks/useSocketContext";
 
 // PAGES
 import Signin from "./pages/Signin";
@@ -21,12 +22,25 @@ import EditProfilePicture from './pages/EditProfilePicture';
 import Settings from './pages/Settings';
 import Chat from './pages/Chat';
 import PostToFeedPage from './pages/PostToFeedPage';
-
+import CurrentChat from './pages/CurrentChat';
+import { useEffect } from 'react';
 
 export default function App() {
+  const { socket } = useSocketContext();
 
-  const { user } = useAuthContext()
-  console.log("USER", user)
+  const { user, dispatch } = useAuthContext()
+
+  useEffect(() => {
+    console.log("useeffect app.jsx", user, socket)
+    if (user && socket) {
+      socket.emit("newConnectedUser", user._id);
+    
+    }
+  },[user, socket])
+
+  
+
+  console.log("APP.JSX SOCKET", socket)
 
   return (
     <div className="App">
@@ -53,6 +67,10 @@ export default function App() {
           <Route 
             path="/chat" 
             element={user ? <Chat /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/chat/:id" 
+            element={user ? <CurrentChat /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/users" 

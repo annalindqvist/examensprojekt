@@ -129,7 +129,7 @@ async function getUserInfo(id) {
         //.select('-password') - get all info of the user but not password
         const user = await UserModel.findById(id).select('-password').populate({
                 path: "savedGirls",
-                select: "firstname city img"
+                select: "firstname city img age"
             })
             .exec();
         console.log("USER,", user)
@@ -293,6 +293,8 @@ async function editAuthSettings(req, res) {
 const getAllUsers = async (req, res) => {
     try {
         const allUsers = await UserModel.find({})
+        console.log(allUsers)
+        // only select: firstname, savedgirls if saved the online user, img, id, interests, description, 
         res.status(200).json(allUsers);
 
     } catch (err) {
