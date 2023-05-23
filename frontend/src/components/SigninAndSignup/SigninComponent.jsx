@@ -10,7 +10,7 @@ const SigninComponent = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const {signin, error, isLoading} = useSignin();
+    const {signin, error} = useSignin();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,8 +29,9 @@ const SigninComponent = () => {
                 {/* <label>Password</label> */}
                 <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} placeholder="password"/>
                
-                <input className="form-button" disabled={isLoading} type="submit" value="Sign in!" />
                 {error && <div className="error">{error}</div>}
+                <input className="form-button" type="submit" value="Sign in!" />
+                
             </form>
             <div className="flex">
                 <p className="s-font">Not a member of GalVibe yet? <Link to="/signup" className="mediumpink-text">Sign up!</Link></p>

@@ -10,7 +10,7 @@ const createToken = (_id) => {
     return jwt.sign({
         _id
     }, process.env.JWT_SECRET, {
-        expiresIn: '7d'
+        expiresIn: '30d'
     })
 }
 
@@ -20,17 +20,24 @@ async function signUpUser(req, res) {
         email,
         firstname,
         lastname,
+        age,
+        city,
         password1,
-        password2
+        password2,
+        terms
     } = req.body;
-
-    console.log(email, firstname, lastname, password1, password2)
 
     try {
 
+        if(!terms) {
+            return res.status(400).json({
+                message: "You need to read and agree to terms and conditions to sign up."
+            });
+        }
+
         if (password1 !== password2) {
             return res.status(400).json({
-                error: "Password doesnt match"
+                message: "Password doesnt match."
             });
         };
 
@@ -39,6 +46,8 @@ async function signUpUser(req, res) {
             email,
             firstname,
             lastname,
+            age,
+            city,
             password: password2
         })
         // save to database
@@ -48,7 +57,7 @@ async function signUpUser(req, res) {
         const userInformation = await getUserInfo(user._id);
         if (!userInformation) {
             res.status(400).json({
-                message: "Something went wrong"
+                message: "Something went wrong."
             });
         }
 
@@ -58,9 +67,8 @@ async function signUpUser(req, res) {
         });
 
     } catch (err) {
-        console.log(err)
         res.status(400).json({
-            error: err.message
+            message: "Something went wrong."
         })
     }
 
@@ -75,13 +83,10 @@ async function signIn(req, res) {
             password
         } = req.body;
 
-        console.log("Login form: email,", email, "password,", password);
-
         //check if user exists in db
         const user = await UserModel.findOne({
             email
         });
-        console.log("Login found user,", user)
 
         // if no user could be found
         if (!user) {
@@ -93,7 +98,6 @@ async function signIn(req, res) {
         // match password from form with hashed password in db
         const isMatching = await user.matchPassword(password, user.password);
 
-        console.log("Login isMatching", isMatching)
         // // if password doesnt match
         if (!isMatching) {
             return res.status(400).json({
@@ -110,15 +114,12 @@ async function signIn(req, res) {
             });
         }
 
-        console.log("userInformation", userInformation)
-
         res.status(200).json({
             token,
             user: userInformation
         });
 
     } catch (err) {
-        console.log(err)
         res.status(500).send('Server error');
     }
 }
@@ -132,7 +133,6 @@ async function getUserInfo(id) {
                 select: "firstname city img age"
             })
             .exec();
-        console.log("USER,", user)
         return user;
     } catch (err) {
         return {
@@ -182,7 +182,6 @@ async function editProfile(req, res) {
         intrests
     } = req.body;
 
-    console.log(intrests, "REQ BODY", req.body)
     try {
 
         const updateProfileInfo = await UserModel.updateOne({
@@ -193,7 +192,6 @@ async function editProfile(req, res) {
             description,
             intrests
         })
-        console.log(updateProfileInfo);
 
         if (updateProfileInfo) {
 
@@ -215,7 +213,7 @@ async function editProfile(req, res) {
 
     } catch (err) {
         console.log(err)
-        res.status(500).send('Server error');
+        res.status(500).send({message:'Server error'});
     }
 }
 
@@ -227,7 +225,6 @@ async function editAuthSettings(req, res) {
         newPassword2
     } = req.body;
 
-    console.log(email, "REQ BODY", req.body)
     try {
 
         if (newPassword1 !== newPassword2) {
@@ -240,7 +237,6 @@ async function editAuthSettings(req, res) {
         const user = await UserModel.findOne({
             _id: req.user._id
         });
-        console.log("user", user)
 
         // if no user could be found
         if (!user) {
@@ -254,7 +250,6 @@ async function editAuthSettings(req, res) {
 
         // // if password doesnt match
         if (!isMatching) {
-            console.log("Not matching password")
             return res.status(400).json({
                 message: "Old password doesnt match."
             });
@@ -293,13 +288,12 @@ async function editAuthSettings(req, res) {
 const getAllUsers = async (req, res) => {
     try {
         const allUsers = await UserModel.find({})
-        console.log(allUsers)
         // only select: firstname, savedgirls if saved the online user, img, id, interests, description, 
         res.status(200).json(allUsers);
 
     } catch (err) {
         console.log(err)
-        res.status(500).send('Server error');
+        res.status(500).send({message:'Server error'});
     }
 }
 
@@ -312,7 +306,7 @@ const getOneUser = async (req, res) => {
         res.status(200).json(user);
 
     } catch (err) {
-        res.status(500).send('Server error');
+        res.status(500).send({message:'Server error'});
     }
 }
 
@@ -326,7 +320,6 @@ const saveOneUser = async (req, res) => {
             _id: req.user._id,
             savedGirls: saveUserId
         })
-        console.log("alreadySaved" ,alreadySaved)
         if (alreadySaved) {
             await UserModel.updateOne({
                 _id: req.user._id,
@@ -355,14 +348,13 @@ const saveOneUser = async (req, res) => {
             });
         }
 
-        console.log("---userinformation, ", userInformation);
         res.status(200).json({
             user: userInformation
         });
 
     } catch (err) {
         console.log(err)
-        res.status(500).send('Server error');
+        res.status(500).send({message:'Server error'});
     }
 }
 
@@ -384,7 +376,6 @@ const deleteAccount = async (req, res) => {
         })
         const deleteUser = await UserModel.findByIdAndDelete(id)
         if (!deleteUser) {
-            console.log("!deleteuser")
             return res.status(400).json({
                 message: "Something went wrong"
             });
@@ -393,7 +384,7 @@ const deleteAccount = async (req, res) => {
 
     } catch (err) {
         console.log(err)
-        res.status(500).send('Server error');
+        res.status(500).send({message:'Server error'});
     }
 }
 

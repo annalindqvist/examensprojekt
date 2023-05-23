@@ -7,7 +7,7 @@ import BackBtnComponent from '../components/GoBackBtnComponent/BackBtnComponent'
 
 const Settings = () => {
     return (
-        <div className="pink-background overflow-scroll">
+        <div className="pink-background overflow-scroll centered-content-column">
 
             <div className="flex-row">
                 <BackBtnComponent />
