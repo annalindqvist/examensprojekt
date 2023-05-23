@@ -22,7 +22,7 @@ const Feed = () => {
   // const URL2 = "http://localhost:8080/feed";
 
 
-  const {posts, dispatch} = usePostContext();
+  const {posts, dispatch, selectedPost} = usePostContext();
   const {user} = useAuthContext();
   const imageUrl = user?.img ? `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
   
@@ -46,7 +46,9 @@ const Feed = () => {
     if (token) {
       fetchPosts();
     }
-  }, [dispatch, user]);
+  }, [dispatch, user, selectedPost]);
+
+  console.log(posts)
 
     return (
       <>

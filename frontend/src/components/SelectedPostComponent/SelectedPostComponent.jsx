@@ -41,12 +41,12 @@ const SelectedPostComponent = ({ post }) => {
   const createdAt = post.createdAt ? post.createdAt : new Date();
 
 
-
+  
   const imageUrl = `http://localhost:8080/static/${image}`;
 
   console.log("post", post)
   useEffect(() => {
-    if (post.postedBy._id == user._id) {
+    if (post.postedBy._id === user._id) {
       setPostedByUser(true);
     }
   }, [post.postedBy._id, user._id]);
@@ -113,6 +113,28 @@ const SelectedPostComponent = ({ post }) => {
 
       if (res.ok) {
         dispatch({ type: 'DELETE_POST', payload: json })
+      }
+    }
+  }
+  
+  const handleDeleteComment = async (id) => {
+
+    const token = localStorage.getItem('token');
+    if (token) {
+
+      const res = await fetch('http://localhost:8080/feed/comment/' + id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ postId })
+      })
+      const json = await res.json()
+      console.log(json)
+
+      if (res.ok) {
+        dispatch({ type: 'SET_SELECTED_POST', payload: json.selectedPost })
       }
     }
   }
@@ -186,16 +208,17 @@ const SelectedPostComponent = ({ post }) => {
       </div>
 
       <div className="comments-container">
-        {post.comments && post.comments.map((comment) => (
-
+        {post.comments && post.comments.map((comment) => {
+            const commentedByUser = comment.postedBy?._id === user._id;
+            return(
           <div className="flex-row" key={comment?._id}>
             {comment.postedBy?.img ? (<div style={{ backgroundImage: `url(http://localhost:8080/static/${comment.postedBy.img})` }} alt="profileimage" className="s-profile-img" />) : (<div style={{ backgroundImage: `url(http://localhost:8080/static/defaultimg.png)` }} alt="profileimage" className="s-profile-img" />)}
             <div className="comment-flex">
-              <p className="m-weight m-font">{comment.postedBy?.firstname ? comment.postedBy?.firstname : 'Unknown'} <span className="xs-font normal-weight">{comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span></p>
+              <p className="m-weight m-font">{comment.postedBy?.firstname ? comment.postedBy?.firstname : 'Unknown'} <span className="xs-font normal-weight">{comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span> {commentedByUser && <span onClick={() => handleDeleteComment(comment._id)}><HiOutlineTrash className="xs-icon"/></span>} </p>
               <p className="m-font">{comment?.comment}</p>
             </div>
-          </div>
-        ))}
+          </div>)
+        })}
       </div>
 
       <form className="share-post-input">
