@@ -1,10 +1,10 @@
 // IMPORT REACT
 import { useParams } from 'react-router';
 import { useEffect, useState, useRef } from "react";
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
-// SOCKET IMPORT
-import { io } from "socket.io-client";
+// // SOCKET IMPORT
+// import { io } from "socket.io-client";
 
 // IMPORT HOOKS
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -172,8 +172,8 @@ const CurrentChat = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-
-        if (token) {
+        
+        if (token && newMessage.length > 0) {
             const message = {
                 senderId: user._id,
                 text: newMessage,
@@ -215,7 +215,6 @@ const CurrentChat = () => {
         }
     };
 
-    //console.log("SOCKET", socket)
 
     return (
         <div className="pink-background flex">
@@ -234,7 +233,7 @@ const CurrentChat = () => {
                         onChange={(e) => setNewMessage(e.target.value)}
                         value={newMessage}
                     ></textarea>
-                    <span onClick={handleSubmit}><BsSend /></span>
+                    <span onClick={handleSubmit} className="send"><BsSend /></span>
                 </div>
             </div>
         </div>
