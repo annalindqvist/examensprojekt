@@ -376,19 +376,42 @@ a {
   background-color: #F9EAF1;
 }
 .chat-input-container {
-  height: 30px;
+  height: 60px;
+  position: relative;
 }
 
 .share-post-input #comment,
 .chat-input-container #chat-input {
   width: 100%;
-  height: 40px;
+  height: 30px;
   background-color: #F9EAF1;
   border: none;
-  padding: 8px;
+  padding: 10px 22px 10px 10px;
   outline: none;
   border-radius: 10px;
   color: #3C2345;
+}
+
+.share-post-input #comment,
+.chat-input-container #chat-input:focus {
+  height: 40px;
+}
+
+#chat-input::-webkit-scrollbar {
+  display: none;
+}
+
+#chat-input::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.send {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 999;
 }
 
 .share-post-input span {
@@ -400,8 +423,15 @@ a {
 
 .chat-info {
   background-color: #fafafa;
-  height: 50px;
+  display: flex;
+  height: 60px;
   width: 100%;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.chat-info .back-component-btn {
+  margin: 16px 16px 16px 0;
+
 }
 
 .chat-messages-container {
@@ -511,13 +541,13 @@ a {
   background-color: #fafafa;
   width: 100vw;
   max-width: 500px;
-  height: 80vh;
+  height: 100vh;
   max-height: 800px;
   display: flex;
+  gap: 10px;
   flex-direction: column;
   padding: 16px;
-  border-radius: 10px;
-  margin-bottom: 70px;
+  
 }
 
 /* PROFILE */
