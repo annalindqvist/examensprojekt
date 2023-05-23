@@ -1,21 +1,15 @@
-// SOCKET IMPORT
-import { io } from "socket.io-client";
-
 // REACT IMPORTS
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // IMPORT HOOKS
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSocketContext } from "../hooks/useSocketContext";
 
-// IMPORT ICONS
-import { BsSend } from 'react-icons/bs';
-
 const Chat = () => {
 
   const { user } = useAuthContext();
-  const { dispatch, listOfChats, socket, chatNotifications: socketChatNotifictions } = useSocketContext();
+  const { dispatch, listOfChats, chatNotifications: socketChatNotifictions } = useSocketContext();
   const [allChats, setAllChats] = useState(true);
   const [chatNotification, setChatNotifiction] = useState([]);
 
@@ -53,7 +47,7 @@ const Chat = () => {
   console.log("chat chat not", chatNotification)
 
   return (
-    <div className="pink-background">
+    <div className="pink-background flex">
       <div className="logo flex">
         <h1 className="lily-font dark-text l-font">GalVibe</h1>
       </div>

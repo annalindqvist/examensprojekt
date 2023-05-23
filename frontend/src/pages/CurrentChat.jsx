@@ -42,10 +42,10 @@ const CurrentChat = () => {
         // socket.current.on('connect', () => {
         //     console.log('Connected to Socket.io server.');
         // });
-        
-        if(socket) {
-            
-        
+
+        if (socket) {
+
+
             socket.on("getMessage", (message) => {
                 console.log("getMessage current on", message)
                 setPreviousMessage({
@@ -56,31 +56,32 @@ const CurrentChat = () => {
                 console.log("previousmessage getmessage", previousMessage)
             });
 
-    
+
+
             return () => {
                 socket.off(); // Clean up the socket connection when unmounting the component
             };
         }
-        }, [socket, setPreviousMessage]);
+    }, [socket, setPreviousMessage]);
 
-        // useEffect(() => {
-        //     // Listen for the "newChatNotification" event
-            
-        //     if(socket) {
+    // useEffect(() => {
+    //     // Listen for the "newChatNotification" event
 
-            
-        //     socket.on("newChatNotification", (notification) => {
-        //         console.log("notification", notification)
-        //         // Update the chat notifications state
-        //       dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
-        //     });
-            
-        //     return () => {
-        //       // Clean up the event listener when component unmounts
-        //       socket.off("newChatNotification");
-        //     };
-        // }
-        //   }, [socket, dispatch]);
+    //     if(socket) {
+
+
+    //     socket.on("newChatNotification", (notification) => {
+    //         console.log("notification", notification)
+    //         // Update the chat notifications state
+    //       dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
+    //     });
+
+    //     return () => {
+    //       // Clean up the event listener when component unmounts
+    //       socket.off("newChatNotification");
+    //     };
+    // }
+    //   }, [socket, dispatch]);
 
     // useEffect(() => {
     //     socket.current.emit("newConnectedUser", user._id);
@@ -113,6 +114,7 @@ const CurrentChat = () => {
                         fetchUser();
 
                         dispatch({ type: 'SET_SELECTED_CHAT', payload: json });
+                        
                         setMessages(json.messages);
                         setChatId(json.chat);
                     }
@@ -140,7 +142,7 @@ const CurrentChat = () => {
         if (res.ok) {
             userDispatch({ type: 'SET_SELECTED_USER', payload: json });
             dispatch({ type: 'DELETE_CHAT_NOTIFICATIONS', payload: json._id });
-            
+
             setCurrentChat([json]);
 
         }
@@ -149,7 +151,7 @@ const CurrentChat = () => {
         }
     }
 
-    
+
 
 
     // this useEffect shows the messages in realtime for the reviecer.. 
@@ -219,24 +221,29 @@ const CurrentChat = () => {
     //console.log("SOCKET", socket)
 
     return (
-        <>
-            <div>
-                {selectedUser && <TopOfChatComponent key={selectedUser._id} selectedUser={selectedUser} />}
+        <div className="pink-background flex">
+            <div className="logo flex">
+                <h1 className="lily-font dark-text l-font">GalVibe</h1>
             </div>
-            <div className="chat-messages-container">
-                {messages?.map((m) => (
-                    <MessageComponent message={m} myMessage={m.senderId?._id === user._id} />
-                ))}
+            <div className="open-chat">
+                <div className="chat-info">
+                    {selectedUser && <TopOfChatComponent key={selectedUser._id} selectedUser={selectedUser} />}
+                </div>
+                <div className="chat-messages-container">
+                    {messages?.map((m) => (
+                        <MessageComponent message={m} myMessage={m.senderId?._id === user._id} />
+                    ))}
+                </div>
+                <div className="chat-input-container">
+                    <textarea id="chat-input"
+                        placeholder="Aa.."
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        value={newMessage}
+                    ></textarea>
+                    <span onClick={handleSubmit}><BsSend /></span>
+                </div>
             </div>
-            <div className="chat-input-container">
-                <textarea id="chat-input"
-                    placeholder="Aa.."
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    value={newMessage}
-                ></textarea>
-                <span onClick={handleSubmit}><BsSend /></span>
-            </div>
-        </>
+        </div>
     );
 }
 

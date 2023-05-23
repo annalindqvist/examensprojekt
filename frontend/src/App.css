@@ -21,7 +21,7 @@ body {
 
 .pages {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 
 }
 
@@ -84,13 +84,18 @@ body {
 }
 
 .l-profile-img {
-  width: 138px;
-  height: 138px;
-  border-radius: 10px;
+  position: relative;
+  width: 100vw;
+  height: 45vh;
+  margin-bottom: 16px;
+  max-width: 420px;
+  max-height: 400px;
+  border-radius: 0 0 20px 20px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
+
 
 
 /* FONT STYLES - color and font */
@@ -151,6 +156,16 @@ a {
   color: #1c1c1c;
 }
 
+.xs-icon {
+  font-size: 14px;
+}
+
+.error {
+  color: #e61a1a;
+  font-weight: 500;
+  font-size: 14px;
+}
+
 /* BACKGROUND */
 
 .dark-background {
@@ -165,7 +180,7 @@ a {
 
 .pink-background {
   background-color: #F9EAF1;
-  height: 100%;
+  min-height: 100vh;
   width: 100%;
 }
 
@@ -350,6 +365,8 @@ a {
 
 .post-on-feed {
   background-color: #fafafa;
+  width: 90%;
+  max-width: 500px;
   margin-top: 16px;
   border-radius: 10px 10px 0 0;
 }
@@ -385,6 +402,9 @@ a {
   border-radius: 10px;
   background-color: #F9EAF1;
 }
+.chat-input-container {
+  height: 30px;
+}
 
 .share-post-input #comment,
 .chat-input-container #chat-input {
@@ -405,10 +425,15 @@ a {
 
 /* CHAT */
 
+.chat-info {
+  background-color: #fafafa;
+  height: 50px;
+  width: 100%;
+}
+
 .chat-messages-container {
   overflow-y: scroll;
-  height: 70%;
-  padding: 16px;
+  padding: 16px 0;
 }
 
 .chat-messages-container::-webkit-scrollbar {
@@ -457,11 +482,11 @@ a {
 .inner-container {
   background-color: #fafafa;
   margin: 0 16px 0 16px;
-  
+  width: 90%;
+  max-width: 500px;
+  min-height: 90vh;
   overflow-y: scroll;
-  
   border-radius: 10px 10px 0 0;
-  
 }
 
 /* EXPLORE AND CHAT CONTAIER BTN */
@@ -497,12 +522,201 @@ a {
 
 /* CHAT LIST */
 
-.chat-list, .user-card {
+.chat-list,
+.user-card {
   margin: 16px 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ebebeb;
 }
 
-.user-card{
+.user-card {
   display: flex;
 }
+
+.open-chat {
+  background-color: #fafafa;
+  width: 100vw;
+  max-width: 500px;
+  height: 80vh;
+  max-height: 800px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 70px;
+}
+
+/* PROFILE */
+
+.profile-top-btns {
+  position: absolute;
+  top: 16px;
+  right:16px;
+  z-index: 999;
+}
+.profile-top-btns a {
+  margin-left: 16px;
+}
+
+
+.back-component-btn{
+  background-color: #fafafa;
+  border-radius: 50%;
+  
+  
+  color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  outline: none;
+  border: none;
+}
+
+.back-btn {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 9999;
+}
+
+
+.back-icon {
+  color: #1c1c1c;
+  font-size: 16px;
+}
+
+.info-container-profile {
+  width: 90%;
+  max-width: 420px;
+  height: 300px;
+  margin: 16px 16px 130px 16px;
+  background-color: #fafafa;
+  border-radius: 10px;
+}
+
+.my-profile {
+  margin-bottom: 30px;
+}
+
+.my-profile-edit {
+  margin-bottom: 80px;
+}
+
+.info-content-container {
+  padding: 16px;
+}
+
+.save-user-btn {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 70px;
+  display: flex;
+}
+
+.save-user-btn button {
+  margin-right: 16px;
+}
+
+.save-user-btn button,
+.profile-chat-btn {
+  color: #3C2345;
+  background-color: #E497BB;
+  border-radius: 10px;
+  padding: 12px 30px;
+  border: none;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+}
+
+.save-user-btn button .icon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.profile-icon {
+  margin-right: 2px;
+}
+
+/* SETTINGS */
+
+.settings-h1 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1c1c1c;
+}
+
+
+.settings-container {
+  margin: 16px;
+}
+
+.settings-last-container {
+  margin-bottom: 30px;
+}
+
+.settings-btn {
+  margin-top: 10px;
+  width: 90vw;
+  max-width: 500px;
+  padding: 16px;
+  border: none;
+  background-color: #ebebeb;
+  color: #1c1c1c;
+  border-radius: 5px;
+  display:flex;
+}
+
+.delete-account-modal {
+  width: 90vw;
+  max-width: 500px;
+  height: 300px;
+  background-color: #fafafa;
+  border: 2px solid #3C2345;
+  position: fixed;
+  top: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  border-radius: 10px;
+
+}
+
+.delete-account-modal h1 {
+  font-weight: 500;
+  font-size: 30px;
+  color: #1c1c1c;
+}
+.delete-account-modal p {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.modal-btns{
+  display: flex;
+}
+
+.delete-account-modal-btn {
+  padding: 12px 40px;
+  border: 2px solid #E497BB;
+  outline: none;
+  border-radius: 10px;
+  margin: 16px;
+  font-size: 14px;
+  background-color: #fafafa;
+}
+
+.modal-close {
+  background-color:#E497BB
+}
+
+.settings-form {
+  padding: 0;
+  margin-top: 16px;
+}
+

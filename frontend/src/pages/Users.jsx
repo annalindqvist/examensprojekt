@@ -1,6 +1,5 @@
 // REACT IMPORTS
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 // HOOKS IMPORT
 import { useUserContext } from "../hooks/useUserContext";
@@ -9,9 +8,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 // COMPONENT IMPORTS
 import ListOfUsers from '../components/ListOfUsers/ListOfUsers';
 import SavedFriendsComponent from "../components/SavedFriends/SavedFriendsComponent";
-
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
 
 const Users = () => {
 
@@ -42,10 +38,8 @@ const Users = () => {
     }
   }, [dispatch, user]);
 
-
-
   return (
-    <div className="pink-background">
+    <div className="pink-background flex">
       <div className="logo flex">
         <h1 className="lily-font dark-text l-font">GalVibe</h1>
       </div>

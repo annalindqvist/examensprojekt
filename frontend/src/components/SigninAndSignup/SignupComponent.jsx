@@ -1,13 +1,14 @@
-// imports
+// IMPORT REACT
 import {useState} from 'react';
 import { Link } from 'react-router-dom';
+
+// IMPORT HOOKS
 import {useSignup} from "../../hooks/useSignupContext";
 
-import './SigninSignup.css';
 
 const SignupComponent = () => {
     
-    const {signup, error, isLoading} = useSignup();
+    const {signup, error} = useSignup();
 
     const [email, setEmail] = useState("");
     const [firstname, setFirstname] = useState("");
@@ -62,6 +63,7 @@ const SignupComponent = () => {
                     <input type="checkbox" name="terms" id="terms" />
                     <Link to="/terms-and-conditions" className="s-font">I have read and agree to GalVibes terms!</Link>
                 </div>
+                {error && <div className="error">{error}</div>}
                 <input type="submit" value="Sign up!" />
             </form>
             <p className="s-font mediumpink-text">Already a member of GalVibe? <Link to="/signin" className="white-text">Sign in!</Link></p>

@@ -1,15 +1,25 @@
 // IMPORT COMPONENTS
 import AuthSettingsComponent from '../components/Settings/AuthSettingsComponent';
 import DeleteAccountComponent from '../components/Settings/DeleteAccountComponent';
+import SignOutComponent from '../components/Settings/SignOutComponent';
+import BackBtnComponent from '../components/GoBackBtnComponent/BackBtnComponent';
 
 
 const Settings = () => {
-    return ( 
-        <>
-        <AuthSettingsComponent/>
-        <DeleteAccountComponent/>
-        </>
-     );
+    return (
+        <div className="pink-background overflow-scroll">
+
+            <div className="flex-row">
+                <BackBtnComponent />
+                <h1 className="settings-h1">Settings</h1>
+            </div>
+
+
+            <AuthSettingsComponent />
+            <DeleteAccountComponent />
+            <SignOutComponent />
+        </div>
+    );
 }
- 
+
 export default Settings;

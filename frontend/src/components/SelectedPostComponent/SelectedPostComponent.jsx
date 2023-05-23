@@ -2,6 +2,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+// IMPORT COMPONENTS
+import BackBtnComponent from "../../components/GoBackBtnComponent/BackBtnComponent";
+
+
 // IMPORT HOOKS
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { usePostContext } from "../../hooks/usePostContext";
@@ -21,6 +25,8 @@ const SelectedPostComponent = ({ post }) => {
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
 
+  console.log(post)
+
   const [postedByUser, setPostedByUser] = useState(false);
   const [likedByUser, setLikedByUser] = useState(false);
   const [likes, setLikes] = useState(0);
@@ -30,9 +36,11 @@ const SelectedPostComponent = ({ post }) => {
   const firstname = post.postedBy ? post.postedBy.firstname : "Unknown";
   const postId = post._id ? post._id : "Unknown";
   const city = post.postedBy ? post.postedBy.city : "Unknown";
-  const image = post.postedBy ? post.postedBy.img : "defaultimg.png";
+  const image = post.postedBy.img ? post.postedBy.img : "defaultimg.png";
   const postedById = post.postedBy ? post.postedBy._id : "";
   const createdAt = post.createdAt ? post.createdAt : new Date();
+
+
 
   const imageUrl = `http://localhost:8080/static/${image}`;
 
@@ -45,7 +53,7 @@ const SelectedPostComponent = ({ post }) => {
 
   // --- if post liked by user - show pink filled heart
   useEffect(() => {
-    const checkLikedBy = post.likes.some((like) => like.likedBy._id === user._id);
+    const checkLikedBy = post.likes.some((like) => like.likedBy?._id === user._id);
 
     if (checkLikedBy) {
       setLikedByUser(true);
@@ -146,6 +154,7 @@ const SelectedPostComponent = ({ post }) => {
 
     <div className="post light-background selected-post">
       <div className="flex-row">
+        <BackBtnComponent />
         {/* Link to profile */}
         {postedById && <Link to={`/user/${postedById}`}>
           {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})` }} alt="profileimage" className="s-profile-img" />}
@@ -179,11 +188,11 @@ const SelectedPostComponent = ({ post }) => {
       <div className="comments-container">
         {post.comments && post.comments.map((comment) => (
 
-          <div className="flex-row" key={comment._id}>
-            {comment.postedBy.img && <div style={{ backgroundImage: `url(http://localhost:8080/static/${comment.postedBy.img})` }} alt="profileimage" className="s-profile-img" />}
+          <div className="flex-row" key={comment?._id}>
+            {comment.postedBy?.img ? (<div style={{ backgroundImage: `url(http://localhost:8080/static/${comment.postedBy.img})` }} alt="profileimage" className="s-profile-img" />) : (<div style={{ backgroundImage: `url(http://localhost:8080/static/defaultimg.png)` }} alt="profileimage" className="s-profile-img" />)}
             <div className="comment-flex">
-              <p className="m-weight m-font">{comment.postedBy.firstname} <span className="xs-font normal-weight">{comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span></p>
-              <p className="m-font">{comment.comment}</p>
+              <p className="m-weight m-font">{comment.postedBy?.firstname ? comment.postedBy?.firstname : 'Unknown'} <span className="xs-font normal-weight">{comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span></p>
+              <p className="m-font">{comment?.comment}</p>
             </div>
           </div>
         ))}
