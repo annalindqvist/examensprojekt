@@ -56,6 +56,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
 
+    console.log("socketcontext")
     const socket = io('http://localhost:8080');
 
     // Handle connection

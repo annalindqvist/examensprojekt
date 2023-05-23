@@ -1,5 +1,5 @@
 // REACT IMPORTS
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 // IMPORT ICONS
@@ -23,32 +23,6 @@ const Navbar = () => {
   const { socket, dispatch, chatNotifications: socketChatNotifications } = useSocketContext();
   const [chatNotification, setChatNotification] = useState([]);
 
-  
-  useEffect(() => {
-    // Listen for the "newChatNotification" event
-    console.log("socket navbar")
-    if (socket) {
-      socket.on("newChatNotification", (notification) => {
-        console.log("notification", notification)
-        // Update the chat notifications state
-        dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
-        setChatNotification((prev) => [...prev, notification])
-      });
-
-      return () => {
-        // Clean up the event listener when component unmounts
-        socket.off("newChatNotification");
-      };
-    }
-  }, [socket, dispatch]);
-
-  socket?.on("newChatNotification", (notification) => {
-    console.log("notification", notification)
-    // Update the chat notifications state
-    dispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
-    
-  });
-
 
   useEffect(() => {
     console.log("socketchatnot", socketChatNotifications)
@@ -57,10 +31,15 @@ const Navbar = () => {
   }, [socketChatNotifications]);
 
   console.log("CHATNOT", chatNotification)
+  const excludedRoutes = ["/chat/:id"];
+  const location = useLocation();
+
+  const showNavBar = user && !excludedRoutes.includes(location.pathname);
+  console.log(location.pathname)
 
   return (
     <>
-      {user && (
+      {showNavBar && (
         <div className="menu">
           <nav>
             <Link to="/">

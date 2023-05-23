@@ -12,6 +12,7 @@ import PostOnFeed from "../components/PostOnFeed/PostOnFeed";
 import PostToFeed from "../components/PostFeed/PostToFeed";
 
 import env from "react-dotenv";
+import Navbar from '../components/Navbar/Navbar';
 // `${env.REACT_APP_API_URL}/feed`
 
 
@@ -48,6 +49,8 @@ const Feed = () => {
   }, [dispatch, user]);
 
     return (
+      <>
+      <Navbar/>
       <div className="pink-background flex">
         <div className="logo flex">
           <h1 className="lily-font dark-text l-font">GalVibe</h1>
@@ -70,6 +73,7 @@ const Feed = () => {
         </div>
         
       </div>
+      </>
      
     );
   };
