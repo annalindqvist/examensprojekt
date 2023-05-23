@@ -10,6 +10,7 @@ import DescriptionComponent from "../components/OneUserComponent/DescriptionComp
 import InterestsComponent from "../components/OneUserComponent/InterestsComponent";
 import TopOfProfileComponent from "../components/OneUserComponent/TopOfProfileComponent";
 import BackBtnComponent from "../components/GoBackBtnComponent/BackBtnComponent";
+import Navbar from '../components/Navbar/Navbar';
 
 
 const OneUser = () => {
@@ -39,6 +40,8 @@ const OneUser = () => {
   }, [params.id, dispatch]);
 
   return (
+    <>
+    <Navbar/>
     <div className="pink-background centered-content-column profile">
       {/* <button className="back-btn" onClick={() => navigate(-1)} ><IoChevronBackOutline className="back-icon"/></button> */}
       <div className="back-btn">
@@ -76,6 +79,7 @@ const OneUser = () => {
         {selectedUser && <SaveUserComponent key={selectedUser._id} selectedUser={selectedUser} />}
       </div>
     </div>
+    </>
   );
 };
 

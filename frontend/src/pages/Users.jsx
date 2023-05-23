@@ -13,6 +13,7 @@ import FilterUserComponent from '../components/FilterUsersComponent/FilterUsersC
 // IMPORT ICONS
 
 import {TbDots} from 'react-icons/tb'
+import Navbar from '../components/Navbar/Navbar';
 
 const Users = () => {
 
@@ -54,6 +55,8 @@ const Users = () => {
 
 
   return (
+    <>
+    <Navbar/>
     <div className="pink-background flex">
       <div className="logo flex">
         <h1 className="lily-font dark-text l-font">GalVibe</h1>
@@ -91,7 +94,7 @@ const Users = () => {
 
       </div>
     </div>
-
+</>
 
   );
 };

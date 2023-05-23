@@ -13,13 +13,18 @@ import MyTopOfProfileComponent from "../components/MyProfileComponent/MyTopOfPro
 // ICON IMPORTS
 import { IoSettingsOutline } from 'react-icons/io5';
 import { BsCamera } from 'react-icons/bs';
+import Navbar from '../components/Navbar/Navbar';
 
 const Profile = () => {
+
+  
 
   const { user } = useAuthContext();
   const [view, setView] = useState('About');
 
   return (
+    <>
+    <Navbar/>
     <div className="pink-background centered-content-column profile">
       <div className="profile-top-btns">
         <Link to="/user/edit-profile-picture"><BsCamera className="icon"/></Link>
@@ -54,6 +59,7 @@ const Profile = () => {
       </div>
       <Link to="/user/edit" className="my-profile-edit">Edit profile information</Link>
     </div>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 // REACT IMPORTS
 import {  useState, useEffect }from 'react';
+import Navbar from '../components/Navbar/Navbar';
 
 // HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -66,6 +67,8 @@ const EditProfile = () => {
   
 
     return (
+      <>
+      <Navbar/>
       <div>
         <p>Edit profile</p>
         <form onSubmit={handleSubmit} encType='multioart/form-data'>
@@ -114,6 +117,7 @@ const EditProfile = () => {
           <input type="submit" value="Save my profile" onChange={handleCheckbox}/>
         </form>
     </div>
+    </>
     );
   };
   

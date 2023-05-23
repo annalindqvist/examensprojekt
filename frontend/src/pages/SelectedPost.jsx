@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import SelectedPostComponent from "../components/SelectedPostComponent/SelectedPostComponent";
 
 import env from "react-dotenv";
+import Navbar from '../components/Navbar/Navbar';
 // `${env.REACT_APP_API_URL}/`
 
 const Comments = () => {
@@ -39,6 +40,8 @@ const Comments = () => {
 
 
     return (
+      <>
+      <Navbar/>
       <div className="pink-background flex">
         <div className="logo flex">
           <h1 className="lily-font dark-text l-font">GalVibe</h1>
@@ -46,6 +49,7 @@ const Comments = () => {
         
         {selectedPost && <SelectedPostComponent key={selectedPost._id} post={selectedPost} />}  
       </div>
+      </>
     
     );
   };

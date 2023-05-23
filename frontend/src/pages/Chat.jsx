@@ -1,6 +1,7 @@
 // REACT IMPORTS
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar/Navbar";
 
 // IMPORT HOOKS
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -22,9 +23,6 @@ const Chat = () => {
       })
       const json = await res.json();
 
-      console.log("json", json)
-      console.log("user", user.savedGirls)
-
       if (res.ok) {
         dispatch({ type: 'SET_CHATS', payload: json });
       }
@@ -40,13 +38,15 @@ const Chat = () => {
 
 
   useEffect(() => {
-
+    console.log("should rqct")
     setChatNotifiction(socketChatNotifictions)
 
   }, [socketChatNotifictions]);
   console.log("chat chat not", chatNotification)
 
   return (
+    <>
+    <Navbar/>
     <div className="pink-background flex">
       <div className="logo flex">
         <h1 className="lily-font dark-text l-font">GalVibe</h1>
@@ -114,6 +114,7 @@ const Chat = () => {
       </div>
 
     </div>
+    </>
 
   );
 }

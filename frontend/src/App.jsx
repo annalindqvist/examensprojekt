@@ -4,7 +4,7 @@ import './App.css';
 // REACT IMPORTS
 import ReactDOM from "react-dom/client";
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 // IMPORT HOOKS
 import { useAuthContext } from './hooks/useAuthContext'
@@ -30,27 +30,32 @@ import CurrentChat from './pages/CurrentChat';
 import Notifications from './pages/Notifications';
 
 // IMPORT COMPONENTS
-import Navbar from "./components/Navbar/Navbar";
+// import Navbar from "./components/Navbar/Navbar";
 
 export default function App() {
-  const { socket, selectedChat } = useSocketContext();
-
-  console.log("selectedChat", selectedChat)
+  const { socket, selectedChat, dispatch: socketDispatch } = useSocketContext();
 
   const { user, dispatch } = useAuthContext()
 
   useEffect(() => {
-    console.log("useeffect app.jsx", user, socket)
     if (user && socket) {
       socket.emit("newConnectedUser", user._id);
-    
     }
   },[user, socket])
+
+  socket?.on("newChatNotification", (notification) => {
+    // Update the chat notifications state
+    socketDispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
+
+    return () => {
+      // Clean up the event listener when component unmounts
+      socket.off("newChatNotification");
+    }
+  });
 
   return (
     <div className="App">
     <BrowserRouter>
-      <Navbar />
       <div className="pages">
         <Routes>
           <Route 
@@ -129,5 +134,4 @@ export default function App() {
   );
 }
 
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(<App />);
+

@@ -45,7 +45,6 @@ const CurrentChat = () => {
 
         if (socket) {
 
-
             socket.on("getMessage", (message) => {
                 console.log("getMessage current on", message)
                 setPreviousMessage({
@@ -55,8 +54,6 @@ const CurrentChat = () => {
                 });
                 console.log("previousmessage getmessage", previousMessage)
             });
-
-
 
             return () => {
                 socket.off(); // Clean up the socket connection when unmounting the component
@@ -222,9 +219,6 @@ const CurrentChat = () => {
 
     return (
         <div className="pink-background flex">
-            <div className="logo flex">
-                <h1 className="lily-font dark-text l-font">GalVibe</h1>
-            </div>
             <div className="open-chat">
                 <div className="chat-info">
                     {selectedUser && <TopOfChatComponent key={selectedUser._id} selectedUser={selectedUser} />}
