@@ -1,25 +1,25 @@
 // REACT IMPORTS
-import {  useState }from 'react';
+import {  useState, useEffect }from 'react';
 
 // HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
 
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
+import citiesData from "../json/cities.json";
+
 
 const EditProfile = () => {
-    
-    // -----------------------
-    // TODO: 
-    // move cities to a json file and map them out + more cities in sweden
-    // -----------------------
 
+    const [cities, setCities] = useState([]);
     const {user, dispatch} = useAuthContext();
    
     const [age, setAge] = useState(user.age);
     const [city, setCity] = useState(user.city);
     const [description, setDescription] = useState(user.description);
     const [intrests, setInterests] = useState(user.intrests);
+
+    useEffect(() => {
+      setCities(citiesData.towns);
+    }, []);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -62,7 +62,7 @@ const EditProfile = () => {
         }
     }
 
-    const cities = ["Alingsås", "Arboga", "Eskilstuna", "Enköping", "Fagersta", "Falun", "Göteborg", "Gävle", "Katrineholm", "Örebro"];
+    //const cities = ["Alingsås", "Arboga", "Eskilstuna", "Enköping", "Fagersta", "Falun", "Göteborg", "Gävle", "Katrineholm", "Örebro"];
   
 
     return (

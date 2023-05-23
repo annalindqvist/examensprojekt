@@ -1,11 +1,16 @@
+// IMPORT CSS
 import './App.css';
+
+// REACT IMPORTS
 import ReactDOM from "react-dom/client";
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-// import {useState, useEffect} from "react";
+
+// IMPORT HOOKS
 import { useAuthContext } from './hooks/useAuthContext'
 import { useSocketContext } from "./hooks/useSocketContext";
 
-// PAGES
+// IMPORT PAGES
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Terms from "./pages/Terms";
@@ -14,7 +19,6 @@ import Profile from "./pages/Profile";
 import Comments from "./pages/SelectedPost";
 import SavedFriends from "./pages/SavedFriends";
 import NoPage from "./pages/NoPage";
-import Navbar from "./components/Navbar/Navbar";
 import Users from './pages/Users';
 import OneUser from './pages/OneUser';
 import EditProfile from './pages/EditProfile';
@@ -23,8 +27,10 @@ import Settings from './pages/Settings';
 import Chat from './pages/Chat';
 import PostToFeedPage from './pages/PostToFeedPage';
 import CurrentChat from './pages/CurrentChat';
-import { useEffect } from 'react';
 import Notifications from './pages/Notifications';
+
+// IMPORT COMPONENTS
+import Navbar from "./components/Navbar/Navbar";
 
 export default function App() {
   const { socket, selectedChat } = useSocketContext();
@@ -40,10 +46,6 @@ export default function App() {
     
     }
   },[user, socket])
-
-  
-
-  console.log("APP.JSX SOCKET", socket)
 
   return (
     <div className="App">
