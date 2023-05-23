@@ -460,6 +460,7 @@ a {
   min-height: 90vh;
   overflow-y: scroll;
   border-radius: 10px 10px 0 0;
+  padding-bottom: 70px;
 }
 
 /* EXPLORE AND CHAT CONTAIER BTN */
@@ -693,3 +694,41 @@ a {
   margin-top: 16px;
 }
 
+
+/* FILTER USERS */
+
+.filter-btn {
+  margin: 10px;
+  position: relative;
+}
+
+.filter-users-container {
+  background-color: #Fafafa;
+  border: 2px solid #E497BB;
+  border-radius: 10px;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 16px;
+  
+}
+
+.filter-users-container form {
+  margin-top: 20px;
+  padding: 16px;
+}
+
+.custom-select-filter {
+  width: 100%;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
