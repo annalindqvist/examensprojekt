@@ -42,11 +42,11 @@ const OneUser = () => {
   return (
     <>
     <Navbar/>
-    <div className="pink-background centered-content-column profile">
-      {/* <button className="back-btn" onClick={() => navigate(-1)} ><IoChevronBackOutline className="back-icon"/></button> */}
-      <div className="back-btn">
+    <div className="pink-background centered-content-column">
+      <div className="profile">
+     
         <BackBtnComponent/>
-      </div>
+      
       
       {selectedUser && <TopOfProfileComponent key={selectedUser._id} selectedUser={selectedUser} />}
       
@@ -78,6 +78,7 @@ const OneUser = () => {
       <div className="save-user-btn">
         {selectedUser && <SaveUserComponent key={selectedUser._id} selectedUser={selectedUser} />}
       </div>
+    </div>
     </div>
     </>
   );

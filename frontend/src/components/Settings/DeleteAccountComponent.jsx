@@ -6,6 +6,10 @@ import { Link } from 'react-router-dom';
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useSignout } from '../../hooks/useSignoutContext';
 
+// IMPORT ICONS
+import { HiOutlineTrash } from 'react-icons/hi2';
+
+
 const AuthSettingsComponent = () => {
 
     const { signout } = useSignout();
@@ -40,7 +44,7 @@ const AuthSettingsComponent = () => {
         <>
             <div className="settings-container">
                 <p className="m-font grey-text">Remove account</p>
-                <button onClick={() => setConfirm(true)} className="settings-btn"><p>Remove account</p></button>
+                <button onClick={() => setConfirm(true)} className="settings-btn remove-accout-btn"><HiOutlineTrash className="icon"/> <p>Remove account</p></button>
 
                 {confirm && <div className="delete-account-modal">
                     <h1>Delete account</h1>

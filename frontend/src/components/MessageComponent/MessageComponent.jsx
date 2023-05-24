@@ -1,24 +1,25 @@
-import {  formatDistanceToNow } from 'date-fns';
-import {useRef, useEffect} from'react';
+import { formatDistanceToNow } from 'date-fns';
+import { useRef, useEffect } from 'react';
 
-const MessageComponent = ({message, myMessage}) => {
+const MessageComponent = ({ message, myMessage }) => {
 
-    const bottomRef = useRef(null);
-  
-    //  scroll to bottom every time messages change
-    useEffect(() => {
-      bottomRef.current?.scrollIntoView({behavior: 'smooth'});
-    }, [message]);
+  const bottomRef = useRef(null);
 
-    return ( 
-        <div>
-        <div className={myMessage ? "my-message message-content" : "message-content"}>
-          <p className="s-font">{message.text}</p>
-        </div>
-        <div className="message-time xs-font">{formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}</div>
-        <div ref={bottomRef} />
+  //  scroll to bottom every time messages change
+  useEffect(() => {
+
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [message]);
+
+  return (
+    <div className={myMessage ? "my-message-container" : ""}>
+      <div className={myMessage ? "my-message message-content" : "message-content"}>
+        <p className="s-font">{message.text}</p>
       </div>
-     );
+      <div className="message-time xs-font">{formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}</div>
+      <div ref={bottomRef} />
+    </div>
+  );
 }
- 
+
 export default MessageComponent;
