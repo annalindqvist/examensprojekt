@@ -25,7 +25,10 @@ const Profile = () => {
   return (
     <>
     <Navbar/>
-    <div className="pink-background centered-content-column profile">
+    <div className="pink-background centered-content-column">
+      <div className="profile">
+
+      
       <div className="profile-top-btns">
         <Link to="/user/edit-profile-picture"><BsCamera className="icon"/></Link>
         <Link to="/user/settings" ><IoSettingsOutline className="icon"/></Link>
@@ -58,6 +61,7 @@ const Profile = () => {
 
       </div>
       <Link to="/user/edit" className="my-profile-edit">Edit profile information</Link>
+    </div>
     </div>
     </>
   );

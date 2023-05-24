@@ -24,4 +24,7 @@ PostRouter.put("/feed/like/:id", PostController.likePost);
 
 // comment post
 PostRouter.post("/feed/comment/:id", PostController.commentPost);
+
+// comment post
+PostRouter.delete("/feed/comment/:id", PostController.deleteComment);
 export default PostRouter;

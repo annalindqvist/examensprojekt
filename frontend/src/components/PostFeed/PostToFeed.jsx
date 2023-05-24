@@ -8,10 +8,6 @@ import { IoClose } from 'react-icons/io5';
 // HOOKS IMPORT
 import { usePostContext } from "../../hooks/usePostContext";
 import { useAuthContext } from '../../hooks/useAuthContext';
-import './PostToFeed.css';
-
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
 
 const PostToFeed = () => {
 
@@ -44,9 +40,7 @@ const PostToFeed = () => {
             body: JSON.stringify({ post })
             })
             const json = await res.json();
-            //json = [{post: postDoc, postedByUser: true}]
-            //console.log("PostToFeed json", json);
-        
+            
             if (!res.ok) {
                 setError(json.error)
             };
@@ -74,6 +68,7 @@ const PostToFeed = () => {
                     {/* <input type="text" name="post" className="input-field" placeholder={'Start a conversation ' + user.firstname + '!'} onChange={(e) => setPost(e.target.value)} /> */}
                     {/* <input  type="submit" value="Share" /> */}
                 {error && <div className="error">{error}</div>}
+                
             </form>
         </>
      );

@@ -311,6 +311,38 @@ const getSelectedPost = async (id) => {
     }
 }
 
+const deleteComment = async (req, res) => {
+    const commentId = req.params;
+    const postId = req.body.postId;
+
+    try {
+
+        const removeComment = await CommentModel.deleteOne({
+            _id: new ObjectId(commentId),
+        });
+        // remove commentID from post-comment-array
+        const removeFromPost = await PostModel.findOneAndUpdate({
+            _id: postId
+        }, {
+            $pull: {
+                "comments": new ObjectId(commentId)
+            }
+        });
+
+        if (removeComment && removeFromPost) {
+            const selectedPost = await getSelectedPost(postId)
+            res.status(200).json({
+                selectedPost: selectedPost
+            });
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json("Something went wrong");
+      
+    }
+}
+
 
 export default {
     getPosts,
@@ -318,5 +350,6 @@ export default {
     deletePost,
     likePost,
     commentPost,
-    getOnePost
+    getOnePost,
+    deleteComment
 };

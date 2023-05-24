@@ -9,19 +9,18 @@ import Navbar from '../components/Navbar/Navbar';
 const Settings = () => {
     return (
         <>
-        <Navbar/>
-        <div className="pink-background overflow-scroll centered-content-column">
+            <Navbar />
+            <div className="pink-background centered-content-column">
 
-            <div className="flex-row">
-                <BackBtnComponent />
-                <h1 className="settings-h1">Settings</h1>
+                <div className="settings">
+                    <BackBtnComponent />
+                    <h1>Settings</h1>
+      
+                    <AuthSettingsComponent />
+                    <DeleteAccountComponent />
+                    <SignOutComponent />
+                </div>
             </div>
-
-
-            <AuthSettingsComponent />
-            <DeleteAccountComponent />
-            <SignOutComponent />
-        </div>
         </>
     );
 }
