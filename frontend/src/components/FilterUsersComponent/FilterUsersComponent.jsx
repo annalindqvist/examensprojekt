@@ -44,9 +44,7 @@ const FilterUserComponent = ({onStateChange, onErrorChange}) => {
 
     return (
         <div className="filter-users-container">
-           
-            <h1 className="settings-h1">Filter all users</h1>
-            
+            <h2 className="m-weight m-font">Filter the list</h2>
             <form onSubmit={handleSubmit} className="flex-column">
                 <p className="s-font">City</p>
                 <select name="city" id="city" className="custom-select-filter" onChange={(e) => setCity(e.target.value)} value={city}>
@@ -54,11 +52,8 @@ const FilterUserComponent = ({onStateChange, onErrorChange}) => {
                         <option key={c} value={c}>{c}</option>
                     ))}
                 </select>
-               
                 <input className="form-button" type="submit" value="Save" />
-
             </form>
-
         </div>
     );
 }

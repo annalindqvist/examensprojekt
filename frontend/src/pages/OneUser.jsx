@@ -41,45 +41,46 @@ const OneUser = () => {
 
   return (
     <>
-    <Navbar/>
-    <div className="pink-background centered-content-column">
-      <div className="profile">
-     
-        <BackBtnComponent/>
-      
-      
-      {selectedUser && <TopOfProfileComponent key={selectedUser._id} selectedUser={selectedUser} />}
-      
-      <div className="info-container-profile">
-        <div className="btn-container">
-          <span onClick={() => setView('About')} className={view === 'About' ? "active-btn s-font m-weight white-text" : "btn s-font"}>About</span>
-          <span onClick={() => setView('Interests')} className={view === 'Interests' ? "active-btn s-font m-weight white-text" : "btn s-font"}>Interests</span>
-          <span onClick={() => setView('Posts')} className={view === 'Posts' ? "active-btn s-font m-weight white-text" : "btn s-font"}>Posts</span>
+      <Navbar />
+      <div className="pink-background centered-content-column">
+        <div className="profile">
 
+          <BackBtnComponent />
+
+
+          {selectedUser && <TopOfProfileComponent key={selectedUser._id} selectedUser={selectedUser} />}
+
+          <div className="btn-container btn-container-profile">
+            <span onClick={() => setView('About')} className={view === 'About' ? "active-btn s-font m-weight white-text" : "btn s-font"}>About</span>
+            <span onClick={() => setView('Interests')} className={view === 'Interests' ? "active-btn s-font m-weight white-text" : "btn s-font"}>Interests</span>
+            <span onClick={() => setView('Posts')} className={view === 'Posts' ? "active-btn s-font m-weight white-text" : "btn s-font"}>Posts</span>
+          </div>
+
+          <div className="info-container-profile">
+
+            {view === 'About' && (
+              <>
+                {selectedUser && <DescriptionComponent key={selectedUser._id} selectedUser={selectedUser} />}
+              </>
+            )}
+            {view === 'Interests' && (
+              <>
+                {selectedUser && <InterestsComponent key={selectedUser._id} selectedUser={selectedUser} />}
+              </>
+            )}
+            {view === 'Posts' && (
+              <>
+                <p>Posts created by this user...</p>
+              </>
+            )}
+
+          </div>
+
+          <div className="save-user-btn">
+            {selectedUser && <SaveUserComponent key={selectedUser._id} selectedUser={selectedUser} />}
+          </div>
         </div>
-        {view === 'About' && (
-          <>
-            {selectedUser && <DescriptionComponent key={selectedUser._id} selectedUser={selectedUser} />}
-          </>
-        )}
-        {view === 'Interests' && (
-          <>
-            {selectedUser && <InterestsComponent key={selectedUser._id} selectedUser={selectedUser} />}
-          </>
-        )}
-        {view === 'Posts' && (
-          <>
-            <p>Posts created by this user...</p>
-          </>
-        )}
-
       </div>
-
-      <div className="save-user-btn">
-        {selectedUser && <SaveUserComponent key={selectedUser._id} selectedUser={selectedUser} />}
-      </div>
-    </div>
-    </div>
     </>
   );
 };

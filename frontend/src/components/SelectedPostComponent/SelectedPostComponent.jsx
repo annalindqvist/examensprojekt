@@ -190,7 +190,7 @@ const SelectedPostComponent = ({ post }) => {
         </div>
       </div>
 
-      <p className="m-font">{postContent}</p>
+      <p className="m-font post-content">{postContent}</p>
       <div className="flex-row post-like-comment">
         {likedByUser ? (
           <span onClick={handleLike} className="flex-row mediumpink-text">
@@ -208,21 +208,23 @@ const SelectedPostComponent = ({ post }) => {
       </div>
 
       <div className="comments-container">
-        {post.comments && post.comments.map((comment) => {
+          {post.comments && post.comments.length > 0 ? ( post.comments.map((comment) => {
             const commentedByUser = comment.postedBy?._id === user._id;
             return(
-          <div className="flex-row" key={comment?._id}>
+          <div className="one-comment" key={comment?._id}>
             {comment.postedBy?.img ? (<div style={{ backgroundImage: `url(http://localhost:8080/static/${comment.postedBy.img})` }} alt="profileimage" className="s-profile-img" />) : (<div style={{ backgroundImage: `url(http://localhost:8080/static/defaultimg.png)` }} alt="profileimage" className="s-profile-img" />)}
-            <div className="comment-flex">
-              <p className="m-weight m-font">{comment.postedBy?.firstname ? comment.postedBy?.firstname : 'Unknown'} <span className="xs-font normal-weight">{comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span> {commentedByUser && <span onClick={() => handleDeleteComment(comment._id)}><HiOutlineTrash className="xs-icon"/></span>} </p>
+            <div className="comment-flex one-comment-content-container">
+              <p className="m-weight m-font comment-delete-relative">{comment.postedBy?.firstname ? comment.postedBy?.firstname : 'Unknown'} <span className="xs-font normal-weight">{comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span> {commentedByUser && <span onClick={() => handleDeleteComment(comment._id)} className="comment-delete-btn"><HiOutlineTrash className="xs-icon"/></span>} </p>
               <p className="m-font">{comment?.comment}</p>
             </div>
           </div>)
-        })}
+        })) : (
+          <p className="s-font no-comment">Be the first to comment!</p>
+        )}
       </div>
 
-      <form className="share-post-input">
-        <textarea name="comment" id="comment" cols="30" rows="3" value={comment} onChange={(e) => setComment(e.target.value)} />
+      <form className="share-comment-input">
+        <textarea name="comment" id="comment" cols="30" rows="3" placeholder="Aa.." value={comment} onChange={(e) => setComment(e.target.value)} />
         <span onClick={handleComment}><BsSend /></span>
       </form>
     </div>
