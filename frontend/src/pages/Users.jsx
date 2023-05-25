@@ -12,7 +12,7 @@ import FilterUserComponent from '../components/FilterUsersComponent/FilterUsersC
 
 // IMPORT ICONS
 
-import {TbDots} from 'react-icons/tb'
+import {IoFilterCircleOutline} from 'react-icons/io5'
 import Navbar from '../components/Navbar/Navbar';
 
 const Users = () => {
@@ -61,18 +61,21 @@ const Users = () => {
       <div className="logo flex">
         <h1 className="lily-font dark-text l-font">GalVibe</h1>
       </div>
-      <div className="inner-container">
-        <div className="btn-container">
+      <div className="btn-container">
           <span onClick={() => setAllUsers(true)} className={allUsers ? "active-btn s-font m-weight white-text" : "btn s-font"}>Explore</span>
           <span onClick={() => setAllUsers(false)} className={!allUsers ? "active-btn s-font m-weight white-text" : "btn s-font"}>Saved gals</span>
         </div>
+      <div className="inner-container">
+       
 
         {allUsers ? (
           <>
-            <div className="filter-btn">
-              <span onClick={() => filter ? setFilter(false) : setFilter(true)}><TbDots className="icon"/></span>
-              {filter && <FilterUserComponent onStateChange={handleStateChange} onErrorChange={handleErrorChange}/>}
+            <div className="filter-btn" onClick={() => filter ? setFilter(false) : setFilter(true)}>
+              <p className="xs-font">Filter list</p>
+              <span><IoFilterCircleOutline className="xs-icon"/></span>
+              
             </div>
+            {filter && <FilterUserComponent onStateChange={handleStateChange} onErrorChange={handleErrorChange}/>}
 
             {error && <div className="error">{error}</div>}
 

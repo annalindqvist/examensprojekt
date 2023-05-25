@@ -52,13 +52,13 @@ const Chat = () => {
         <h1 className="lily-font dark-text l-font">GalVibe</h1>
       </div>
 
-      <div className="inner-container">
-        <div className="btn-container">
+      <div className="btn-container">
           <span onClick={() => setAllChats(true)} className={allChats ? "active-btn s-font m-weight white-text" : "btn s-font"}>Chats</span>
           <span onClick={() => setAllChats(false)} className={!allChats ? "active-btn s-font m-weight white-text" : "btn s-font"}>Saved gals</span>
         </div>
 
-
+      <div className="inner-container">
+        
         {allChats ? (
           <>
             {/* PREVIOUS CHATS */}

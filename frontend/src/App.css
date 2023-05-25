@@ -30,7 +30,7 @@ body {
 
 .margin-top {
   margin-top: 20vh;
-  
+
 }
 
 /* CONTENT PLACEMENT */
@@ -66,7 +66,9 @@ body {
 
 .s-profile-img {
   width: 38px;
+  min-width: 38px;
   height: 38px;
+  min-height: 38px;
   border-radius: 10px;
   background-size: cover;
   background-position: center;
@@ -256,6 +258,11 @@ a {
   width: 100%;
 }
 
+.one-comment {
+  display: flex;
+  margin-bottom: 10px;
+}
+
 /* TERMS */
 
 .terms {
@@ -368,36 +375,70 @@ a {
   width: 90%;
   max-width: 500px;
   padding: 10px;
+  border-bottom: none;
+  height: 100vh;
+  padding-bottom: 45px;
 }
 
+.selected-post .back-component-btn {
+  margin-right: 5px;
+}
 .comments-container {
+  max-height: 70%;
+  
   overflow-y: scroll;
   margin-top: 16px;
 }
 
 /* one comment */
 
+.comment-delete-relative {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.comment-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-comment {
+  margin: 10px 0;
+}
 
 .comment-flex {
   display: flex;
   flex-direction: column;
-  margin: 5px 0 5px 5px;
+  
 }
 
 .share-post-input,
-.chat-input-container {
+.chat-input-container, .share-comment-input {
   padding: 0 10px 0 0;
   display: flex;
   align-items: center;
   border-radius: 10px;
   background-color: #F9EAF1;
 }
+
+.share-post-input {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.share-comment-input {
+  width: 90%;
+  
+}
+
 .chat-input-container {
   height: 60px;
   position: relative;
 }
 
-.share-post-input #comment,
+.share-comment-input #comment,
 .chat-input-container #chat-input {
   width: 100%;
   height: 30px;
@@ -409,7 +450,7 @@ a {
   color: #3C2345;
 }
 
-.share-post-input #comment,
+.share-comment-input #comment:focus,
 .chat-input-container #chat-input:focus {
   height: 40px;
 }
@@ -470,6 +511,7 @@ a {
   max-width: 70%;
   margin-left: auto;
 }
+
 .my-message-container div {
   width: fit-content;
   margin-left: auto;
@@ -510,6 +552,52 @@ a {
   z-index: 99999;
 }
 
+
+
+/* EXPLORE AND CHAT CONTAIER BTN */
+.btn-container {
+  position: sticky;
+  top: 0;
+  width: 90%;
+  max-width: 500px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid #3C2345;
+  background-color: #fafafa;
+  margin-bottom: 16px;
+}
+
+.btn-container-profile {
+  width: 100%;
+  margin-top: 16px;
+  margin-bottom: 10px;
+}
+
+.active-btn {
+  background-color: #3C2345;
+  color: #fafafa;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.btn {
+  background-color: #fafafa;
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  color: #6D6D6D;
+}
+
 /* EXPLORE AND CHAT CONTAINER  */
 
 .inner-container {
@@ -523,49 +611,22 @@ a {
   padding-bottom: 70px;
 }
 
-/* EXPLORE AND CHAT CONTAIER BTN */
-.btn-container {
-  width: 100%;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  border-radius: 10px;
-  border: 1px solid #3C2345;
-}
-
-.active-btn {
-  background-color: #3C2345;
-  width: 50%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-}
-
-.btn {
-  width: 50%;
-  height: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  color: #6D6D6D;
-}
-
 /* CHAT LIST */
 
-.chat-list,
-.user-card {
+.user-card-container {
+  border-bottom: 1px solid #ebebeb;
+  padding: 16px;
+}
+
+.chat-list {
   margin: 16px 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ebebeb;
 }
 
-.user-card {
+.user-card-top {
   display: flex;
-  
+
 }
 
 .open-chat {
@@ -578,7 +639,7 @@ a {
   gap: 10px;
   flex-direction: column;
   padding: 16px;
-  
+
 }
 
 /* PROFILE */
@@ -606,10 +667,11 @@ a {
 .profile-top-btns {
   position: absolute;
   top: 16px;
-  right:16px;
+  right: 16px;
   z-index: 999;
   display: flex;
 }
+
 .profile-top-btns a {
   margin-left: 16px;
   padding: 5px;
@@ -630,11 +692,11 @@ a {
   margin-right: 10px;
 }
 
-.back-component-btn{
+.back-component-btn {
   background-color: #fafafa;
   border-radius: 50%;
-  
-  
+
+
   color: #fafafa;
   display: flex;
   align-items: center;
@@ -661,7 +723,7 @@ a {
   width: 100%;
   max-width: 500px;
   height: 300px;
-  margin: 16px 0px 130px 0px;
+  margin-bottom:  130px ;
   background-color: #fafafa;
   border-radius: 10px;
 }
@@ -722,26 +784,30 @@ a {
 /* FILTER USERS */
 
 .filter-btn {
-  margin: 10px;
-  position: relative;
+  width: fit-content;
+  cursor: pointer;
+  margin: 10px 10px 10px auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  /* position: relative; */
+}
+
+.filter-btn span {
+  display: flex;
+  align-items: center;
 }
 
 .filter-users-container {
   background-color: #Fafafa;
-  border: 2px solid #3C2345;
-  border-radius: 10px;
-  position: absolute;
-  top: 30px;
-  left: 0;
-  width: 100%;
-  max-width: 500px;
-  max-height: 100vh;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 16px;
-  
+  border-bottom: 2px solid #ececec;
+  margin: 10px 16px;
+}
+
+.filter-users-container h2 {
+  margin-bottom: 10px;
 }
 
 .filter-users-container form {
@@ -758,7 +824,9 @@ a {
 
 /* EDIT PROFILE, SETTINGS */
 
-.edit-profile, .settings, .post-to-feed-page {
+.edit-profile,
+.settings,
+.post-to-feed-page {
   width: 100vw;
   height: 100%;
   max-width: 500px;
@@ -766,13 +834,16 @@ a {
   position: relative;
 }
 
-.edit-profile .back-component-btn, .settings .back-component-btn {
+.edit-profile .back-component-btn,
+.settings .back-component-btn {
   position: absolute;
   top: 16px;
   left: 16px;
 }
 
-.edit-profile h1, .settings h1, .settings-h1 {
+.edit-profile h1,
+.settings h1,
+.settings-h1 {
   text-align: center;
   font-weight: 500;
   font-size: 18px;
@@ -790,10 +861,10 @@ a {
 .hobby-container .icon {
   color: #3C2345;
   margin-right: 16px;
- margin-left: 16px;
+  margin-left: 16px;
 }
 
-.hobby-container input[type=checkbox]{
+.hobby-container input[type=checkbox] {
   margin-left: auto;
 }
 
@@ -807,14 +878,19 @@ a {
   border-radius: 10px;
   color: #3C2345;
   margin-top: 10px;
-  
+
 }
-#edit-city, #edit-age, #edit-description, .settings-container {
+
+#edit-city,
+#edit-age,
+#edit-description,
+.settings-container {
   margin-top: 10px;
   margin-bottom: 20px;
 }
 
-.edit-profile-form, .settings-last-container {
+.edit-profile-form,
+.settings-last-container {
   margin-bottom: 70px;
 }
 
@@ -828,14 +904,17 @@ a {
   background-color: #ececec;
   color: #1c1c1c;
   border-radius: 5px;
-  display:flex;
+  display: flex;
 }
 
-.sign-out-btn, .remove-accout-btn {
+.sign-out-btn,
+.remove-accout-btn {
   display: flex;
   align-items: center;
 }
-.sign-out-btn .icon, .remove-accout-btn .icon {
+
+.sign-out-btn .icon,
+.remove-accout-btn .icon {
   margin-right: 10px;
 }
 
@@ -861,13 +940,14 @@ a {
   font-size: 30px;
   color: #1c1c1c;
 }
+
 .delete-account-modal p {
   margin-top: 10px;
   margin-bottom: 20px;
   text-align: center;
 }
 
-.modal-btns{
+.modal-btns {
   display: flex;
 }
 
@@ -882,7 +962,7 @@ a {
 }
 
 .modal-close {
-  background-color:#E497BB
+  background-color: #E497BB
 }
 
 .settings-form {
@@ -890,7 +970,10 @@ a {
   margin-top: 16px;
 }
 
-.settings-form .form-button, .edit-profile input[type=submit], .post-to-feed-page input[type=submit], .filter-users-container input[type=submit] {
+.settings-form .form-button,
+.edit-profile input[type=submit],
+.post-to-feed-page input[type=submit],
+.filter-users-container input[type=submit] {
   background-color: #3C2345;
   color: #fafafa;
 }
@@ -914,6 +997,7 @@ a {
   grid-area: b;
   justify-self: center;
 }
+
 .item3 {
   grid-area: c;
   justify-self: right;

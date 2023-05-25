@@ -43,10 +43,6 @@ const Comments = () => {
       <>
       <Navbar/>
       <div className="pink-background flex">
-        <div className="logo flex">
-          <h1 className="lily-font dark-text l-font">GalVibe</h1>
-        </div>
-        
         {selectedPost && <SelectedPostComponent key={selectedPost._id} post={selectedPost} />}  
       </div>
       </>
