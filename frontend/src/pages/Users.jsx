@@ -66,7 +66,6 @@ const Users = () => {
           <span onClick={() => setAllUsers(false)} className={!allUsers ? "active-btn s-font m-weight white-text" : "btn s-font"}>Saved gals</span>
         </div>
       <div className="inner-container">
-       
 
         {allUsers ? (
           <>
@@ -77,7 +76,7 @@ const Users = () => {
             </div>
             {filter && <FilterUserComponent onStateChange={handleStateChange} onErrorChange={handleErrorChange}/>}
 
-            {error && <div className="error">{error}</div>}
+            {error && <div className="error-soft">{error}</div>}
 
             {listOfUsers && listOfUsers.map((users) => {
               if (users._id !== user._id) {

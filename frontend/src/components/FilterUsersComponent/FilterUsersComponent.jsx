@@ -30,7 +30,7 @@ const FilterUserComponent = ({onStateChange, onErrorChange}) => {
         if(filteredUsers.length > 0){
             dispatch({ type: 'SET_USERS', payload: filteredUsers });
         } else {
-            onErrorChange("No users match your filter.");
+            onErrorChange("Sorry no users matches your filter.");
         }
         
         closeFilter();

@@ -184,6 +184,13 @@ a {
   margin-right: auto;
 }
 
+.error-soft {
+  color: #3C2345;
+  font-weight: 500;
+  font-size: 14px;
+  padding-left: 16px;
+}
+
 /* BACKGROUND */
 
 .dark-background {
