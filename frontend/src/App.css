@@ -177,6 +177,10 @@ a {
   font-size: 14px;
 }
 
+.xss-icon {
+  font-size: 12px;
+}
+
 .error {
   color: #e61a1a;
   font-weight: 500;
@@ -625,7 +629,7 @@ a {
   padding: 16px;
 }
 
-.chat-list {
+.chat-list, .user-card {
   margin: 16px 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ebebeb;
@@ -1026,4 +1030,26 @@ a {
   outline: none;
   border-radius: 10px;
   color: #3C2345;
+}
+
+#customCheckbox {
+  margin: 0;
+  padding: 10px 0;
+}
+
+.custom-checkbox-btn {
+  border: none;
+  outline: none;
+  margin: 16px 0;
+  background-color: transparent;
+  font-size: 14px;
+  color: #3C2345;
+}
+
+.user-card-info .flex-row, .time-city p {
+  gap: 3px;
+}
+.user-card-city {
+  display: flex;
+  align-items: center;
 }

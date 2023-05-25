@@ -1,4 +1,8 @@
 import UserModel from "../models/user.js";
+import MessageModel from "../models/message.js";
+import LikeModel from "../models/like.js";
+import CommentModel from "../models/comment.js";
+import ChatModel from "../models/chat.js";
 import PostModel from "../models/post.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -180,6 +184,13 @@ async function editProfile(req, res) {
     } = req.body;
 
     try {
+
+        const toLongIntrest = intrests.filter(i => i.length > 14)
+        if(toLongIntrest) {
+             return res.status(400).json({
+                message: "Sorry intrest can max be 14 characters."
+            });
+        }
 
         const updateProfileInfo = await UserModel.updateOne({
             _id: req.user._id,
@@ -370,6 +381,18 @@ const deleteAccount = async (req, res) => {
 
         await PostModel.deleteMany({
             postedBy: req.user._id
+        })
+        await CommentModel.deleteMany({
+            postedBy: req.user._id
+        })
+        await LikeModel.deleteMany({
+            likedBy: req.user._id
+        })
+        await MessageModel.deleteMany({
+            senderId: req.user._id
+        })
+        await ChatModel.deleteMany({
+            members: { $in: [ req.user._id ] },
         })
         const deleteUser = await UserModel.findByIdAndDelete(id)
         if (!deleteUser) {

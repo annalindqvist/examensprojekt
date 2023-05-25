@@ -15,6 +15,7 @@ import { HiOutlineTrash } from 'react-icons/hi2';
 import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
 import { BsSend } from 'react-icons/bs';
+import { MdOutlinePlace } from 'react-icons/md';
 
 // IMPORT DATE FNS
 import { formatDistanceToNow } from 'date-fns';
@@ -179,7 +180,7 @@ const SelectedPostComponent = ({ post }) => {
         <div className="">
           <p className="m-font m-weight">{firstname}</p>
           <div className="time-city">
-            <p className="xs-font grey-text">{formatDistanceToNow(new Date(createdAt), { addSuffix: true })} | {city}</p>
+            <p className="xs-font grey-text flex-row">{formatDistanceToNow(new Date(createdAt), { addSuffix: true })} | <span className="flex-row"><MdOutlinePlace className="xss-icon profile-icon"/>{city}</span></p>
           </div>
           {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash /></span>}
         </div>
