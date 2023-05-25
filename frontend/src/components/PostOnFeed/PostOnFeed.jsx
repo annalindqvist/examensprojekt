@@ -10,6 +10,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
+import { MdOutlinePlace } from 'react-icons/md';
 
 // IMPORT DATE FNS
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -120,7 +121,7 @@ const PostOnFeed = ({ post }) => {
           <p className="m-font m-weight dark-text">{firstname}</p>
           {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash/></span> } 
           <div className="time-city">
-            <p className="xs-font grey-text">{createdAt? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : createdAt}  | {city}</p>
+            <p className="xs-font grey-text flex-row">{createdAt? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : createdAt}  | <span className="flex-row"><MdOutlinePlace className="xss-icon profile-icon"/>{city}</span></p>
           </div>
         </div>
       </div>

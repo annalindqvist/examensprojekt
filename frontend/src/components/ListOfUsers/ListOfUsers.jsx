@@ -2,10 +2,13 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+// IMPORT ICONS
+import { MdOutlinePlace } from 'react-icons/md';
+
 const ListOfUsers = ({ user }) => {
 
   const firstname = user.firstname ? user.firstname : "Unknown";
-  const age = user.age ? user.age : "Unknown";
+  const age = user.age ? user.age + " y": "Unknown";
   const city = user.city ? user.city : "Unknown";
   const [description, setDescription] = useState(null);
   const imageUrl = user.img ? `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
@@ -29,7 +32,7 @@ return (
             <div className="flex-column notification-parent-list">
               <p >{firstname}</p>
               <div className="time-city">
-                <p className="xs-font grey-text">{age ? age + " | " : ""}{city}</p>
+              <p className="xs-font grey-text flex-row">{age} <span>|</span> <span className="user-card-city"> <MdOutlinePlace className="xss-icon profile-icon"/>{city}</span></p>
               </div>
               <p className="s-font">{description ? description : ''}</p>
             </div>

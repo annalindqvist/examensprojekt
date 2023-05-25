@@ -37,7 +37,11 @@ const EditProfile = () => {
   const [city, setCity] = useState(user.city);
   const [description, setDescription] = useState(user.description);
   const [intrests, setInterests] = useState(user.intrests);
+  const [customCheckbox, setCustomCheckbox] = useState(false);
+  const [customCheckboxValue, setCustomCheckboxValue] = useState("");
   const [error, setError] = useState(null);
+  const [customIntrest, setCustomIntrest] = useState([]);
+  
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -50,7 +54,15 @@ const EditProfile = () => {
     setInterestsData(interestsDataJson.interests);
     setInterests(user?.intrests)
 
-  },[user]);
+  }, [user]);
+  
+  // This has a warning to have intrests as a dependency, if i add it 
+  // and create a custom intrest there will be two visible custom looking the same
+  useEffect(() => {
+    const filteredIntrests = intrests.filter(i => !interestsData.includes(i));
+    setCustomIntrest(filteredIntrests);
+  }, [interestsData]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,7 +70,12 @@ const EditProfile = () => {
   }
 
   const handleCheckbox = (e) => {
+    console.log(e.target.value)
     const checkedValue = e.target.value;
+    console.log(checkedValue.length)
+    if (checkedValue.length > 14){
+      return setError("Sorry max length of hobby is 14 characters.")
+    }
     const aldreadyChecked = intrests.find(e => e === checkedValue);
     if (!aldreadyChecked && intrests.length < 3) {
       return setInterests([...intrests, checkedValue]);
@@ -66,6 +83,7 @@ const EditProfile = () => {
     else {
       return setInterests(intrests.filter(i => i !== checkedValue))
     }
+
   }
 
   const editProfile = async () => {
@@ -129,6 +147,7 @@ const EditProfile = () => {
     }
   };
 
+
   return (
     <>
       <Navbar />
@@ -149,13 +168,32 @@ const EditProfile = () => {
             <textarea name="description" id="edit-description" cols="30" rows="10" defaultValue={description} onChange={(e) => setDescription(e.target.value)} />
 
             <p className="m-font">What do you like to do? <span className="xs-font">(choose max 3)</span></p>
-            {interestsData.map((hobby) => (
-              <div key={hobby} className="flex-row hobby-container">
+            {interestsData.map((hobby, index) => (
+              <div key={index} className="flex-row hobby-container">
                 {renderIcon(hobby)}
                 <p className="m-font">{hobby}</p>
                 <input type="checkbox" name={hobby} value={hobby} checked={intrests.includes(hobby)} onChange={handleCheckbox} />
               </div>
             ))}
+
+
+            {customIntrest && customIntrest.map(i => (
+              <div key={i} className="flex-row hobby-container">
+                {renderIcon(i)}
+                <p className="m-font">{i}</p>
+                <input type="checkbox" name={i} value={i} checked={intrests.includes(i)} onChange={handleCheckbox} />
+              </div>
+            ))}
+
+            {customCheckbox ? (
+              <div key={customCheckboxValue} className="flex-row hobby-container">
+                {renderIcon(customCheckboxValue)}
+                <input type="text" name="customCheckbox" maxLength="14" id="customCheckbox" defaultValue={customCheckboxValue} onBlur={(e) => setCustomCheckboxValue(e.target.value)} />
+                <input type="checkbox" name="" id="" value={customCheckboxValue} checked={intrests.includes(customCheckboxValue)} onChange={handleCheckbox} />
+              </div>
+            ) : (
+              <button onClick={() => setCustomCheckbox(true)} className="custom-checkbox-btn">Create your own!</button>
+            )}
 
             {error && <div className="error-soft">{error}</div>}
 
