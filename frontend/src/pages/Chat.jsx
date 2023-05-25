@@ -13,6 +13,8 @@ const Chat = () => {
   const { dispatch, listOfChats, chatNotifications: socketChatNotifictions } = useSocketContext();
   const [allChats, setAllChats] = useState(true);
   const [chatNotification, setChatNotifiction] = useState([]);
+  const [error, setError] = useState(null);
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -27,7 +29,7 @@ const Chat = () => {
         dispatch({ type: 'SET_CHATS', payload: json });
       }
       if (!res.ok) {
-        console.log("res, ", res, "json, ", json)
+        setError("Something went wrong");
       }
     }
 
@@ -38,11 +40,9 @@ const Chat = () => {
 
 
   useEffect(() => {
-    console.log("should rqct")
     setChatNotifiction(socketChatNotifictions)
 
   }, [socketChatNotifictions]);
-  console.log("chat chat not", chatNotification)
 
   return (
     <>
@@ -58,6 +58,7 @@ const Chat = () => {
         </div>
 
       <div className="inner-container">
+      {error && <div className="error-soft">{error}</div>}
         
         {allChats ? (
           <>
@@ -88,7 +89,7 @@ const Chat = () => {
         ) : (
           <>
 
-            {/* ALL SAVED */}
+            {/* ALL SAVED FRIENDS*/}
             {user.savedGirls &&
               user.savedGirls.map((girl) => {
                 const imageUrl = girl.img ? `http://localhost:8080/static/${girl.img}` : 'http://localhost:8080/static/defaultimg.png';

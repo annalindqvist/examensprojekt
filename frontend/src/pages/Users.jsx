@@ -44,7 +44,7 @@ const Users = () => {
     if (token) {
       fetchUsers();
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   const handleStateChange = (value) => {
     setFilter(value);

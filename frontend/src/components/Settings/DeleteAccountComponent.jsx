@@ -1,19 +1,15 @@
 // REACT IMPORTS
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 // HOOKS IMPORTS
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { useSignout } from '../../hooks/useSignoutContext';
 
 // IMPORT ICONS
 import { HiOutlineTrash } from 'react-icons/hi2';
 
-
 const AuthSettingsComponent = () => {
 
     const { signout } = useSignout();
-    const { user, dispatch } = useAuthContext();
     const [error, setError] = useState(null)
     const [confirm, setConfirm] = useState(false);
 

@@ -29,7 +29,6 @@ export const UserContextProvider = ({ children }) => {
     filteredUsers: null
   });
   
-
   return (
     <UserContext.Provider value={{...state, dispatch}}>
       { children }

@@ -1,5 +1,4 @@
-import { createContext, useReducer, useEffect } from 'react';
-
+import { createContext, useReducer} from 'react';
 
 export const AuthContext = createContext()
 
@@ -7,13 +6,10 @@ export const authReducer = (state, action) => {
   switch (action.type) {
     
     case 'SIGNIN':
-      console.log("SIGNIN AUTHCONTEXT", action.payload)
       return { user: action.payload }
     case 'SIGNOUT':
-      
       return { user: null }
     case 'UPDATE_USER':
-      console.log("UPDATE_USER", action.payload)
       return { user: action.payload }
     default:
       return state;

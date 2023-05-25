@@ -1,6 +1,5 @@
-
 // REACT IMPORTS
-import { useEffect }from 'react';
+import { useEffect, useState }from 'react';
 import { Link } from 'react-router-dom';
 
 // HOOKS IMPORTS
@@ -9,22 +8,15 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 // COMPONENTS IMPORTS
 import PostOnFeed from "../components/PostOnFeed/PostOnFeed";
-import PostToFeed from "../components/PostFeed/PostToFeed";
-
-import env from "react-dotenv";
 import Navbar from '../components/Navbar/Navbar';
-// `${env.REACT_APP_API_URL}/feed`
-
 
 const Feed = () => {
-
-  // const URL1 = "http://localhost:8080/feed";
-  // const URL2 = "http://localhost:8080/feed";
-
 
   const {posts, dispatch, selectedPost} = usePostContext();
   const {user} = useAuthContext();
   const imageUrl = user?.img ? `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
+  const [error, setError] = useState(null);
+
   
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -34,12 +26,11 @@ const Feed = () => {
         headers: {'Authorization': `Bearer ${token}`},
       })
       const json = await res.json();
-      console.log("json feed", json)
       if (res.ok) {
         dispatch({type: 'SET_POST', payload: json});
       }
       if(!res.ok) {
-        console.log("res, ", res, "json, ", json)
+        setError(json.message);
       }
     }
 
@@ -47,8 +38,6 @@ const Feed = () => {
       fetchPosts();
     }
   }, [dispatch, user, selectedPost]);
-
-  console.log(posts)
 
     return (
       <>
@@ -64,11 +53,9 @@ const Feed = () => {
             {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
             <p className="s-font dark-text">Share a post {user?.firstname}!</p>
           </Link>
-         
-          {/* <PostToFeed/> */}
         
-
         <div className="post-on-feed overflow-scroll">
+          {error && <div className="error-soft">{error}</div>}
           {posts && posts.map((post) => (
             <PostOnFeed key={post._id} post={post} />
           ))}

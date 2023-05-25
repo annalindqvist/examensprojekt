@@ -8,21 +8,10 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 // IMPORT ICONS
 import { AiOutlineUserAdd } from 'react-icons/ai';
 
-
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
-
 const ListOfUsers = ({ selectedUser }) => {
 
-  // const URL1 = "http://localhost:8080/feed";
-  // const URL2 = "http://localhost:8080/feed";
-
     const {user, dispatch} = useAuthContext();
-    const firstname = selectedUser.firstname ? selectedUser.firstname : "";
-    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "http://localhost:8080/static/defaultimg.png";
     const userId = selectedUser._id;
-    const intrests = selectedUser.intrests ? selectedUser.intrests : null;
-    const description = selectedUser.description ? selectedUser.description : null;
     const [saved, setSaved] = useState(false);
 
     // if user is saved to friends setSaved(true) else setSaved(false)
@@ -55,12 +44,10 @@ const ListOfUsers = ({ selectedUser }) => {
     }
 
   return (
-
     <>
       {saved ? <button onClick={handleClick}><AiOutlineUserAdd className="icon"/>Remove</button> : <button onClick={handleClick}><AiOutlineUserAdd/> Save</button>}
       <Link to={`/chat/${userId}`} className="profile-chat-btn">Send message!</Link>
     </>
-    
   )
 }
 

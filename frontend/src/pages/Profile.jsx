@@ -17,8 +17,6 @@ import Navbar from '../components/Navbar/Navbar';
 
 const Profile = () => {
 
-
-
   const { user } = useAuthContext();
   const [view, setView] = useState('About');
 
@@ -27,7 +25,6 @@ const Profile = () => {
       <Navbar />
       <div className="pink-background centered-content-column">
         <div className="profile">
-
 
           <div className="profile-top-btns">
             <Link to="/user/edit-profile-picture"><BsCamera className="icon" /></Link>

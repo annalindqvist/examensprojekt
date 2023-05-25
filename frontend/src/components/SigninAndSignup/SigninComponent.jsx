@@ -1,10 +1,9 @@
-// imports
+// IMPORT REACT
 import { useState} from 'react';
 import { Link } from 'react-router-dom';
-//import {signin} from "../functions/test";
 
+// IMPORT HOOKS
 import { useSignin } from "../../hooks/useSigninContext";
-
 
 const SigninComponent = () => {
 
@@ -24,9 +23,7 @@ const SigninComponent = () => {
                 <h2 className="dark-text s-font m-weight">The place to connect with new gals!</h2>
             </div>
             <form onSubmit={handleSubmit} className="centered-content-column">
-                {/* <label>Email</label> */}
                 <input type="email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="email"/>
-                {/* <label>Password</label> */}
                 <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} placeholder="password"/>
                
                 {error && <div className="error">{error}</div>}

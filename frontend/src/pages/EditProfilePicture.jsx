@@ -1,19 +1,25 @@
 // REACT IMPORTS 
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 // HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
 
-import env from "react-dotenv";
+// IMPORT COMPONENTS
 import BackBtnComponent from '../components/GoBackBtnComponent/BackBtnComponent';
 import Navbar from '../components/Navbar/Navbar';
-// `${env.REACT_APP_API_URL}/`
 
 const EditProfilePicture = () => {
 
   const { user, dispatch } = useAuthContext();
   const imageUrl = user.img ? `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
   const [image, setImage] = useState(user.img);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+   const handleNavigate = () => {
+    navigate('/profile');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,17 +45,17 @@ const EditProfilePicture = () => {
         const json = await res.json();
 
         if (!res.ok) {
-          console.log("error", json)
+          setError(json.message);
         };
         if (res.ok) {
-
           // update user in context & local storage
           localStorage.setItem('user', JSON.stringify(json.user));
           dispatch({ type: 'UPDATE_USER', payload: json.user });
+          handleNavigate();
         }
       }
       else {
-        console.log("no image");
+        setError("Something went wrong.");
       }
     }
   }
@@ -60,10 +66,11 @@ const EditProfilePicture = () => {
       <div className="edit-profile">
         <BackBtnComponent/>
         <h1>Edit profile picture</h1>
-        <p className="grey-text">Current picture</p>
+        <p className="grey-text m-font">Current picture</p>
         {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})` }} alt="profileimage" className="l-edit-profile-img" />}
         <form onSubmit={handleSubmit} encType='multioart/form-data'>
           <input type="file" name="image" id="image" onChange={(e) => setImage(e.target.files[0])} />
+          {error && <div className="error-soft">{error}</div>}
           <input type="submit" value="Update my profile picture" />
         </form>
       </div>

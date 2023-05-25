@@ -4,7 +4,6 @@ import { useState } from 'react';
 // HOOKS IMPORTS
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-
 const AuthSettingsComponent = () => {
 
     const { user, dispatch } = useAuthContext();
@@ -42,7 +41,6 @@ const AuthSettingsComponent = () => {
                 dispatch({ type: 'UPDATE_USER', payload: json.user });
             }
         }
-
     }
 
     return (

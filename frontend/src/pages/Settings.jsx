@@ -5,7 +5,6 @@ import SignOutComponent from '../components/Settings/SignOutComponent';
 import BackBtnComponent from '../components/GoBackBtnComponent/BackBtnComponent';
 import Navbar from '../components/Navbar/Navbar';
 
-
 const Settings = () => {
     return (
         <>

@@ -1,15 +1,8 @@
-// -- REACT IMPORTS
+// REACT IMPORTS
 import { Link } from 'react-router-dom';
-
-// -- CSS
-import './SavedFriendsComponent.css';
-
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
 
 const SavedFriendComponent = ({ girl }) => {
 
-    // Variables
     const firstname = girl.firstname;
     const city = girl.city;
     const id = girl._id;

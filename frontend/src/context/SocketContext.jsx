@@ -8,35 +8,30 @@ export const SocketContext = createContext();
 export const SocketReducer = (state, action) => {
   switch (action.type) {
     case 'SET_SOCKET':
-      console.log("SET_SOCKET", action.payload)
       return {
         ...state,
         socket: action.payload
       }
     case 'SET_CHATS':
-      console.log("SET_CHATS", action.payload);
       return {
         ...state,
         listOfChats: action.payload
       }
     case 'SET_SELECTED_CHAT':
-      console.log("SET_SELECTED_CHAT", action.payload)
       return {
         ...state,
         selectedChat: action.payload
       }
     case 'SET_CHAT_NOTIFICATIONS':
-      console.log("SET_CHAT_NOTIFICATIONS", state.chatNotifications, action.payload)
       return {
         ...state, chatNotifications: [...state.chatNotifications, action.payload]
       }
     case 'DELETE_CHAT_NOTIFICATIONS':
-      console.log("SET_CHAT_NOTIFICATIONS", state.chatNotifications, action.payload)
       return {
         ...state, chatNotifications: state.chatNotifications.filter((n) => n.senderId !== action.payload)
       }
     case 'SET_OTHER_NOTIFICATINS':
-      console.log("SET_OTHER_NOTIFICATIONS")
+      // Not implemented
       return {
         ...state, otherNotifications: action.payload._id
       }
@@ -56,7 +51,6 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
 
-    console.log("socketcontext")
     const socket = io('http://localhost:8080');
 
     // Handle connection
@@ -66,7 +60,6 @@ export const SocketContextProvider = ({ children }) => {
      dispatch({ type: 'SET_SOCKET', payload: socket });
 
     return () => {
-      console.log("socket.disconnect")
       socket.disconnect();
     };
 

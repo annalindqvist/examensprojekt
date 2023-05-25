@@ -1,5 +1,8 @@
 // REACT IMPORTS
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+
+// IMPORT COMPONENTS
 import Navbar from '../components/Navbar/Navbar';
 
 // HOOKS IMPORTS
@@ -25,18 +28,21 @@ import { IoHeartSharp } from 'react-icons/io5';
 import { GoGlobe } from 'react-icons/go';
 import BackBtnComponent from '../components/GoBackBtnComponent/BackBtnComponent';
 
-
 const EditProfile = () => {
 
   const [cities, setCities] = useState([]);
   const [interestsData, setInterestsData] = useState([]);
-
   const { user, dispatch } = useAuthContext();
-
   const [age, setAge] = useState(user.age);
   const [city, setCity] = useState(user.city);
   const [description, setDescription] = useState(user.description);
   const [intrests, setInterests] = useState(user.intrests);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate('/profile');
+  };
 
   // Cities & intersts from JSON file
   useEffect(() => {
@@ -44,7 +50,7 @@ const EditProfile = () => {
     setInterestsData(interestsDataJson.interests);
     setInterests(user?.intrests)
 
-  }, []);
+  },[user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,13 +82,13 @@ const EditProfile = () => {
       const json = await res.json();
 
       if (!res.ok) {
-        console.log("error", json);
+        setError(json.message);
       }
       if (res.ok) {
-
         // update user in context & local storage
         localStorage.setItem('user', JSON.stringify(json.user));
         dispatch({ type: 'UPDATE_USER', payload: json.user });
+        handleNavigate();
       }
     }
   }
@@ -128,7 +134,7 @@ const EditProfile = () => {
       <Navbar />
       <div className="pink-background centered-content-column">
         <div className=" edit-profile">
-        <BackBtnComponent />
+          <BackBtnComponent />
           <h1>Edit profile</h1>
           <form onSubmit={handleSubmit} encType='multioart/form-data' className="edit-profile-form">
             <p className="m-font">Your age</p>
@@ -150,6 +156,8 @@ const EditProfile = () => {
                 <input type="checkbox" name={hobby} value={hobby} checked={intrests.includes(hobby)} onChange={handleCheckbox} />
               </div>
             ))}
+
+            {error && <div className="error-soft">{error}</div>}
 
             <input type="submit" value="Save my profile" onChange={handleCheckbox} />
           </form>
