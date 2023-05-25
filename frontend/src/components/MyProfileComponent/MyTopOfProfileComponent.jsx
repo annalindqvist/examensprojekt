@@ -1,6 +1,3 @@
-// REACT IMPORTS
-import { Link } from 'react-router-dom';
-
 // IMPORT HOOKS
 import { useAuthContext } from '../../hooks/useAuthContext';
 
@@ -13,9 +10,7 @@ const TopOfProfileComponent = ({ selectedUser }) => {
     const firstname = user.firstname ? user.firstname : "";
     const age = user.age ? ", " + user.age : "";
     const city = user.city ? user.city : "";
-
     const imageUrl = user.img ? `http://localhost:8080/static/${user.img}` : "http://localhost:8080/static/defaultimg.png";
-    const userId = user._id;
 
     return (
 

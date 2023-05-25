@@ -16,13 +16,12 @@ import { FaShoePrints } from 'react-icons/fa';
 import { IoHeartSharp } from 'react-icons/io5';
 import { GoGlobe } from 'react-icons/go';
 
-const InterestsComponent = ({ selectedUser }) => {
+const InterestsComponent = () => {
 
-  const {user} = useAuthContext();
-    const intrests = user.intrests ? user.intrests : null;
-    console.log(user)
+  const { user } = useAuthContext();
+  const intrests = user.intrests ? user.intrests : null;
 
-    // Icons for interests
+  // Icons for interests
   const renderIcon = (iconName) => {
     switch (iconName) {
       case 'Reading':
@@ -61,13 +60,13 @@ const InterestsComponent = ({ selectedUser }) => {
   return (
 
     <div className="info-content-container m-font flex-column">
-     {intrests?.map((interest) => (
-       <div className="interest-container flex-row">
-      {renderIcon(interest)}
-     <p>{interest}</p>
-     </div>))}
+      {intrests?.map((interest) => (
+        <div className="interest-container flex-row" key={intrests}>
+          {renderIcon(interest)}
+          <p>{interest}</p>
+        </div>))}
     </div>
-    
+
   )
 }
 

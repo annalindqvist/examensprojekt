@@ -7,7 +7,6 @@ const MessageComponent = ({ message, myMessage }) => {
 
   //  scroll to bottom every time messages change
   useEffect(() => {
-
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [message]);
 

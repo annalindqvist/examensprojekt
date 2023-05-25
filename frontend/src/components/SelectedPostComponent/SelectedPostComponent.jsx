@@ -1,10 +1,10 @@
 // REACT IMPORTS
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 // IMPORT COMPONENTS
 import BackBtnComponent from "../../components/GoBackBtnComponent/BackBtnComponent";
-
 
 // IMPORT HOOKS
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -19,14 +19,10 @@ import { BsSend } from 'react-icons/bs';
 // IMPORT DATE FNS
 import { formatDistanceToNow } from 'date-fns';
 
-
 const SelectedPostComponent = ({ post }) => {
 
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
-
-  console.log(post)
-
   const [postedByUser, setPostedByUser] = useState(false);
   const [likedByUser, setLikedByUser] = useState(false);
   const [likes, setLikes] = useState(0);
@@ -39,12 +35,15 @@ const SelectedPostComponent = ({ post }) => {
   const image = post.postedBy.img ? post.postedBy.img : "defaultimg.png";
   const postedById = post.postedBy ? post.postedBy._id : "";
   const createdAt = post.createdAt ? post.createdAt : new Date();
-
-
-  
   const imageUrl = `http://localhost:8080/static/${image}`;
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  console.log("post", post)
+  const handleNavigate = (to) => {
+    navigate('/');
+  };
+
+
   useEffect(() => {
     if (post.postedBy._id === user._id) {
       setPostedByUser(true);
@@ -88,7 +87,6 @@ const SelectedPostComponent = ({ post }) => {
         }
       })
       const json = await res.json()
-      console.log("like json", json)
 
       if (res.ok) {
         dispatch({ type: 'UPDATE_POST', payload: json.posts })
@@ -109,14 +107,13 @@ const SelectedPostComponent = ({ post }) => {
         }
       })
       const json = await res.json()
-      console.log(json)
 
       if (res.ok) {
         dispatch({ type: 'DELETE_POST', payload: json })
       }
     }
   }
-  
+
   const handleDeleteComment = async (id) => {
 
     const token = localStorage.getItem('token');
@@ -131,7 +128,6 @@ const SelectedPostComponent = ({ post }) => {
         body: JSON.stringify({ postId })
       })
       const json = await res.json()
-      console.log(json)
 
       if (res.ok) {
         dispatch({ type: 'SET_SELECTED_POST', payload: json.selectedPost })
@@ -146,7 +142,7 @@ const SelectedPostComponent = ({ post }) => {
     if (token) {
       e.preventDefault();
       if (!user) {
-        // setError("You must be signed in to post.");
+        handleNavigate();
         return;
       }
 
@@ -161,7 +157,7 @@ const SelectedPostComponent = ({ post }) => {
       const json = await res.json();
 
       if (!res.ok) {
-        console.log(res, json);
+        setError("Sorry something went wrong.")
       };
       if (res.ok) {
         setComment('');
@@ -170,7 +166,6 @@ const SelectedPostComponent = ({ post }) => {
       };
     }
   };
-
 
   return (
 
@@ -208,19 +203,21 @@ const SelectedPostComponent = ({ post }) => {
       </div>
 
       <div className="comments-container">
-          {post.comments && post.comments.length > 0 ? ( post.comments.map((comment) => {
-            const commentedByUser = comment.postedBy?._id === user._id;
-            return(
-          <div className="one-comment" key={comment?._id}>
-            {comment.postedBy?.img ? (<div style={{ backgroundImage: `url(http://localhost:8080/static/${comment.postedBy.img})` }} alt="profileimage" className="s-profile-img" />) : (<div style={{ backgroundImage: `url(http://localhost:8080/static/defaultimg.png)` }} alt="profileimage" className="s-profile-img" />)}
-            <div className="comment-flex one-comment-content-container">
-              <p className="m-weight m-font comment-delete-relative">{comment.postedBy?.firstname ? comment.postedBy?.firstname : 'Unknown'} <span className="xs-font normal-weight">{comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span> {commentedByUser && <span onClick={() => handleDeleteComment(comment._id)} className="comment-delete-btn"><HiOutlineTrash className="xs-icon"/></span>} </p>
-              <p className="m-font">{comment?.comment}</p>
-            </div>
-          </div>)
+        {post.comments && post.comments.length > 0 ? (post.comments.map((comment) => {
+          const commentedByUser = comment.postedBy?._id === user._id;
+          return (
+            <div className="one-comment" key={comment?._id}>
+              {comment.postedBy?.img ? (<div style={{ backgroundImage: `url(http://localhost:8080/static/${comment.postedBy.img})` }} alt="profileimage" className="s-profile-img" />) : (<div style={{ backgroundImage: `url(http://localhost:8080/static/defaultimg.png)` }} alt="profileimage" className="s-profile-img" />)}
+              <div className="comment-flex one-comment-content-container">
+                <p className="m-weight m-font comment-delete-relative">{comment.postedBy?.firstname ? comment.postedBy?.firstname : 'Unknown'} <span className="xs-font normal-weight">{comment.createdAt ? formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true }) : ''}</span> {commentedByUser && <span onClick={() => handleDeleteComment(comment._id)} className="comment-delete-btn"><HiOutlineTrash className="xs-icon" /></span>} </p>
+                <p className="m-font">{comment?.comment}</p>
+              </div>
+            </div>)
         })) : (
           <p className="s-font no-comment">Be the first to comment!</p>
         )}
+        {error && <div className="error-soft">{error}</div>}
+
       </div>
 
       <form className="share-comment-input">

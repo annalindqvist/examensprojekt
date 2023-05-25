@@ -1,3 +1,4 @@
+// REACT IMPORTS
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
@@ -11,7 +12,6 @@ import InterestsComponent from "../components/OneUserComponent/InterestsComponen
 import TopOfProfileComponent from "../components/OneUserComponent/TopOfProfileComponent";
 import BackBtnComponent from "../components/GoBackBtnComponent/BackBtnComponent";
 import Navbar from '../components/Navbar/Navbar';
-
 
 const OneUser = () => {
 
@@ -46,7 +46,6 @@ const OneUser = () => {
         <div className="profile">
 
           <BackBtnComponent />
-
 
           {selectedUser && <TopOfProfileComponent key={selectedUser._id} selectedUser={selectedUser} />}
 

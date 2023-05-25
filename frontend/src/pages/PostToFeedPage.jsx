@@ -1,4 +1,3 @@
-
 // COMPONENT IMPORT
 import PostToFeed from "../components/PostFeed/PostToFeed";
 

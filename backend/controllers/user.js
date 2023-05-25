@@ -1,9 +1,6 @@
 import UserModel from "../models/user.js";
 import PostModel from "../models/post.js";
 import jwt from "jsonwebtoken";
-import multer from "multer";
-import fs from "fs";
-import path from "path";
 import bcrypt from "bcrypt";
 
 const createToken = (_id) => {
@@ -212,7 +209,6 @@ async function editProfile(req, res) {
         }
 
     } catch (err) {
-        console.log(err)
         res.status(500).send({message:'Server error'});
     }
 }
@@ -264,9 +260,6 @@ async function editAuthSettings(req, res) {
             email,
             password: newHashedPassword
         })
-        // await user.save()
-
-        console.log(updateAuthInfo);
 
         const userInformation = await getUserInfo(req.user._id);
         if (!userInformation) {
@@ -280,19 +273,23 @@ async function editAuthSettings(req, res) {
         });
 
     } catch (err) {
-        console.log(err)
         res.status(500).send('Server error');
     }
 }
 
 const getAllUsers = async (req, res) => {
     try {
-        const allUsers = await UserModel.find({})
-        // only select: firstname, savedgirls if saved the online user, img, id, interests, description, 
-        res.status(200).json(allUsers);
+        const allUsers = await UserModel.find().select("firstname img id intrests description city age");
+        if(allUsers){
+            res.status(200).json(allUsers);
+        }
+        else {
+            res.status(400).json({
+                message: "Something went wrong"
+            });
+        }
 
     } catch (err) {
-        console.log(err)
         res.status(500).send({message:'Server error'});
     }
 }
@@ -302,7 +299,7 @@ const getOneUser = async (req, res) => {
         const id = req.params.id;
         const user = await UserModel.findOne({
             _id: id
-        });
+        }).select("firstname img id intrests description city age");
         res.status(200).json(user);
 
     } catch (err) {
@@ -383,7 +380,6 @@ const deleteAccount = async (req, res) => {
         res.status(200).json('Account deleted');
 
     } catch (err) {
-        console.log(err)
         res.status(500).send({message:'Server error'});
     }
 }

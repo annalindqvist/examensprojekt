@@ -11,12 +11,6 @@ import { HiOutlineTrash } from 'react-icons/hi2';
 import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
 
-// CSS IMPORT
-import './PostOnFeed.css';
-
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
-
 // IMPORT DATE FNS
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
@@ -42,7 +36,7 @@ const PostOnFeed = ({ post }) => {
 
   // --- if posted by user - setPostedByUser(true) - to display delete button
   useEffect(() => {
-    if (post.postedBy?._id == user._id){
+    if (post.postedBy?._id === user._id){
       setPostedByUser(true);
     }
   }, [post.postedBy?._id, user._id]);

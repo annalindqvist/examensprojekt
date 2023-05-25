@@ -11,7 +11,6 @@ const SignOutComponent = () => {
         signout();
     };
 
-
     return (
 
         <div className="settings-container settings-last-container">

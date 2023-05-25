@@ -16,53 +16,53 @@ import { GoGlobe } from 'react-icons/go';
 const InterestsComponent = ({ selectedUser }) => {
 
     const intrests = selectedUser.intrests ? selectedUser.intrests : null;
-    
+
     // Icons for interests
-  const renderIcon = (iconName) => {
-    switch (iconName) {
-      case 'Reading':
-        return <BsBook className="icon" />;
-      case 'Cooking':
-        return <TbChefHat className="icon" />;
-      case 'Shopping':
-        return <AiOutlineShopping className="icon" />;
-      case 'Movie nights':
-        return <RiMovie2Line className="icon" />;
-      case 'Girl talk':
-        return <TbBrandWechat className="icon" />;
-      case 'Working out':
-        return <CgGym className="icon" />;
-      case 'Swedish fika':
-        return <TbCoffee className="icon" />;
-      case 'Afterwork':
-        return <TiWine className="icon" />;
-      case 'Dinners':
-        return <GiForkKnifeSpoon className="icon" />;
-      case 'Walks':
-        return <FaShoePrints className="icon" />;
-      case 'Conserts':
-        return <FiMusic className="icon" />;
-      case 'Game nights':
-        return <IoDiceOutline className="icon" />;
-      case 'Party nights':
-        return <BiParty className="icon" />;
-      case 'Travelling':
-        return <GoGlobe className="icon" />;
-      default:
-        return <IoHeartSharp className="icon" />;
-    }
-  };
+    const renderIcon = (iconName) => {
+        switch (iconName) {
+            case 'Reading':
+                return <BsBook className="icon" />;
+            case 'Cooking':
+                return <TbChefHat className="icon" />;
+            case 'Shopping':
+                return <AiOutlineShopping className="icon" />;
+            case 'Movie nights':
+                return <RiMovie2Line className="icon" />;
+            case 'Girl talk':
+                return <TbBrandWechat className="icon" />;
+            case 'Working out':
+                return <CgGym className="icon" />;
+            case 'Swedish fika':
+                return <TbCoffee className="icon" />;
+            case 'Afterwork':
+                return <TiWine className="icon" />;
+            case 'Dinners':
+                return <GiForkKnifeSpoon className="icon" />;
+            case 'Walks':
+                return <FaShoePrints className="icon" />;
+            case 'Conserts':
+                return <FiMusic className="icon" />;
+            case 'Game nights':
+                return <IoDiceOutline className="icon" />;
+            case 'Party nights':
+                return <BiParty className="icon" />;
+            case 'Travelling':
+                return <GoGlobe className="icon" />;
+            default:
+                return <IoHeartSharp className="icon" />;
+        }
+    };
 
-  return (
+    return (
 
-    <div className="info-content-container m-font flex-column">
-     {intrests?.map((interest) => (
-       <div className="interest-container flex-row">
-      {renderIcon(interest)}
-     <p>{interest}</p>
-     </div>))}
-    </div>
-  )
+        <div className="info-content-container m-font flex-column">
+            {intrests?.map((interest) => (
+                <div className="interest-container flex-row">
+                    {renderIcon(interest)}
+                    <p>{interest}</p>
+                </div>))}
+        </div>
+    )
 }
 
 export default InterestsComponent;

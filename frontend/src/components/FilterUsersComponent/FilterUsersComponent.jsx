@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useUserContext } from "../../hooks/useUserContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-
 // IMPORT JSON
 import citiesData from "../../json/cities.json";
 
@@ -11,11 +10,8 @@ const FilterUserComponent = ({onStateChange, onErrorChange}) => {
 
     const { listOfUsers, dispatch } = useUserContext();
     const { user } = useAuthContext();
-
     const [city, setCity] = useState(user.city)
-    console.log(user)
     const [cities, setCities] = useState([]);
-
 
     useEffect(() => {
         setCities(citiesData.towns);
@@ -32,9 +28,7 @@ const FilterUserComponent = ({onStateChange, onErrorChange}) => {
         } else {
             onErrorChange("Sorry no users matches your filter.");
         }
-        
         closeFilter();
-        
     }
 
     const closeFilter = () =>{

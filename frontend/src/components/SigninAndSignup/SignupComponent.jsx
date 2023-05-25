@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 // IMPORT HOOKS
 import {useSignup} from "../../hooks/useSignupContext";
 
+// JSON IMPORT
 import citiesData from "../../json/cities.json";
 
 const SignupComponent = () => {
     
     const {signup, error: signupError} = useSignup();
     const [cities, setCities] = useState([]);
-
     const [email, setEmail] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
@@ -21,7 +21,6 @@ const SignupComponent = () => {
     const [password2, setPassword2] = useState("");
     const [terms, setTerms] = useState(false); 
     const [error, setError] = useState(null);
-
     
     useEffect(() => {
         setCities(citiesData.towns);
@@ -42,7 +41,6 @@ const SignupComponent = () => {
         if (password1 !== password2) {
             return setError("Password doesnt match, try again.");
         }
-        // age, city
         signup(email, firstname, lastname, age, city, password1, password2, terms );
     }
 
@@ -54,12 +52,9 @@ const SignupComponent = () => {
                 <h2 className="white-text s-font m-weight">The place to connect with new gals!</h2>
             </div>
             <form onSubmit={handleSubmit} className="centered-content-column">
-                 {/* <label>Firstname</label> */}
                  <input type="text" name="firstname" onChange={(e) => setFirstname(e.target.value)} placeholder="Your firstname"/>
-                {/* <label>Lastname</label> */}
                 <input type="text" name="lastname" onChange={(e) => setLastname(e.target.value)} placeholder="Your lastname"/>
                 <input type="number" name="age" onChange={(e) => setAge(e.target.value)} placeholder="Your age"/>
-                {/* <label>Email</label> */}
                 <div className="custom-select-container" style={{width:"100%"}}>
                     <select className="custom-select"  name="city" id="city" onChange={(e) => setCity(e.target.value)}>
                         {cities.map((c) => (
@@ -68,7 +63,6 @@ const SignupComponent = () => {
                     </select>
                 </div>
                 <input type="email" name="email" onChange={(e) => setEmail(e.target.value)} placeholder="Your email"/>
-                {/* <label>Password</label> */}
                 <input type="password" name="password" onChange={(e) => setPassword1(e.target.value)} placeholder="Choose a password.."/>
                 <input type="password" name="password" onChange={(e) => setPassword2(e.target.value)} placeholder="And your chosen password again"/>
                 <div className="terms-flex">
