@@ -63,7 +63,7 @@ const Users = () => {
       </div>
       <div className="btn-container">
           <span onClick={() => setAllUsers(true)} className={allUsers ? "active-btn s-font m-weight white-text" : "btn s-font"}>Explore</span>
-          <span onClick={() => setAllUsers(false)} className={!allUsers ? "active-btn s-font m-weight white-text" : "btn s-font"}>Saved gals</span>
+          <span onClick={() => setAllUsers(false)} className={!allUsers ? "active-btn s-font m-weight white-text" : "btn s-font"}>Saved</span>
         </div>
       <div className="inner-container">
 

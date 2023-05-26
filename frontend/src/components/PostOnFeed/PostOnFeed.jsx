@@ -130,19 +130,19 @@ const PostOnFeed = ({ post }) => {
       <div className="flex-row post-like-comment">
       {likedByUser ? (
           <span onClick={handleLike} className="flex-row mediumpink-text">
-            <RiHeart3Fill/>
+            <RiHeart3Fill className="s-icon"/>
             {likes > 0 && <p className="liked-commented dark-text">{likes}</p>}
           </span>
           ) : (
             
               <span onClick={handleLike} className="flex-row dark-text">
-                <RiHeart3Line/>
+                <RiHeart3Line className="s-icon"/>
                 {likes > 0 && <p className="liked-commented dark-text">{likes}</p>}
               </span>
             
           )}        
         <Link to={`/feed/${postId}`}>
-          <span className="black-text flex-row"><HiOutlineChatBubbleOvalLeftEllipsis/>{comments > 0 ? <p className="liked-commented dark-text">{comments}</p> : ''}</span>
+          <span className="black-text flex-row"><HiOutlineChatBubbleOvalLeftEllipsis className="s-icon"/>{comments > 0 ? <p className="liked-commented dark-text">{comments}</p> : ''}</span>
         </Link>
       </div>
     </div>
