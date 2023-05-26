@@ -116,7 +116,6 @@ const CurrentChat = () => {
     // the variable-names is not the best due to lack of understanding,
     // i know the function render the messages in realtime and that the function is needed
     useEffect(() => {
-        console.log("useEffect prevcurent", previousMessage, currentChat)
         if (previousMessage && currentChat) {
             const isMessageForCurrentChat = currentChat.some(
                 (chatMember) => chatMember._id === previousMessage.senderId
@@ -185,8 +184,8 @@ const CurrentChat = () => {
                     {selectedUser && <TopOfChatComponent key={selectedUser._id} selectedUser={selectedUser} />}
                 </div>
                 <div className="chat-messages-container">
-                    {messages?.map((m) => (
-                        <MessageComponent message={m} myMessage={m.senderId?._id === user._id} />
+                    {messages?.map((m, index) => (
+                        <MessageComponent message={m} myMessage={m.senderId?._id === user._id} key={index}/>
                     ))}
                     {error && <div className="error-soft">{error}</div>}
 

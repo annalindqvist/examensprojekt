@@ -501,11 +501,12 @@ a {
   min-height: 60px;
   width: 100%;
   border-bottom: 1px solid #ebebeb;
+  position: sticky;
+  top: 0;
 }
 
 .chat-info .back-component-btn {
   margin: 16px 16px 16px 0;
-
 }
 
 .chat-messages-container {

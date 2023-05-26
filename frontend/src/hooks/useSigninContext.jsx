@@ -17,7 +17,7 @@ export const useSignin = () => {
       return setError("Please fill in both email and password");
     }
 
-    const res = await fetch('https://143-42-49-241.ip.linodeusercontent.com:8080/sign-in', {
+    const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/sign-in', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ email, password })

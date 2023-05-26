@@ -38,6 +38,10 @@ const SignupComponent = () => {
             return setError("You need to read and agree to terms and conditions to sign up.");
         }
 
+        if (password1 < 8 || password1 > 72) {
+            return setError("Password must be min 8 and max 72 characters.");
+        }
+
         if (password1 !== password2) {
             return setError("Password doesnt match, try again.");
         }
