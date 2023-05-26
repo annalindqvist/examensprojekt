@@ -172,7 +172,6 @@ async function editProfilePicture(req, res) {
         }
 
     } catch (err) {
-        console.log(err)
         res.status(500).send('Server error');
     }
 }
@@ -327,7 +326,7 @@ const getOneUser = async (req, res) => {
 
 const saveOneUser = async (req, res) => {
     try {
-        console.log(req.body)
+       
         const {
             saveUserId
         } = req.body;
@@ -376,7 +375,7 @@ const saveOneUser = async (req, res) => {
         });
 
     } catch (err) {
-        console.log(err)
+        
         res.status(500).send({
             message: 'Server error'
         });
@@ -390,7 +389,7 @@ const deleteAccount = async (req, res) => {
             _id: id
         });
         if (!user) {
-            console.log("!user")
+            
             return res.status(400).json({
                 message: "Something went wrong"
             });

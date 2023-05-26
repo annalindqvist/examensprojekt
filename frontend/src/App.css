@@ -173,6 +173,10 @@ a {
   color: #1c1c1c;
 }
 
+.s-icon {
+  font-size: 16px;
+}
+
 .xs-icon {
   font-size: 14px;
 }
@@ -440,7 +444,7 @@ a {
 }
 
 .share-comment-input {
-  width: 90%;
+  max-width: 100%;
   
 }
 
@@ -645,7 +649,6 @@ a {
   width: 100vw;
   max-width: 500px;
   height: 100vh;
-  max-height: 800px;
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -1024,6 +1027,7 @@ a {
 #post-input {
   width: 100%;
   height: 30vh;
+  max-height: 400px;
   background-color: #fafafa;
   border: none;
   padding: 16px;
@@ -1052,4 +1056,35 @@ a {
 .user-card-city {
   display: flex;
   align-items: center;
+}
+
+@media screen and (min-width: 600px) {
+  
+  .l-font {
+    font-size: 30px;
+  }
+  .m-font {
+    font-size: 16px;
+  }
+  .s-font {
+    font-size: 14px;
+  }
+  .xs-font {
+    font-size: 12px;
+  }
+
+  #chat-input {
+    min-height: 40px;
+  }
+  #chat-input:focus {
+    min-height: 50px;
+  }
+
+  .liked-commented {
+    font-size: 16px;
+  }
+
+  .s-icon {
+    font-size: 18px;
+  }
 }

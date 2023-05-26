@@ -52,7 +52,6 @@ const Notifications = () => {
 
     // Link type - to post or profile
     const renderLinkType = (linkType, id) => {
-        console.log(linkType, id)
         switch (linkType) {
             case 'post':
                 return `/feed/${id}`;

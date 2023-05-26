@@ -11,6 +11,7 @@
     align-items: center;
     justify-content: center;
 }
+
 .menu nav {
     width: 100%;
     max-width: 500px;
@@ -19,6 +20,7 @@
     justify-content: space-evenly;
     padding: 10px;
 }
+
 a {
     color: #3C2345;
 }
@@ -30,14 +32,28 @@ a {
 .notification-parent {
     position: relative;
 }
+
 .notification-indicator {
     position: absolute;
     top: 0;
-    right: 4px;
+    right: 3px;
     content: "";
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 10px;
     background-color: rgb(13, 199, 6);
     z-index: 99999;
+}
+
+@media screen and (min-width: 600px) {
+
+    .icon {
+        font-size: 24px;
+    }
+
+    .notification-indicator {
+        right: 0px;
+        width: 10px;
+        height: 10px;
+    }
 }

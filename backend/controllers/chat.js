@@ -4,7 +4,6 @@ import MessageModel from "../models/message.js";
 // open chat and get messages or start new chat
 // return chatId and old messages
 const openChat = async (req, res) => {
-    console.log(req.body.members)
     const {
         reciever,
         me
