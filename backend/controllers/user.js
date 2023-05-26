@@ -4,6 +4,8 @@ import LikeModel from "../models/like.js";
 import CommentModel from "../models/comment.js";
 import ChatModel from "../models/chat.js";
 import PostModel from "../models/post.js";
+import NotificationsModel from "../models/notifications.js";
+
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -30,7 +32,7 @@ async function signUpUser(req, res) {
 
     try {
 
-        if(!terms) {
+        if (!terms) {
             return res.status(400).json({
                 message: "You need to read and agree to terms and conditions to sign up."
             });
@@ -186,8 +188,8 @@ async function editProfile(req, res) {
     try {
 
         const toLongIntrest = intrests.filter(i => i.length > 14)
-        if(toLongIntrest) {
-             return res.status(400).json({
+        if (toLongIntrest) {
+            return res.status(400).json({
                 message: "Sorry intrest can max be 14 characters."
             });
         }
@@ -220,7 +222,9 @@ async function editProfile(req, res) {
         }
 
     } catch (err) {
-        res.status(500).send({message:'Server error'});
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
 
@@ -291,17 +295,18 @@ async function editAuthSettings(req, res) {
 const getAllUsers = async (req, res) => {
     try {
         const allUsers = await UserModel.find().select("firstname img id intrests description city age");
-        if(allUsers){
+        if (allUsers) {
             res.status(200).json(allUsers);
-        }
-        else {
+        } else {
             res.status(400).json({
                 message: "Something went wrong"
             });
         }
 
     } catch (err) {
-        res.status(500).send({message:'Server error'});
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
 
@@ -314,7 +319,9 @@ const getOneUser = async (req, res) => {
         res.status(200).json(user);
 
     } catch (err) {
-        res.status(500).send({message:'Server error'});
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
 
@@ -345,6 +352,14 @@ const saveOneUser = async (req, res) => {
                     savedGirls: saveUserId
                 }
             })
+
+            // create new notification
+            const notificationDoc = new NotificationsModel({
+                notifictionType: "saved",
+                senderId: req.user._id,
+                recieverId: saveUserId
+            });
+            await notificationDoc.save();
         }
 
 
@@ -362,7 +377,9 @@ const saveOneUser = async (req, res) => {
 
     } catch (err) {
         console.log(err)
-        res.status(500).send({message:'Server error'});
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
 
@@ -392,7 +409,9 @@ const deleteAccount = async (req, res) => {
             senderId: req.user._id
         })
         await ChatModel.deleteMany({
-            members: { $in: [ req.user._id ] },
+            members: {
+                $in: [req.user._id]
+            },
         })
         const deleteUser = await UserModel.findByIdAndDelete(id)
         if (!deleteUser) {
@@ -403,9 +422,45 @@ const deleteAccount = async (req, res) => {
         res.status(200).json('Account deleted');
 
     } catch (err) {
-        res.status(500).send({message:'Server error'});
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
+
+// get users notifications
+async function getNotifications(req, res) {
+
+    const userId = req.user._id;
+    try {
+        //.select('-password') - get all info of the user but not password
+        const notifications = await NotificationsModel.find({recieverId: userId}).populate({
+                path: "senderId",
+                select: "firstname img"
+            })
+            .sort({
+                createdAt: -1
+            })
+            .exec();
+
+        if(notifications) {
+            res.status(200).json({
+                notifications
+            });
+        }
+        else {
+            res.status(400).json({
+                message: "Sorry no notifications"
+            });
+        }
+
+    } catch (err) {
+        return res.status(400).json({
+            message: "Something went wrong"
+        });
+    }
+}
+
 
 export default {
     signUpUser,
@@ -417,5 +472,6 @@ export default {
     getAllUsers,
     getOneUser,
     saveOneUser,
-    deleteAccount
+    deleteAccount,
+    getNotifications
 };

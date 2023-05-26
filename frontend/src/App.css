@@ -629,7 +629,7 @@ a {
   padding: 16px;
 }
 
-.chat-list, .user-card {
+.chat-list, .user-card, .notification-card {
   margin: 16px 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #ebebeb;
