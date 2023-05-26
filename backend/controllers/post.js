@@ -1,6 +1,7 @@
 import PostModel from "../models/post.js";
 import LikeModel from "../models/like.js";
 import CommentModel from "../models/comment.js";
+import NotificationsModel from "../models/notifications.js";
 
 import {
     ObjectId
@@ -119,6 +120,8 @@ async function likePost(req, res) {
             .populate("likes")
             .exec()
 
+        const recieverId = findPost[0].postedBy;
+
         // alreadyLike returns true or false
         // true if user already liked the post
         // false if the user has not liked the post
@@ -172,6 +175,15 @@ async function likePost(req, res) {
                     }
                 }
             });
+
+            // create new notification
+            const notificationDoc = new NotificationsModel({
+                notifictionType: "like",
+                postId: id,
+                senderId: likedByUser,
+                recieverId
+            });
+            await notificationDoc.save();
         }
 
         const allPosts = await getAllPosts()
@@ -217,9 +229,20 @@ async function commentPost(req, res) {
                 "comments": commentDoc._id
             }
         });
+        const selectedPost = await getSelectedPost(id)
+        const recieverId = selectedPost.postedBy._id;
+
+        // create new notification
+        const notificationDoc = new NotificationsModel({
+            notifictionType: "comment",
+            postId: id,
+            senderId: postedBy,
+            recieverId
+        });
+        await notificationDoc.save();
 
         const allPosts = await getAllPosts()
-        const selectedPost = await getSelectedPost(id)
+        //const selectedPost = await getSelectedPost(id)
         res.status(200).json({
             posts: allPosts,
             selectedPost: selectedPost

@@ -31,7 +31,6 @@ UserRouter.put("/user/edit-profile-image", verifyJWT, upload.single('image'), Us
 
 UserRouter.put("/user/auth-settings", verifyJWT, UserController.editAuthSettings);
 
-
 UserRouter.get("/all-users", verifyJWT, UserController.getAllUsers);
 
 UserRouter.get("/user/:id", verifyJWT, UserController.getOneUser);
@@ -40,6 +39,8 @@ UserRouter.post("/user/save", verifyJWT, UserController.saveOneUser);
 
 UserRouter.delete("/user/delete-account", verifyJWT, UserController.deleteAccount);
 
+// GET NOTIFICATIONS
+UserRouter.get("/notifications", verifyJWT, UserController.getNotifications);
 
 
 export default UserRouter;
