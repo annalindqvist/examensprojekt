@@ -1,15 +1,9 @@
-
 import ChatModel from "../models/chat.js";
 import MessageModel from "../models/message.js";
-
-import {
-    ObjectId
-} from "mongodb";
 
 // open chat and get messages or start new chat
 // return chatId and old messages
 const openChat = async (req, res) => {
-    console.log(req.body.members)
     const {
         reciever,
         me
@@ -22,15 +16,13 @@ const openChat = async (req, res) => {
         });
         // chat returns as an array, if > 0 there is one chat
         if (chat.length > 0) {
-            console.log("there is a chat")
             const messages = await MessageModel.find({
                 conversationId: chat[0]._id,
             }) .populate("senderId", "_id")
             .exec();
-            console.log(messages)
+            
             res.status(200).json({chat: chat[0]._id, messages});
         } else {
-            console.log("no chat")
             const chatDoc = new ChatModel({
                 members: [reciever, me]
             });
@@ -51,7 +43,6 @@ const sendMessage = async (req, res) => {
        text
     } = req.body.message;
     
-    console.log("SENDERID,", senderId)
      // add doc to db
      try {
         const messageDoc = new MessageModel({
@@ -60,8 +51,7 @@ const sendMessage = async (req, res) => {
             text
         });
         await messageDoc.save();
-
-        res.status(200).json(messageDoc);
+        res.status(200).json({conversationId: messageDoc.conversationId, text: messageDoc.text, senderId: {_id: messageDoc.senderId}, createdAt: messageDoc.createdAt});
 
     } catch (error) {
         res.status(400).json({
@@ -70,14 +60,15 @@ const sendMessage = async (req, res) => {
     }
 }
 
-const getChatMessages = async (req, res) => {
+const getAllChats = async (req, res) => {
     try {
-        const id = req.params.id;
-        const messages = await MessageModel.find({
-            conversationId: req.params.conversationId,
-        });
+        const id = req.user._id;
+        const allChats = await ChatModel.find({
+            members: { $in: [ id ] },
+        }).populate('members').select('-password')
+        .exec();;
         
-        res.status(200).json(messages);
+        res.status(200).json(allChats);
 
     } catch (err) {
         res.status(500).send('Server error');
@@ -88,6 +79,6 @@ const getChatMessages = async (req, res) => {
 export default {
     openChat,
     sendMessage,
-    getChatMessages,
+    getAllChats,
     
 };

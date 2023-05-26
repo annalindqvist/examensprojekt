@@ -1,44 +1,68 @@
 // REACT IMPORTS
-import { useEffect, useState }from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // HOOKS IMPORTS
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useSignout } from '../hooks/useSignoutContext';
 
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
+// IMPORT COMPONENTS
+import MyDescriptionComponent from "../components/MyProfileComponent/MyDescriptionComponent";
+import MyInterestsComponent from "../components/MyProfileComponent/MyInterestsComponent";
+import MyTopOfProfileComponent from "../components/MyProfileComponent/MyTopOfProfileComponent";
+
+// ICON IMPORTS
+import { IoSettingsOutline } from 'react-icons/io5';
+import { BsCamera } from 'react-icons/bs';
+import Navbar from '../components/Navbar/Navbar';
 
 const Profile = () => {
-  
-    const { signout } = useSignout();
-    const {user} = useAuthContext();
-    const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${user.img}`;
 
-    const handleClick = () => {
-      signout();
-    };
+  const { user } = useAuthContext();
+  const [view, setView] = useState('About');
 
-    return (
-      <div>
-        <h1>Your profile</h1>
-        <img src={imageUrl} alt="" width="100" height="100" />
-        <p>Firstname: {user.firstname}</p>
-        <p>Lastname: {user.lastname}</p>
-        <p>Age: {user.age}</p>
-        <p>City: {user.city}</p>
-        <p>Interests:</p>
-        {user.intrests && user.intrests.map((interest) => (
-            <p key={interest}>{interest}</p>
-          ))}
-           <p>Your decription</p>
-        <div>{user.description}</div>
-        <Link to="/user/edit">Edit profile</Link>
-        <Link to="/user/edit-profile-picture">Edit profile picture</Link>
-        <Link to="/user/settings">Settings</Link>
-        <button onClick={handleClick}>Sign out</button>
-    </div>
-    );
-  };
-  
-  export default Profile;
+  return (
+    <>
+      <Navbar />
+      <div className="pink-background centered-content-column">
+        <div className="profile">
+
+          <div className="profile-top-btns">
+            <Link to="/user/edit-profile-picture"><BsCamera className="icon" /></Link>
+            <Link to="/user/settings" ><IoSettingsOutline className="icon" /></Link>
+          </div>
+
+          {user && <MyTopOfProfileComponent key={user.id} user={user} />}
+
+          <div className="btn-container btn-container-profile">
+            <span onClick={() => setView('About')} className={view === 'About' ? "active-btn s-font m-weight white-text" : "btn s-font"}>About</span>
+            <span onClick={() => setView('Interests')} className={view === 'Interests' ? "active-btn s-font m-weight white-text" : "btn s-font"}>Interests</span>
+            <span onClick={() => setView('Posts')} className={view === 'Posts' ? "active-btn s-font m-weight white-text" : "btn s-font"}>Posts</span>
+          </div>
+
+          <div className="info-container-profile my-profile">
+
+            {view === 'About' && (
+              <>
+                {user && <MyDescriptionComponent key={user._id} user={user} />}
+              </>
+            )}
+            {view === 'Interests' && (
+              <>
+                {user && <MyInterestsComponent key={user._id} user={user} />}
+              </>
+            )}
+            {view === 'Posts' && (
+              <>
+                <p>Posts created by this user...</p>
+              </>
+            )}
+
+          </div>
+          <Link to="/user/edit" className="my-profile-edit">Edit profile information</Link>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Profile;

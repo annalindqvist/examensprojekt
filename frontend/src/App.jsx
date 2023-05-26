@@ -1,10 +1,16 @@
+// IMPORT CSS
 import './App.css';
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-// import {useState, useEffect} from "react";
-import { useAuthContext } from './hooks/useAuthContext'
 
-// PAGES
+// REACT IMPORTS
+import ReactDOM from "react-dom/client";
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+// IMPORT HOOKS
+import { useAuthContext } from './hooks/useAuthContext'
+import { useSocketContext } from "./hooks/useSocketContext";
+
+// IMPORT PAGES
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Terms from "./pages/Terms";
@@ -13,7 +19,6 @@ import Profile from "./pages/Profile";
 import Comments from "./pages/SelectedPost";
 import SavedFriends from "./pages/SavedFriends";
 import NoPage from "./pages/NoPage";
-import Navbar from "./components/Navbar/Navbar";
 import Users from './pages/Users';
 import OneUser from './pages/OneUser';
 import EditProfile from './pages/EditProfile';
@@ -21,17 +26,36 @@ import EditProfilePicture from './pages/EditProfilePicture';
 import Settings from './pages/Settings';
 import Chat from './pages/Chat';
 import PostToFeedPage from './pages/PostToFeedPage';
+import CurrentChat from './pages/CurrentChat';
+import Notifications from './pages/Notifications';
 
+// IMPORT COMPONENTS
+// import Navbar from "./components/Navbar/Navbar";
 
 export default function App() {
+  const { socket, selectedChat, dispatch: socketDispatch } = useSocketContext();
 
-  const { user } = useAuthContext()
-  console.log("USER", user)
+  const { user, dispatch } = useAuthContext()
+
+  useEffect(() => {
+    if (user && socket) {
+      socket.emit("newConnectedUser", user._id);
+    }
+  },[user, socket])
+
+  socket?.on("newChatNotification", (notification) => {
+    // Update the chat notifications state
+    socketDispatch({ type: 'SET_CHAT_NOTIFICATIONS', payload: notification });
+
+    return () => {
+      // Clean up the event listener when component unmounts
+      socket.off("newChatNotification");
+    }
+  });
 
   return (
     <div className="App">
     <BrowserRouter>
-      <Navbar />
       <div className="pages">
         <Routes>
           <Route 
@@ -53,6 +77,10 @@ export default function App() {
           <Route 
             path="/chat" 
             element={user ? <Chat /> : <Navigate to="/signin" />} 
+          />
+          <Route 
+            path="/chat/:id" 
+            element={user ? <CurrentChat /> : <Navigate to="/signin" />} 
           />
           <Route 
             path="/users" 
@@ -79,6 +107,10 @@ export default function App() {
             element={user ? <SavedFriends /> : <Navigate to="/signin" />} 
           />
           <Route 
+            path="/notifications" 
+            element={user ? <Notifications /> : <Navigate to="/signin" />} 
+          />
+          <Route 
             path="/signin" 
             element={!user ? <Signin /> : <Navigate to="/" />} 
           />
@@ -102,5 +134,4 @@ export default function App() {
   );
 }
 
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(<App />);
+

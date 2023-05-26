@@ -1,19 +1,17 @@
 // REACT IMPORTS
-import { useState} from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 // HOOKS IMPORTS
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { useSignout } from '../../hooks/useSignoutContext';
+
+// IMPORT ICONS
+import { HiOutlineTrash } from 'react-icons/hi2';
 
 const AuthSettingsComponent = () => {
 
     const { signout } = useSignout();
-    const {user, dispatch} = useAuthContext();
+    const [error, setError] = useState(null)
     const [confirm, setConfirm] = useState(false);
-
-    console.log(confirm)
-    // const {signin, error, isLoading} = useSignin();
 
     const handleDelete = async (e) => {
 
@@ -23,36 +21,39 @@ const AuthSettingsComponent = () => {
         if (token) {
 
             const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/user/delete-account', {
-            method: 'DELETE',
-            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             })
             const json = await res.json();
             console.log(res)
             if (!res.ok) {
-            console.log("error", json);
+                setError(json);
             }
             if (res.ok) {
                 signout();
             }
         }
-        
+
     }
 
-    return ( 
+    return (
         <>
-            <p>Remove account</p>
-            <div>
-                <p>Delete my account</p>
-                <button onClick={() => setConfirm(true)} className="centered-content-column">Delete</button>
-            </div>
+            <div className="settings-container">
+                <p className="m-font grey-text">Remove account</p>
+                <button onClick={() => setConfirm(true)} className="settings-btn remove-accout-btn"><HiOutlineTrash className="icon"/> <p>Remove account</p></button>
 
-            {confirm && <div>
-                <p>Are you sure you want to delete your account?</p>
-                <button onClick={() => setConfirm(false)} className="centered-content-column">Close</button>
-                <button onClick={handleDelete} className="centered-content-column">Delete</button>
-            </div>}
+                {confirm && <div className="delete-account-modal">
+                    <h1>Delete account</h1>
+                    <p>Are you sure you want to delete your account?</p>
+                    <div className="modal-btns">
+                        <button onClick={() => setConfirm(false)} className="delete-account-modal-btn modal-close">Close</button>
+                        <button onClick={handleDelete} className="delete-account-modal-btn">Delete</button>
+                        {error && <div className="error">{error}</div>}
+                    </div>
+                </div>}
+            </div>
         </>
-     );
+    );
 }
- 
+
 export default AuthSettingsComponent;

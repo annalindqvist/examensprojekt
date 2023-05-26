@@ -8,10 +8,6 @@ import { IoClose } from 'react-icons/io5';
 // HOOKS IMPORT
 import { usePostContext } from "../../hooks/usePostContext";
 import { useAuthContext } from '../../hooks/useAuthContext';
-import './PostToFeed.css';
-
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
 
 const PostToFeed = () => {
 
@@ -21,9 +17,9 @@ const PostToFeed = () => {
     const [post, setPost] = useState("");
     const navigate = useNavigate();
 
-   const handleNavigate = () => {
-    navigate('/');
-  };
+    const handleNavigate = () => {
+        navigate('/');
+    };
 
     const handleSubmit = async (e) => {
 
@@ -36,47 +32,43 @@ const PostToFeed = () => {
             }
 
             const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/post-to-feed`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ post })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ post })
             })
             const json = await res.json();
-            //json = [{post: postDoc, postedByUser: true}]
-            //console.log("PostToFeed json", json);
-        
+
             if (!res.ok) {
                 setError(json.error)
             };
             if (res.ok) {
                 setPost('')
                 setError(null)
-                dispatch({type: 'CREATE_POST', payload: json})
+                dispatch({ type: 'CREATE_POST', payload: json })
                 handleNavigate();
             };
         }
     };
 
-
-    return ( 
+    return (
         <>
             <form onSubmit={handleSubmit} className="post-to-feed-page pink-background">
                 <div className="post-input-top flex-row">
                     <Link to="/" className="item1">
-                        <span className="dark-text"><IoClose/></span>
+                        <span className="dark-text"><IoClose /></span>
                     </Link>
                     <p className="s-font item2">Share post</p>
-                    <input  type="submit" value="Publish" className="item3" id="post-to-feed-submit"/>
+                    <input type="submit" value="Publish" className="item3" id="post-to-feed-submit" />
                 </div>
-                    <textarea name="post" id="post-input" cols="30" rows="10" onChange={(e) => setPost(e.target.value)}/>
-                    {/* <input type="text" name="post" className="input-field" placeholder={'Start a conversation ' + user.firstname + '!'} onChange={(e) => setPost(e.target.value)} /> */}
-                    {/* <input  type="submit" value="Share" /> */}
+                <textarea name="post" id="post-input" cols="30" rows="10" onChange={(e) => setPost(e.target.value)} />
                 {error && <div className="error">{error}</div>}
+
             </form>
         </>
-     );
+    );
 }
- 
+
 export default PostToFeed;

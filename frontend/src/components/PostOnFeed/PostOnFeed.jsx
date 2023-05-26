@@ -10,18 +10,13 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import { RiHeart3Line, RiHeart3Fill } from 'react-icons/ri';
 import { HiOutlineChatBubbleOvalLeftEllipsis } from 'react-icons/hi2';
+import { MdOutlinePlace } from 'react-icons/md';
 
-// CSS IMPORT
-import './PostOnFeed.css';
-
-import env from "react-dotenv";
-// `${env.REACT_APP_API_URL}/`
-
-// date fns
-//import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+// IMPORT DATE FNS
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const PostOnFeed = ({ post }) => {
-  console.log(post)
+  
   const { dispatch } = usePostContext();
   const { user } = useAuthContext();
 
@@ -34,22 +29,23 @@ const PostOnFeed = ({ post }) => {
   const firstname = post.postedBy ? post.postedBy.firstname : "Unknown";
   const postId = post._id ? post._id : "Unknown";
   const city = post.postedBy ? post.postedBy.city : "Unknown";
-  const image = post.postedBy ? post.postedBy.img : "Unknown";
+  const image = post.postedBy ? post.postedBy.img : "defaultimg.png";
+  const createdAt = post.createdAt ? post.createdAt : "";
+  const postedById = post.postedBy ? post.postedBy._id : "";
 
   const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${image}`;
 
-  console.log("post", post.likes)
-
   // --- if posted by user - setPostedByUser(true) - to display delete button
   useEffect(() => {
-    if (post.postedBy._id == user._id){
+    if (post.postedBy?._id === user._id){
       setPostedByUser(true);
     }
-  }, [post.postedBy._id, user._id]);
+  }, [post.postedBy?._id, user._id]);
 
   // --- if post liked by user - show pink filled heart
   useEffect(() => {
-    const checkLikedBy = post.likes.some((like) => like.likedBy._id === user._id);
+    
+    const checkLikedBy = post.likes.some((like) => like.likedBy?._id === user._id);
     
     if (checkLikedBy) {
       setLikedByUser(true);
@@ -105,7 +101,6 @@ const PostOnFeed = ({ post }) => {
         }
       })
       const json = await res.json()
-      console.log("like json", json)
 
       if (res.ok) {
         dispatch({type: 'UPDATE_POST', payload: json.posts})
@@ -117,13 +112,16 @@ const PostOnFeed = ({ post }) => {
     <div className="post">
 
       <div className="flex-row">
-        {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
+        {/* Link to profile */}
+        {postedById && <Link to={`/user/${postedById}`}>
+          {imageUrl && <div style={{ backgroundImage: `url(${imageUrl})`}} alt="profileimage" className="s-profile-img"/> }
+        </Link>}
+        
         <div>
           <p className="m-font m-weight dark-text">{firstname}</p>
-          {/* <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p> */}
           {postedByUser && <span className="delete-post" onClick={handleDelete}><HiOutlineTrash/></span> } 
           <div className="time-city">
-            <p className="xs-font grey-text">23 min ago | {city}</p>
+            <p className="xs-font grey-text flex-row">{createdAt? formatDistanceToNow(new Date(createdAt), { addSuffix: true }) : createdAt}  | <span className="flex-row"><MdOutlinePlace className="xss-icon profile-icon"/>{city}</span></p>
           </div>
         </div>
       </div>
@@ -132,19 +130,19 @@ const PostOnFeed = ({ post }) => {
       <div className="flex-row post-like-comment">
       {likedByUser ? (
           <span onClick={handleLike} className="flex-row mediumpink-text">
-            <RiHeart3Fill/>
+            <RiHeart3Fill className="s-icon"/>
             {likes > 0 && <p className="liked-commented dark-text">{likes}</p>}
           </span>
           ) : (
             
               <span onClick={handleLike} className="flex-row dark-text">
-                <RiHeart3Line/>
+                <RiHeart3Line className="s-icon"/>
                 {likes > 0 && <p className="liked-commented dark-text">{likes}</p>}
               </span>
             
           )}        
         <Link to={`/feed/${postId}`}>
-          <span className="black-text flex-row"><HiOutlineChatBubbleOvalLeftEllipsis/>{comments > 0 ? <p className="liked-commented dark-text">{comments}</p> : ''}</span>
+          <span className="black-text flex-row"><HiOutlineChatBubbleOvalLeftEllipsis className="s-icon"/>{comments > 0 ? <p className="liked-commented dark-text">{comments}</p> : ''}</span>
         </Link>
       </div>
     </div>

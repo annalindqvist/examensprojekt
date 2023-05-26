@@ -5,7 +5,6 @@ export const UserContext = createContext();
 export const UserReducer = (state, action) => {
   switch (action.type) {
     case 'SET_USERS': 
-    console.log("SET_USERS");
       return {
         ...state, 
         listOfUsers: action.payload
@@ -14,9 +13,9 @@ export const UserReducer = (state, action) => {
       return {
         ...state, selectedUser: action.payload
       }
-    case 'DELETE_USER':
+    case 'FILTERED_USERS':
       return {
-        listUser: state.listUser.filter((u) => u._id !== action.payload._id)
+        ...state, filteredUsers: action.payload
       }
     default:
       return state;
@@ -26,10 +25,10 @@ export const UserReducer = (state, action) => {
 export const UserContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(UserReducer, {
     listOfUsers: null,
-    selectedUser: null
+    selectedUser: null,
+    filteredUsers: null
   });
   
-
   return (
     <UserContext.Provider value={{...state, dispatch}}>
       { children }

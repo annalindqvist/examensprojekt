@@ -1,6 +1,7 @@
 import PostModel from "../models/post.js";
 import LikeModel from "../models/like.js";
 import CommentModel from "../models/comment.js";
+import NotificationsModel from "../models/notifications.js";
 
 import {
     ObjectId
@@ -25,7 +26,6 @@ const getAllPosts = async () => {
             createdAt: -1
         })
         .exec();
-        console.log("Posts", posts)
     return posts;
 }
 
@@ -33,21 +33,18 @@ const getAllPosts = async () => {
 const getPosts = async (req, res) => {
 
     try {
-
-
         const allPosts = await getAllPosts();
-    
         res.status(200).json(allPosts);
-
         if (!allPosts) {
-
             return res.status(400).json({
-                error: 'No posts found'
+                message: 'No posts found'
             });
         }
 
     } catch (err) {
-        console.log("getPosts error", err);
+        return res.status(500).json({
+            message: 'No posts found'
+        });
     }
 }
 
@@ -71,7 +68,6 @@ const createPost = async (req, res) => {
             postedBy
         });
         await postDoc.save();
-        console.log(postDoc)
 
         // send back only the created post with populated firstname or getallPosts?
         const allPosts = await getAllPosts();
@@ -86,11 +82,13 @@ const createPost = async (req, res) => {
 
 // delete post
 const deletePost = async (req, res) => {
-    console.log("test");
+
+    try {
+
+   
     const {
         id
     } = req.params;
-    console.log("req.params", req.params);
 
     const deletedPost = await PostModel.findOneAndDelete({
         _id: id
@@ -100,8 +98,10 @@ const deletePost = async (req, res) => {
             error: 'No post deleted'
         });
     }
-
     res.status(200).json(id);
+} catch(err) {
+    return res.status(500).json({message: "Something went wrong"});
+}
 }
 
 async function likePost(req, res) {
@@ -119,18 +119,18 @@ async function likePost(req, res) {
             })
             .populate("likes")
             .exec()
-        console.log("findPost", findPost)
+
+        const recieverId = findPost[0].postedBy;
+
         // alreadyLike returns true or false
         // true if user already liked the post
         // false if the user has not liked the post
         const alreadyLike = findPost[0].likes.some(like => String(like.likedBy) === String(likedByUser));
-        console.log("aldreadyLike,", alreadyLike);
 
         // if aldready liked post, remove the like
         if (alreadyLike) {
             // returns an array containting true or false values
             const findLikeId = findPost[0].likes.map(like => String(like.likedBy) === String(likedByUser));
-            console.log("findLikeId, ", findLikeId);
             // using findLikeId array to catch the index of the likeID in likeCollection
             let likeId;
             for (let i = 0; i < findLikeId.length; i++) {
@@ -142,9 +142,8 @@ async function likePost(req, res) {
             const dislike = await LikeModel.deleteOne({
                 _id: likeId,
             });
-            console.log("dislike, ", dislike);
             if (dislike.deletedCount == 0) {
-                console.log('No like was removed');
+                res.status(200).json({message: "Something went wrong"});
 
             } else {
                 // remove the likeID from the post 
@@ -155,7 +154,6 @@ async function likePost(req, res) {
                         'likes': likeId
                     }
                 });
-                console.log('Your like was removed.');
             }
 
             // if not aldready liked the post
@@ -167,7 +165,6 @@ async function likePost(req, res) {
                 post: id
             });
             await likeDoc.save();
-            console.log("likeDoc,", likeDoc);
             // add to post
             await PostModel.updateOne({
                 _id: id
@@ -178,7 +175,15 @@ async function likePost(req, res) {
                     }
                 }
             });
-            console.log('Successfully liked post');
+
+            // create new notification
+            const notificationDoc = new NotificationsModel({
+                notifictionType: "like",
+                postId: id,
+                senderId: likedByUser,
+                recieverId
+            });
+            await notificationDoc.save();
         }
 
         const allPosts = await getAllPosts()
@@ -224,18 +229,26 @@ async function commentPost(req, res) {
                 "comments": commentDoc._id
             }
         });
+        const selectedPost = await getSelectedPost(id)
+        const recieverId = selectedPost.postedBy._id;
+
+        // create new notification
+        const notificationDoc = new NotificationsModel({
+            notifictionType: "comment",
+            postId: id,
+            senderId: postedBy,
+            recieverId
+        });
+        await notificationDoc.save();
 
         const allPosts = await getAllPosts()
-        const selectedPost = await getSelectedPost(id)
-        console.log(allPosts)
+        //const selectedPost = await getSelectedPost(id)
         res.status(200).json({
             posts: allPosts,
             selectedPost: selectedPost
         });
 
-
     } catch (err) {
-        console.log(err);
         res.status(400).json({
             message: err
         });
@@ -272,7 +285,6 @@ const getOnePost = async (req, res) => {
         res.status(200).json(post);
 
     } catch (err) {
-        console.log(err)
         res.status(500).send('Server error');
     }
 }
@@ -311,6 +323,36 @@ const getSelectedPost = async (id) => {
     }
 }
 
+const deleteComment = async (req, res) => {
+    const commentId = req.params;
+    const postId = req.body.postId;
+
+    try {
+
+        const removeComment = await CommentModel.deleteOne({
+            _id: new ObjectId(commentId),
+        });
+        // remove commentID from post-comment-array
+        const removeFromPost = await PostModel.findOneAndUpdate({
+            _id: postId
+        }, {
+            $pull: {
+                "comments": new ObjectId(commentId)
+            }
+        });
+
+        if (removeComment && removeFromPost) {
+            const selectedPost = await getSelectedPost(postId)
+            res.status(200).json({
+                selectedPost: selectedPost
+            });
+        }
+
+    } catch (err) {
+        res.status(500).json("Something went wrong");
+    }
+}
+
 
 export default {
     getPosts,
@@ -318,5 +360,6 @@ export default {
     deletePost,
     likePost,
     commentPost,
-    getOnePost
+    getOnePost,
+    deleteComment
 };

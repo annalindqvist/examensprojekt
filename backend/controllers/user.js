@@ -1,16 +1,19 @@
 import UserModel from "../models/user.js";
+import MessageModel from "../models/message.js";
+import LikeModel from "../models/like.js";
+import CommentModel from "../models/comment.js";
+import ChatModel from "../models/chat.js";
 import PostModel from "../models/post.js";
+import NotificationsModel from "../models/notifications.js";
+
 import jwt from "jsonwebtoken";
-import multer from "multer";
-import fs from "fs";
-import path from "path";
 import bcrypt from "bcrypt";
 
 const createToken = (_id) => {
     return jwt.sign({
         _id
     }, process.env.JWT_SECRET, {
-        expiresIn: '7d'
+        expiresIn: '30d'
     })
 }
 
@@ -20,17 +23,24 @@ async function signUpUser(req, res) {
         email,
         firstname,
         lastname,
+        age,
+        city,
         password1,
-        password2
+        password2,
+        terms
     } = req.body;
-
-    console.log(email, firstname, lastname, password1, password2)
 
     try {
 
+        if (!terms) {
+            return res.status(400).json({
+                message: "You need to read and agree to terms and conditions to sign up."
+            });
+        }
+
         if (password1 !== password2) {
             return res.status(400).json({
-                error: "Password doesnt match"
+                message: "Password doesnt match."
             });
         };
 
@@ -39,6 +49,8 @@ async function signUpUser(req, res) {
             email,
             firstname,
             lastname,
+            age,
+            city,
             password: password2
         })
         // save to database
@@ -48,7 +60,7 @@ async function signUpUser(req, res) {
         const userInformation = await getUserInfo(user._id);
         if (!userInformation) {
             res.status(400).json({
-                message: "Something went wrong"
+                message: "Something went wrong."
             });
         }
 
@@ -58,9 +70,8 @@ async function signUpUser(req, res) {
         });
 
     } catch (err) {
-        console.log(err)
         res.status(400).json({
-            error: err.message
+            message: "Something went wrong."
         })
     }
 
@@ -75,13 +86,10 @@ async function signIn(req, res) {
             password
         } = req.body;
 
-        console.log("Login form: email,", email, "password,", password);
-
         //check if user exists in db
         const user = await UserModel.findOne({
             email
         });
-        console.log("Login found user,", user)
 
         // if no user could be found
         if (!user) {
@@ -93,7 +101,6 @@ async function signIn(req, res) {
         // match password from form with hashed password in db
         const isMatching = await user.matchPassword(password, user.password);
 
-        console.log("Login isMatching", isMatching)
         // // if password doesnt match
         if (!isMatching) {
             return res.status(400).json({
@@ -110,15 +117,12 @@ async function signIn(req, res) {
             });
         }
 
-        console.log("userInformation", userInformation)
-
         res.status(200).json({
             token,
             user: userInformation
         });
 
     } catch (err) {
-        console.log(err)
         res.status(500).send('Server error');
     }
 }
@@ -129,10 +133,9 @@ async function getUserInfo(id) {
         //.select('-password') - get all info of the user but not password
         const user = await UserModel.findById(id).select('-password').populate({
                 path: "savedGirls",
-                select: "firstname city img"
+                select: "firstname city img age"
             })
             .exec();
-        console.log("USER,", user)
         return user;
     } catch (err) {
         return {
@@ -169,7 +172,6 @@ async function editProfilePicture(req, res) {
         }
 
     } catch (err) {
-        console.log(err)
         res.status(500).send('Server error');
     }
 }
@@ -182,8 +184,14 @@ async function editProfile(req, res) {
         intrests
     } = req.body;
 
-    console.log(intrests, "REQ BODY", req.body)
     try {
+
+        const toLongIntrest = intrests.filter(i => i.length > 14)
+        if (toLongIntrest) {
+            return res.status(400).json({
+                message: "Sorry intrest can max be 14 characters."
+            });
+        }
 
         const updateProfileInfo = await UserModel.updateOne({
             _id: req.user._id,
@@ -193,7 +201,6 @@ async function editProfile(req, res) {
             description,
             intrests
         })
-        console.log(updateProfileInfo);
 
         if (updateProfileInfo) {
 
@@ -214,8 +221,9 @@ async function editProfile(req, res) {
         }
 
     } catch (err) {
-        console.log(err)
-        res.status(500).send('Server error');
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
 
@@ -227,7 +235,6 @@ async function editAuthSettings(req, res) {
         newPassword2
     } = req.body;
 
-    console.log(email, "REQ BODY", req.body)
     try {
 
         if (newPassword1 !== newPassword2) {
@@ -240,7 +247,6 @@ async function editAuthSettings(req, res) {
         const user = await UserModel.findOne({
             _id: req.user._id
         });
-        console.log("user", user)
 
         // if no user could be found
         if (!user) {
@@ -254,7 +260,6 @@ async function editAuthSettings(req, res) {
 
         // // if password doesnt match
         if (!isMatching) {
-            console.log("Not matching password")
             return res.status(400).json({
                 message: "Old password doesnt match."
             });
@@ -269,9 +274,6 @@ async function editAuthSettings(req, res) {
             email,
             password: newHashedPassword
         })
-        // await user.save()
-
-        console.log(updateAuthInfo);
 
         const userInformation = await getUserInfo(req.user._id);
         if (!userInformation) {
@@ -285,19 +287,25 @@ async function editAuthSettings(req, res) {
         });
 
     } catch (err) {
-        console.log(err)
         res.status(500).send('Server error');
     }
 }
 
 const getAllUsers = async (req, res) => {
     try {
-        const allUsers = await UserModel.find({})
-        res.status(200).json(allUsers);
+        const allUsers = await UserModel.find().select("firstname img id intrests description city age");
+        if (allUsers) {
+            res.status(200).json(allUsers);
+        } else {
+            res.status(400).json({
+                message: "Something went wrong"
+            });
+        }
 
     } catch (err) {
-        console.log(err)
-        res.status(500).send('Server error');
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
 
@@ -306,17 +314,19 @@ const getOneUser = async (req, res) => {
         const id = req.params.id;
         const user = await UserModel.findOne({
             _id: id
-        });
+        }).select("firstname img id intrests description city age");
         res.status(200).json(user);
 
     } catch (err) {
-        res.status(500).send('Server error');
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
 
 const saveOneUser = async (req, res) => {
     try {
-        console.log(req.body)
+       
         const {
             saveUserId
         } = req.body;
@@ -324,7 +334,6 @@ const saveOneUser = async (req, res) => {
             _id: req.user._id,
             savedGirls: saveUserId
         })
-        console.log("alreadySaved" ,alreadySaved)
         if (alreadySaved) {
             await UserModel.updateOne({
                 _id: req.user._id,
@@ -342,6 +351,14 @@ const saveOneUser = async (req, res) => {
                     savedGirls: saveUserId
                 }
             })
+
+            // create new notification
+            const notificationDoc = new NotificationsModel({
+                notifictionType: "saved",
+                senderId: req.user._id,
+                recieverId: saveUserId
+            });
+            await notificationDoc.save();
         }
 
 
@@ -353,14 +370,15 @@ const saveOneUser = async (req, res) => {
             });
         }
 
-        console.log("---userinformation, ", userInformation);
         res.status(200).json({
             user: userInformation
         });
 
     } catch (err) {
-        console.log(err)
-        res.status(500).send('Server error');
+        
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
 
@@ -371,7 +389,7 @@ const deleteAccount = async (req, res) => {
             _id: id
         });
         if (!user) {
-            console.log("!user")
+            
             return res.status(400).json({
                 message: "Something went wrong"
             });
@@ -380,9 +398,22 @@ const deleteAccount = async (req, res) => {
         await PostModel.deleteMany({
             postedBy: req.user._id
         })
+        await CommentModel.deleteMany({
+            postedBy: req.user._id
+        })
+        await LikeModel.deleteMany({
+            likedBy: req.user._id
+        })
+        await MessageModel.deleteMany({
+            senderId: req.user._id
+        })
+        await ChatModel.deleteMany({
+            members: {
+                $in: [req.user._id]
+            },
+        })
         const deleteUser = await UserModel.findByIdAndDelete(id)
         if (!deleteUser) {
-            console.log("!deleteuser")
             return res.status(400).json({
                 message: "Something went wrong"
             });
@@ -390,10 +421,45 @@ const deleteAccount = async (req, res) => {
         res.status(200).json('Account deleted');
 
     } catch (err) {
-        console.log(err)
-        res.status(500).send('Server error');
+        res.status(500).send({
+            message: 'Server error'
+        });
     }
 }
+
+// get users notifications
+async function getNotifications(req, res) {
+
+    const userId = req.user._id;
+    try {
+        //.select('-password') - get all info of the user but not password
+        const notifications = await NotificationsModel.find({recieverId: userId}).populate({
+                path: "senderId",
+                select: "firstname img"
+            })
+            .sort({
+                createdAt: -1
+            })
+            .exec();
+
+        if(notifications) {
+            res.status(200).json({
+                notifications
+            });
+        }
+        else {
+            res.status(400).json({
+                message: "Sorry no notifications"
+            });
+        }
+
+    } catch (err) {
+        return res.status(400).json({
+            message: "Something went wrong"
+        });
+    }
+}
+
 
 export default {
     signUpUser,
@@ -405,5 +471,6 @@ export default {
     getAllUsers,
     getOneUser,
     saveOneUser,
-    deleteAccount
+    deleteAccount,
+    getNotifications
 };

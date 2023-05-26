@@ -74,20 +74,24 @@ io.on('connection', (socket) => {
   // add new connected user
   socket.on("newConnectedUser", (userId) => {
     newConnectedUser(userId, socket.id);
-    console.log(connectedUsers)
   });
 
   socket.on("sendMessage", ({senderId, receiverId, text}) => {
-    console.log("RECEIVER", receiverId)
     const user = getConnectedUser(receiverId);
-    console.log("USER", user)
     if(user) {
       io.to(user.socketId).emit("getMessage", {
-        sender: senderId,
+        senderId,
         text,
       });
+    const notificationPayload = {
+      senderId,
+      text,
+      createdAt: new Date()
+    };
+    // Send notification 
+    io.to(user.socketId).emit("newChatNotification", notificationPayload);
     }
-    
+
   });
 
   // disconnectioned user
