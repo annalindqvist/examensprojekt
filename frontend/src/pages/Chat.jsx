@@ -20,7 +20,7 @@ const Chat = () => {
     const token = localStorage.getItem('token');
 
     const fetchChats = async () => {
-      const res = await fetch(`http://localhost:8080/chat`, {
+      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/chat`, {
         headers: { 'Authorization': `Bearer ${token}` },
       })
       const json = await res.json();
@@ -71,7 +71,7 @@ const Chat = () => {
                     const newChat = chatNotification.some(
                       (notification) => notification.senderId === member._id
                     );
-                    const imageUrl = member.img ? `http://localhost:8080/static/${member.img}` : 'http://localhost:8080/static/defaultimg.png';
+                    const imageUrl = member.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${member.img}` : 'http://143-42-49-241.ip.linodeusercontent.com:8080/static/defaultimg.png';
                     return (
                       <Link to={`/chat/${member._id}`} key={member._id}>
 
@@ -92,7 +92,7 @@ const Chat = () => {
             {/* ALL SAVED FRIENDS*/}
             {user.savedGirls &&
               user.savedGirls.map((girl) => {
-                const imageUrl = girl.img ? `http://localhost:8080/static/${girl.img}` : 'http://localhost:8080/static/defaultimg.png';
+                const imageUrl = girl.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${girl.img}` : 'http://143-42-49-241.ip.linodeusercontent.com:8080/static/defaultimg.png';
                 return (
                   <Link to={`/chat/${girl._id}`} key={girl._id}>
                     <div className="flex-row chat-list">

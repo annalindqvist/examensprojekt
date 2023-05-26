@@ -17,7 +17,7 @@ const Notifications = () => {
         const token = localStorage.getItem('token');
 
         const fetchNotifications = async () => {
-            const res = await fetch(`http://localhost:8080/notifications`, {
+            const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/notifications`, {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` },
             })
@@ -75,7 +75,7 @@ const Notifications = () => {
 
                     {notifications && notifications.map((notification, index) => {
                         //const postId = notification.postId;
-                        const imageUrl = notification.senderId.img ? "http://localhost:8080/static/" + notification.senderId.img : "http://localhost:8080/static/deefaultimg.png";
+                        const imageUrl = notification.senderId.img ? "http://143-42-49-241.ip.linodeusercontent.com:8080/static/" + notification.senderId.img : "http://143-42-49-241.ip.linodeusercontent.com:8080/static/deefaultimg.png";
                         const firstname = notification.senderId.firstname ? notification.senderId.firstname : "Unknown";
                         const createdAt = notification.createdAt;
                         // get notification type to use for renderLinkType

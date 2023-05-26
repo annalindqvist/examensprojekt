@@ -11,7 +11,7 @@ const ListOfUsers = ({ user }) => {
   const age = user.age ? user.age + " y": "Unknown";
   const city = user.city ? user.city : "Unknown";
   const [description, setDescription] = useState(null);
-  const imageUrl = user.img ? `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
+  const imageUrl = user.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${user.img}` : 'http://143-42-49-241.ip.linodeusercontent.com:8080/static/defaultimg.png';
 
   useEffect(() => {
     if (user.description?.length > 66) {
