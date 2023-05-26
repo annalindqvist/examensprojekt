@@ -11,7 +11,7 @@ export const useSignup = () => {
   const signup = async (email, firstname, lastname, age, city, password1, password2, terms) => {
     setError(null)
 
-    const res = await fetch(`http://localhost:8080/sign-up`, {
+    const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/sign-up`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, firstname, lastname, age, city, password1, password2, terms })

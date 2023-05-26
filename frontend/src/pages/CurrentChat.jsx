@@ -65,7 +65,7 @@ const CurrentChat = () => {
 
                         const members = { reciever: params.id, me: user._id };
 
-                        const res = await fetch('http://localhost:8080/chat/open/', {
+                        const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/chat/open/', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ const CurrentChat = () => {
     // get the selectedUser information and update context
     const fetchUser = async () => {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:8080/user/${params.id}`, {
+        const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/user/${params.id}`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` },
         })
@@ -155,7 +155,7 @@ const CurrentChat = () => {
                 handleNavigate('/');
                 return;
             }
-            const res = await fetch('http://localhost:8080/chat/send', {
+            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/chat/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -28,7 +28,7 @@ const Users = () => {
     const token = localStorage.getItem('token');
 
     const fetchUsers = async () => {
-      const res = await fetch(`http://localhost:8080/all-users`, {
+      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/all-users`, {
         headers: { 'Authorization': `Bearer ${token}` },
       })
       const json = await res.json();

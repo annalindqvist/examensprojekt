@@ -17,7 +17,7 @@ export const useSignin = () => {
       return setError("Please fill in both email and password");
     }
 
-    const res = await fetch('http://localhost:8080/sign-in', {
+    const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/sign-in', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ email, password })
@@ -31,9 +31,7 @@ export const useSignin = () => {
     if (res.ok) {
       // save the user to local storage
       localStorage.setItem('token', json.token);
-      //console.log("user", json.user)
       localStorage.setItem('user', JSON.stringify(json.user));
-    
       // update the auth context
       dispatch({type: 'SIGNIN', payload: json.user});
     }

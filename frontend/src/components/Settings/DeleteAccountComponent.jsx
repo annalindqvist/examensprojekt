@@ -20,7 +20,7 @@ const AuthSettingsComponent = () => {
 
         if (token) {
 
-            const res = await fetch('http://localhost:8080/user/delete-account', {
+            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/user/delete-account', {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             })
