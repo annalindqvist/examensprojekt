@@ -51,7 +51,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
 
-    const socket = io('https://143-42-49-241.ip.linodeusercontent.com:8080');
+    const socket = io('http://143-42-49-241.ip.linodeusercontent.com:8080');
 
     // Handle connection
     socket.on('connect', () => {
