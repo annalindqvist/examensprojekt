@@ -6,9 +6,9 @@
 ---
 
 ## Beskrivning
-Jag ska skapa en social-media applikation för att uttöka sin bekantskap men enbart för kvinnor. Via denna applikation kan man registrera sig för att därmed få tillgång till innehållet. Väl inloggad har man en egen profil där man kan presentera sig själv. Det finns ett publikt flöde där man kan dela publika inlägg samt kommentera eller gilla andras delade inlägg. Detta flöde av syftet för att lättare kunna interagera med andra medlemmar. Du har även möjlighet att lista alla registrerade användare för att kunna läsa mer om de samt kunna spara och chatta med varandra. 
+Jag har skapat en social-media applikation för att uttöka sin bekantskap men enbart för kvinnor. Via denna applikation kan man registrera sig för att därmed få tillgång till innehållet. Väl inloggad har man en egen profil där man kan presentera sig själv. Det finns ett publikt flöde där man kan dela publika inlägg samt kommentera eller gilla andras delade inlägg. Detta flöde av syftet för att lättare kunna interagera med andra medlemmar. Du har även möjlighet att lista alla registrerade användare för att kunna läsa mer om de samt kunna spara och chatta med varandra. 
 
-Main branchen ligger på linodeserver just nu: http://143-42-49-241.ip.linodeusercontent.com/. Finns vissa små-fel som är ändrade i devbranchen (lokalt) men som inte finns på linode. Bland annat att om ett konto tas bort tas även notifikationerna bort som är skapade av den användaren.
+Main branchen ligger på linodeserver just nu: http://143-42-49-241.ip.linodeusercontent.com/. Finns vissa små-fel som är ändrade i devbranchen (lokalt) men som inte finns på linode. Bland annat att om ett konto tas bort tas även notifikationerna bort som är skapade av den användaren. 
 
 ## Tekniker och programspråk
 - React
