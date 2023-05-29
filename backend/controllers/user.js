@@ -188,7 +188,6 @@ async function editProfile(req, res) {
 
         const toLongIntrest = intrests.filter(i => i.length > 14)
         if (toLongIntrest.length > 0) {
-            console.length(toLongIntrest.length)
             return res.status(400).json({
                 message: "Sorry intrest can max be 14 characters."
             });
@@ -412,6 +411,9 @@ const deleteAccount = async (req, res) => {
             members: {
                 $in: [req.user._id]
             },
+        })
+        await NotificationsModel.deleteMany({
+            senderId: req.user._id
         })
         const deleteUser = await UserModel.findByIdAndDelete(id)
         if (!deleteUser) {

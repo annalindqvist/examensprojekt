@@ -27,7 +27,7 @@ const ListOfUsers = ({ selectedUser }) => {
       const token = localStorage.getItem('token');
       if (token) {
 
-        const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/user/save`, {
+        const res = await fetch(`http://localhost:8080/user/save`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

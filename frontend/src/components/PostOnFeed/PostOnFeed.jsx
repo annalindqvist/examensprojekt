@@ -33,7 +33,7 @@ const PostOnFeed = ({ post }) => {
   const createdAt = post.createdAt ? post.createdAt : "";
   const postedById = post.postedBy ? post.postedBy._id : "";
 
-  const imageUrl = `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${image}`;
+  const imageUrl = `http://localhost:8080/static/${image}`;
 
   // --- if posted by user - setPostedByUser(true) - to display delete button
   useEffect(() => {
@@ -74,7 +74,7 @@ const PostOnFeed = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token && postedByUser) {
 
-      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/feed/delete/` + postId,  {
+      const res = await fetch(`http://localhost:8080/feed/delete/` + postId,  {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -94,7 +94,7 @@ const PostOnFeed = ({ post }) => {
     const token = localStorage.getItem('token');
     if (token) {
 
-      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/feed/like/` + postId,  {
+      const res = await fetch(`http://localhost:8080/feed/like/` + postId,  {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`

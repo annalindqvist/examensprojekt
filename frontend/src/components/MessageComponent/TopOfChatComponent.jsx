@@ -6,7 +6,7 @@ import BackBtnComponent from "../GoBackBtnComponent/BackBtnComponent";
 
 const TopOfChatComponent = ({ selectedUser }) => {
 
-    const imageUrl = selectedUser.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${selectedUser.img}` : 'http://143-42-49-241.ip.linodeusercontent.com:8080/static/defaultimg.png';
+    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : 'http://localhost:8080/static/defaultimg.png';
 
     return (
         <>

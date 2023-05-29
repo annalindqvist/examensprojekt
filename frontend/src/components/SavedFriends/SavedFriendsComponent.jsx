@@ -10,7 +10,7 @@ const SavedFriendComponent = ({ girl }) => {
     const city = girl.city ? girl.city : "Unknown";
     const id = girl._id;
     const age = girl.age ? girl.age + " y" : "Unknown";
-    const imageUrl = girl.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${girl.img}` : 'http://143-42-49-241.ip.linodeusercontent.com:8080/static/defaultimg.png';
+    const imageUrl = girl.img ? `http://localhost:8080/static/${girl.img}` : 'http://localhost:8080/static/defaultimg.png';
 
   return (
     <div className="user-card">

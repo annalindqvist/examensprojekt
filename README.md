@@ -24,7 +24,7 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
   - [x] uppdatera sin information (inloggningsuppgifter & profil)
   - [x] ha en profil med (ålder, stad, profilbild, beskrivning, intressen)
   - [x] spara användare / ta bort sparad användare
-  - [x] chatta med sparade användare (chatta med en användare)
+  - [x] chatta med sparade användare
   - [x] dela publika inlägg / ta bort inlägg man delat
   - [x] gilla publika inlägg / avgilla inlägg man gillat
   - [x] kommentera publika inlägg / ta bort kommentar man skapat
@@ -32,6 +32,9 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
 
 
 ## Utmaningar utöver kravspecifikationen
+- [x] Chatnotifikationer
+- [x] Notifikationer om någon gillar eller kommenterar inägg samt om någon sparar ens profil
+- [x] Chatta med en användare som ej är sparad
 - Tagga en användare i ett publikt inlägg
 - Tagga en användare i en kommentar på ett publikt inlägg
 - Gruppchatter
@@ -40,6 +43,5 @@ Jag ska skapa en social-media applikation för att uttöka sin bekantskap men en
 - Se när en användare skriver i chatten
 - Skicka bilder i chatten
 - Se när en användare läst i chatten
-- Notifikation om en användare sparat ens profil
 - En logotyp
 - Dark/light-mode

@@ -10,8 +10,10 @@ const AuthSettingsComponent = () => {
     const [email, setEmail] = useState(user.email);
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword1, setNewPassword1] = useState("");
-    const [newPassword2, setNewPassword2] = useState("")
-    const [error, setError] = useState(null)
+    const [newPassword2, setNewPassword2] = useState("");
+    const [error, setError] = useState(null);
+    const [message, setMessage] = useState(null);
+
 
     const handleSubmit = async (e) => {
 
@@ -24,7 +26,7 @@ const AuthSettingsComponent = () => {
                 return setError("Password doesnt match");
             }
 
-            const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/user/auth-settings', {
+            const res = await fetch('http://localhost:8080/user/auth-settings', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ email, oldPassword, newPassword1, newPassword2 }),
@@ -39,6 +41,7 @@ const AuthSettingsComponent = () => {
                 // update user in context & local storage
                 localStorage.setItem('user', JSON.stringify(json.user));
                 dispatch({ type: 'UPDATE_USER', payload: json.user });
+                setMessage("Information updated.");
             }
         }
     }
@@ -59,6 +62,7 @@ const AuthSettingsComponent = () => {
                     <p className="m-font">And new password again</p>
                     <input type="password" name="newpassword2" onChange={(e) => setNewPassword2(e.target.value)} placeholder="New password again" />
                     {error && <div className="error">{error}</div>}
+                    {message && <div className="m-font">{message}</div>}
                     <input className="form-button" type="submit" value="Update information" />
 
                 </form>

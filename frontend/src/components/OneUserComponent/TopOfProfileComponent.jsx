@@ -6,7 +6,7 @@ const TopOfProfileComponent = ({ selectedUser }) => {
     const firstname = selectedUser.firstname ? selectedUser.firstname : "";
     const age = selectedUser.age ? ", " + selectedUser.age : "";
     const city = selectedUser.city ? selectedUser.city : "";
-    const imageUrl = selectedUser.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${selectedUser.img}` : "http://143-42-49-241.ip.linodeusercontent.com:8080/static/defaultimg.png";
+    const imageUrl = selectedUser.img ? `http://localhost:8080/static/${selectedUser.img}` : "http://localhost:8080/static/defaultimg.png";
 
     return (
         <>

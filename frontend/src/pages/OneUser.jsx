@@ -23,7 +23,7 @@ const OneUser = () => {
     const token = localStorage.getItem('token');
 
     const fetchUser = async () => {
-      const res = await fetch(`http://143-42-49-241.ip.linodeusercontent.com:8080/user/${params.id}`, {
+      const res = await fetch(`http://localhost:8080/user/${params.id}`, {
         method: 'GET',
         headers: { 'Authorization': `Bearer ${token}` },
       })

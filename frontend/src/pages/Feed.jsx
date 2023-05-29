@@ -14,7 +14,7 @@ const Feed = () => {
 
   const {posts, dispatch, selectedPost} = usePostContext();
   const {user} = useAuthContext();
-  const imageUrl = user?.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${user.img}` : 'http://143-42-49-241.ip.linodeusercontent.com:8080/static/defaultimg.png';
+  const imageUrl = user?.img ? `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
   const [error, setError] = useState(null);
 
   
@@ -22,7 +22,7 @@ const Feed = () => {
     const token = localStorage.getItem('token');
 
     const fetchPosts = async () => {
-        const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/feed', {
+        const res = await fetch('http://localhost:8080/feed', {
         headers: {'Authorization': `Bearer ${token}`},
       })
       const json = await res.json();

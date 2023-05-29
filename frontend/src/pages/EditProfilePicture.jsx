@@ -12,7 +12,7 @@ import Navbar from '../components/Navbar/Navbar';
 const EditProfilePicture = () => {
 
   const { user, dispatch } = useAuthContext();
-  const imageUrl = user.img ? `http://143-42-49-241.ip.linodeusercontent.com:8080/static/${user.img}` : 'http://143-42-49-241.ip.linodeusercontent.com:8080/static/defaultimg.png';
+  const imageUrl = user.img ? `http://localhost:8080/static/${user.img}` : 'http://localhost:8080/static/defaultimg.png';
   const [image, setImage] = useState(user.img);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const EditProfilePicture = () => {
         const formData = new FormData();
         formData.append('image', image);
 
-        const res = await fetch('http://143-42-49-241.ip.linodeusercontent.com:8080/user/edit-profile-image', {
+        const res = await fetch('http://localhost:8080/user/edit-profile-image', {
           method: 'PUT',
           headers: { 'Authorization': `Bearer ${token}` },
           body: formData,
