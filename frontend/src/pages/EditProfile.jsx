@@ -70,9 +70,7 @@ const EditProfile = () => {
   }
 
   const handleCheckbox = (e) => {
-    console.log(e.target.value)
     const checkedValue = e.target.value;
-    console.log(checkedValue.length)
     if (checkedValue.length > 14){
       return setError("Sorry max length of hobby is 14 characters.")
     }

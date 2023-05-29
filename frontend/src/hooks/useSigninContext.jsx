@@ -6,7 +6,7 @@ import { useAuthContext } from './useAuthContext';
 
 export const useSignin = () => {
   const [error, setError] = useState(null);
-  const { dispatch, user } = useAuthContext();
+  const { dispatch} = useAuthContext();
 
   const signin = async (email, password) => {
 
@@ -26,7 +26,7 @@ export const useSignin = () => {
 
     if (!res.ok) {
       // if error signin in - setError
-      setError(json.error);
+      setError(json.message);
     };
     if (res.ok) {
       // save the user to local storage

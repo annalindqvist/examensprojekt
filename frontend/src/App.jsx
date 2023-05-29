@@ -2,7 +2,6 @@
 import './App.css';
 
 // REACT IMPORTS
-import ReactDOM from "react-dom/client";
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -29,13 +28,10 @@ import PostToFeedPage from './pages/PostToFeedPage';
 import CurrentChat from './pages/CurrentChat';
 import Notifications from './pages/Notifications';
 
-// IMPORT COMPONENTS
-// import Navbar from "./components/Navbar/Navbar";
-
 export default function App() {
-  const { socket, selectedChat, dispatch: socketDispatch } = useSocketContext();
+  const { socket, dispatch: socketDispatch } = useSocketContext();
 
-  const { user, dispatch } = useAuthContext()
+  const { user } = useAuthContext()
 
   useEffect(() => {
     if (user && socket) {

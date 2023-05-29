@@ -187,7 +187,8 @@ async function editProfile(req, res) {
     try {
 
         const toLongIntrest = intrests.filter(i => i.length > 14)
-        if (toLongIntrest) {
+        if (toLongIntrest.length > 0) {
+            console.length(toLongIntrest.length)
             return res.status(400).json({
                 message: "Sorry intrest can max be 14 characters."
             });
