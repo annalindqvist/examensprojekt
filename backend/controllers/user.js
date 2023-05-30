@@ -395,6 +395,8 @@ const deleteAccount = async (req, res) => {
             });
         }
 
+        // TODO - delete commentid from postmodel
+
         await PostModel.deleteMany({
             postedBy: req.user._id
         })
